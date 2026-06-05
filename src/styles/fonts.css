@@ -1,0 +1,41 @@
+/* 1. Cargamos Formiga para los títulos y logo */
+@font-face {
+  font-family: 'Formiga';
+  src: url('../fonts/Formiga-Extrabold.otf') format('opentype');
+  font-weight: 800; /* Extra Bold */
+  font-style: normal;
+  font-display: swap; 
+}
+
+/* 2. Cargamos Founders Grotesk (Regular) */
+@font-face {
+  font-family: 'Founders Grotesk';
+  src: url('../fonts/FoundersGrotesk-Regular.otf') format('opentype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. Cargamos Founders Grotesk (Medium) para links activos y botones */
+@font-face {
+  font-family: 'Founders Grotesk';
+  src: url('../fonts/FoundersGrotesk-Medium.otf') format('opentype');
+  font-weight: 500; /* Medium */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Cargamos Founders Grotesk (Bold) */
+@font-face {
+  font-family: 'Founders Grotesk';
+  src: url('../fonts/FoundersGrotesk-Bold.otf') format('opentype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 4. Conectamos las fuentes con las variables de la Navbar */
+:root {
+  --font-display: 'Formiga', sans-serif;
+  --font-body: 'Founders Grotesk', sans-serif;
+}
