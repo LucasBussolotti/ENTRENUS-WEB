@@ -1,0 +1,123 @@
+{
+  "nav": {
+    "inicio": "Inicio",
+    "productos": "Productos",
+    "recetas": "Recetas",
+    "quienesSomos": "¿Quiénes Somos?",
+    "empleo": "Empleo",
+    "distribuidor": "Distribuidor",
+    "soyDistribuidor": "Soy Distribuidor",
+    "quieroSerDistribuidor": "Quiero Ser Distribuidor",
+    "serDistribuidor": "Ser Distribuidor"
+  },
+  "hero": {
+    "slide1Tag": "NUEVO PRODUCTO",
+    "slide1Title": "14g de proteína en 2 cucharadas",
+    "slide1Sub": "Barras Proteicas — Las nuevas de Entrenuts",
+    "slide1Cta": "Descubrí más",
+    "slide2Tag": "NUESTRA MARCA",
+    "slide2Title": "Hecho para que lo saludable sea un placer",
+    "slide2Sub": "Tu Hábito de Placer Saludable",
+    "slide2Cta": "Ver productos",
+    "slide3Tag": "ENTRENUTS",
+    "slide3Title": "Entre amigos, entre familia, entre sabor",
+    "slide3Sub": "Nacidos en Entre Ríos, hechos para todo el país",
+    "slide3Cta": "Quiénes somos"
+  },
+  "products": {
+    "sectionTitle": "Nuestros Productos",
+    "sectionSub": "Descubrí productos nobles, ricos hechos con ingredientes reales.",
+    "filterAll": "Todos",
+    "filterPastas": "Pastas",
+    "filterGranola": "Granola",
+    "filterBarras": "Barras",
+    "filterFrutos": "Frutos Secos",
+    "newTag": "NUEVO",
+    "verProducto": "Ver en Mercado Libre",
+    "verTodos": "Ver todos los productos"
+  },
+  "quote": {
+    "text": "\"Lo saludable debe dejar de ser inaccesible, caro o sin sabor. Por eso creamos alimentos reales, simples y ricos, al alcance de todos. Nuestro propósito es claro: democratizar lo saludable para que todos vivan mejor.\"",
+    "author": "EntreNuts",
+    "tagline": "Hacemos rico lo saludable."
+  },
+  "reviews": {
+    "sectionTitle": "Lo que dice nuestra comunidad",
+    "sectionSub": "Recetas, reviews y momentos reales de quienes ya eligen Entrenuts.",
+    "recipesTitle": "Recetas con Entrenuts"
+  },
+  "community": {
+    "title": "COME Y VIVÍ MÁS SALUDABLE",
+    "sub": "Súmate a nuestra comunidad. Compartimos recetas, tips y novedades todos los días.",
+    "cta": "Seguinos en Instagram",
+    "ctaLine1": "Encontrá estas recetas y más",
+    "ctaLine2": "en @entrenuts"
+  },
+  "footer": {
+    "tagline": "Tu hábito de placer saludable.",
+    "empresa": "Empresa",
+    "sobreNosotros": "Sobre nosotros",
+    "productos": "Productos",
+    "quieroDistribuidor": "Quiero ser distribuidor",
+    "contacto": "Contacto",
+    "direccion": "Bv. Ferrari 715, Colón, Entre Ríos",
+    "rights": "© 2026 Entrenuts. Todos los derechos reservados.",
+    "chatbotLabel": "Hablá con Nuti"
+  },
+  "bot": {
+    "chatbotLabel": "Hablá con Nuti"
+  },
+  "productsPage": {
+    "title": "Nuestros Productos",
+    "sub": "Alimentos reales, simples y ricos — hechos con ingredientes que podés leer.",
+    "nutritionTitle": "Información Nutricional",
+    "filterLabel": "Filtrar por:",
+    "mlLink": "Comprar en Mercado Libre"
+  },
+  "recipesPage": {
+    "title": "Recetas con Entrenuts",
+    "sub": "Inspiración real de nuestra comunidad. Seguinos en Instagram para más.",
+    "followIG": "Ver más en @entrenuts"
+  },
+  "aboutPage": {
+    "title": "¿Quiénes Somos?",
+    "sub": "Una empresa familiar de Entre Ríos con un propósito claro: democratizar lo saludable.",
+    "story1": "Entrenuts nació con una idea simple: hacer que comer bien sea un placer, no un sacrificio. Desde Colón, Entre Ríos, creamos productos naturales que combinan ingredientes reales con sabor de verdad.",
+    "story2": "Hoy nuestros productos se encuentran en las principales cadenas de supermercados de Argentina. Seguimos siendo una empresa familiar, con el mismo compromiso de siempre: calidad, honestidad y sabor.",
+    "valuesTitle": "Nuestros Valores",
+    "val1Title": "Ingredientes Reales",
+    "val1Text": "Nada de aditivos ni conservantes artificiales. Solo lo que la naturaleza tiene para dar.",
+    "val2Title": "Democratizar lo Saludable",
+    "val2Text": "Creemos que comer bien no debe ser un lujo. Por eso creamos productos accesibles para todos.",
+    "val3Title": "Hecho en Argentina",
+    "val3Text": "Producción local, con proveedores nacionales y el orgullo de las pampas.",
+    "presenceTitle": "Presencia Nacional",
+    "presenceSub": "Encontrá Entrenuts en las principales cadenas de supermercados."
+  },
+  "employmentPage": {
+    "title": "Sumate al Equipo",
+    "sub": "Buscamos personas apasionadas por la alimentación saludable y con ganas de crecer.",
+    "openPositions": "Posiciones abiertas",
+    "noPosition": "¿No encontrás tu puesto ideal? Envianos tu CV igualmente.",
+    "sendCV": "Enviar CV espontáneo",
+    "applyNow": "Postularme",
+    "contactEmail": "empleos@entrenuts.com.ar"
+  },
+  "distributorPage": {
+    "publicTitle": "Quiero Ser Distribuidor",
+    "publicSub": "Sumá Entrenuts a tu catálogo. Trabajamos con distribuidores en todo el país.",
+    "privateTitle": "Área Exclusiva",
+    "privateSub": "Acceso para distribuidores activos de Entrenuts.",
+    "formName": "Nombre completo",
+    "formEmail": "Email",
+    "formPhone": "Teléfono",
+    "formCity": "Ciudad / Provincia",
+    "formMessage": "Contanos sobre tu negocio",
+    "formSend": "Enviar consulta",
+    "loginPassword": "Contraseña",
+    "loginEnter": "Ingresar",
+    "loginWrong": "Contraseña incorrecta. Contactá a tu representante.",
+    "privateArea": "Área de Distribuidores",
+    "privateWelcome": "Bienvenido al área exclusiva. Aquí encontrarás catálogos, materiales y novedades."
+  }
+}
