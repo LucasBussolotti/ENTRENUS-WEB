@@ -41,7 +41,7 @@ const translations = {
       filterFrutos: 'Frutos Secos',
       newTag: 'NUEVO',
       verProducto: 'Ver en Mercado Libre',
-      verTodos: 'Ver todos los productos',
+      verTodos: 'Mostrar Todo',
     },
     quote: {
       text: '"Lo saludable debe dejar de ser inaccesible, caro o sin sabor. Por eso creamos alimentos reales, simples y ricos, al alcance de todos. Nuestro propósito es claro: democratizar lo saludable para que todos vivan mejor."',
@@ -159,7 +159,7 @@ const translations = {
       filterFrutos: 'Nuts',
       newTag: 'NEW',
       verProducto: 'Buy on Mercado Libre',
-      verTodos: 'View all products',
+      verTodos: 'Show All',
     },
     quote: {
       text: "\"Healthy food should no longer be inaccessible, expensive, or tasteless. That's why we create real, simple, and delicious food within everyone's reach. Our purpose is clear: to democratize healthy living so everyone can live better.\"",

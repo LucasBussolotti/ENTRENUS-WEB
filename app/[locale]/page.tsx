@@ -1,5 +1,6 @@
 import { HeroCarousel } from '@/components/HeroCarousel'
 import { ProductMosaic } from '@/components/ProductMosaic'
+import { ProductMosaic2 } from '@/components/ProductMosaic2'
 import { ValueProposition } from '@/components/ValueProposition'
 import { ReviewsSection } from '@/components/ReviewsSection'
 import { CommunityCTA } from '@/components/CommunityCTA'
@@ -10,7 +11,7 @@ export default function HomePage() {
     <>
       <HeroCarousel />
       
-      <ProductMosaic />
+      <ProductMosaic2 />
       
       <WaveDivider fromColor="var(--background)" toColor="#111111" height={40} />
       <ValueProposition />

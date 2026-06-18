@@ -110,6 +110,23 @@ export function HeroCarousel() {
       >
         <div style={{ maxWidth: '700px' }}>
 
+          {/* Etiqueta / Tag (Ej: NUEVO PRODUCTO) */}
+          <p
+            key={`tag-${selectedIndex}`}
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '0.85rem',
+              fontWeight: 800,
+              letterSpacing: '0.15em',
+              color: slide.accentColor, 
+              marginBottom: '1rem',
+              textTransform: 'uppercase',
+              animation: 'fadeUp 0.5s ease 0.04s both',
+            }}
+          >
+            {t(slide.tagKey)}
+          </p>
+
           {/* Title */}
           <h1
             key={`title-${selectedIndex}`}
@@ -125,7 +142,7 @@ export function HeroCarousel() {
               animation: 'fadeUp 0.5s ease 0.08s both',
             }}
           >
-            {t(SLIDES[selectedIndex].titleKey)} 
+            {t(slide.titleKey)} 
           </h1>
 
           {/* Subtitle */}
@@ -141,13 +158,13 @@ export function HeroCarousel() {
               animation: 'fadeUp 0.5s ease 0.16s both',
             }}
           >
-              {t(SLIDES[selectedIndex].subKey)} 
+              {t(slide.subKey)} 
             </p>
 
           {/* CTA */}
           <div style={{ pointerEvents: 'auto', animation: 'fadeUp 0.5s ease 0.24s both' }}>
             <Link
-              href={SLIDES[selectedIndex].ctaHref}
+              href={slide.ctaHref}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -165,7 +182,7 @@ export function HeroCarousel() {
               }}
               className="hover:scale-[1.03]"
             >
-              {t(SLIDES[selectedIndex].ctaKey)} 
+              {t(slide.ctaKey)} 
               <ArrowRight size={16} />
             </Link>
           </div>
@@ -202,7 +219,7 @@ export function HeroCarousel() {
         ))}
       </div>
 
-      {/* ── OVERLAY DE ONDA (Misma onda que WaveDivider) ── */}
+      {/* ── OVERLAY DE ONDA ── */}
       <div
         style={{
           position: 'absolute',
@@ -223,7 +240,6 @@ export function HeroCarousel() {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            /* Tu curva exacta, rellenando hacia ABAJO (L1440,120 L0,120 Z) */
             d="M0,15 
                C100,15 150,90 200,90 
                C250,90 300,15 400,15 
@@ -234,7 +250,7 @@ export function HeroCarousel() {
                C1180,15 1220,80 1280,80 
                C1340,80 1380,15 1440,15 
                L1440,120 L0,120 Z"
-            fill="var(--background)" 
+            fill="var(--color-navbar)" /* 👈 Acá está la magia de la integración */
           />
         </svg>
       </div>

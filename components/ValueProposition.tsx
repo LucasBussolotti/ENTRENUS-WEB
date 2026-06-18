@@ -1,16 +1,16 @@
+"use client";
+
 import { useTranslations } from 'next-intl'
 
 export function ValueProposition() {
-  // Con next-intl llamamos directo a la categoría (asegurate de tener "quote" en tus .json)
   const t = useTranslations('quote')
 
   return (
     <section
       style={{
-        background: '#111111',
-        /* Separamos los paddings para tener control independiente */
-        paddingTop: 'clamp(5rem, 10vw, 7.6rem)',    /* Mantiene el espacio grande arriba */
-        paddingBottom: 'clamp(2rem, 4vw, 4rem)',  /* Mucho menos espacio abajo */
+        background: '#111111', 
+        paddingTop: 'clamp(4rem, 8vw, 6rem)',    
+        paddingBottom: 'clamp(2rem, 4vw, 4rem)',  
         paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
         paddingRight: 'clamp(1.5rem, 5vw, 4rem)',
       }}
@@ -22,7 +22,7 @@ export function ValueProposition() {
           textAlign: 'center',
         }}
       >
-        {/* Texto principal (Más grande y sin la línea naranja arriba) */}
+        {/* Texto principal */}
         <blockquote
           style={{
             fontFamily: 'var(--font-body)', 
@@ -34,7 +34,6 @@ export function ValueProposition() {
             marginBottom: '2.5rem',
           }}
         >
-          {/* Ahora llamamos a las claves directamente así: */}
           {t('text')}
         </blockquote>
 
@@ -46,7 +45,7 @@ export function ValueProposition() {
               fontSize: '1.3rem',
               fontWeight: 700,
               letterSpacing: '0.05em',
-              color: '#ef7f17', // <-- Corregido al naranja oficial de la marca
+              color: 'var(--color-naranja)', 
               textTransform: 'uppercase',
               marginBottom: '0.5rem',
             }}
@@ -68,8 +67,7 @@ export function ValueProposition() {
         {/* Sellos PNG */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img 
-            /* En Next.js, las imágenes de la carpeta public se llaman desde la raíz (/) */
-            src="images/SellosBlanco4.png" 
+            src="/images/SellosBlanco4.png" 
             alt="Sellos de calidad" 
             style={{ 
               height: '120px', 
