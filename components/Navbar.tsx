@@ -101,7 +101,7 @@ export function Navbar() {
         >
           {/* Logo */}
           <Link href={`/${lang}`} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0, marginLeft: '1rem', transform: 'translateY(4px)' }}>
-            <img src="images/LOGO.png" alt="Entrenuts" style={{ height: '75px', width: 'auto', display: 'block' }} />
+            <img src="/images/LOGO.png" alt="Entrenuts" style={{ height: '75px', width: 'auto', display: 'block' }} />
           </Link>
 
           {/* Desktop nav */}

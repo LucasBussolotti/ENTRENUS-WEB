@@ -74,25 +74,21 @@
     "filterLabel": "Filtrar por:",
     "mlLink": "Comprar en Mercado Libre"
   },
-  "recipesPage": {
-    "title": "Recetas con Entrenuts",
-    "sub": "Inspiración real de nuestra comunidad. Seguinos en Instagram para más.",
-    "followIG": "Ver más en @entrenuts"
+  "recipes": {
+    "title": "Recetas",
+    "findMore": "Encontrá estas recetas y más en",
+    "creatorTitle": "¿Sos creador de contenido y te interesa sumarte a la familia Entrenuts?",
+    "creatorSubtitle": "¡Envianos tu propuesta por mensaje privado en Instagram!"
   },
-  "aboutPage": {
-    "title": "¿Quiénes Somos?",
-    "sub": "Una empresa familiar de Entre Ríos con un propósito claro: democratizar lo saludable.",
-    "story1": "Entrenuts nació con una idea simple: hacer que comer bien sea un placer, no un sacrificio. Desde Colón, Entre Ríos, creamos productos naturales que combinan ingredientes reales con sabor de verdad.",
-    "story2": "Hoy nuestros productos se encuentran en las principales cadenas de supermercados de Argentina. Seguimos siendo una empresa familiar, con el mismo compromiso de siempre: calidad, honestidad y sabor.",
-    "valuesTitle": "Nuestros Valores",
-    "val1Title": "Ingredientes Reales",
-    "val1Text": "Nada de aditivos ni conservantes artificiales. Solo lo que la naturaleza tiene para dar.",
-    "val2Title": "Democratizar lo Saludable",
-    "val2Text": "Creemos que comer bien no debe ser un lujo. Por eso creamos productos accesibles para todos.",
-    "val3Title": "Hecho en Argentina",
-    "val3Text": "Producción local, con proveedores nacionales y el orgullo de las pampas.",
-    "presenceTitle": "Presencia Nacional",
-    "presenceSub": "Encontrá Entrenuts en las principales cadenas de supermercados."
+  "about": {
+    "titleLine1": "SOBRE",
+    "titleLine2": "NOSOTROS",
+    "missionTitle": "NUESTRA MISIÓN:\nDEMOCRATIZAR LO SALUDABLE",
+    "missionSubtitle": "Para que más personas vivan mejor.",
+    "pillar1": "PRODUCTOS SALUDABLES HONESTAMENTE BUENOS",
+    "pillar2": "GRAN COBERTURA A LO LARGO DEL PAÍS",
+    "pillar3": "PRECIOS COMPETITIVOS",
+    "pillar4": "VARIEDAD DE SABORES Y TAMAÑOS"
   },
   "employmentPage": {
     "title": "Sumate al Equipo",

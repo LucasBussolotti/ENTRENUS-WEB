@@ -74,10 +74,11 @@
     "filterLabel": "Filter by:",
     "mlLink": "Buy on Mercado Libre"
   },
-  "recipesPage": {
-    "title": "Recipes with Entrenuts",
-    "sub": "Real inspiration from our community. Follow us on Instagram for more.",
-    "followIG": "See more at @entrenuts"
+  "recipes": {
+    "title": "Recipes",
+    "findMore": "Find these recipes and more at",
+    "creatorTitle": "Are you a content creator and want to join the Entrenuts family?",
+    "creatorSubtitle": "Send us your proposal via direct message on Instagram!"
   },
   "aboutPage": {
     "title": "Who Are We?",

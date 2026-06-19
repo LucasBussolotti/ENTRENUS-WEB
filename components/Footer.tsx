@@ -16,7 +16,7 @@ export function Footer() {
         <div>
           <div style={{ marginBottom: '1rem', marginLeft: '-1.60rem' }}>
             <img 
-              src="images/LOGO.png"
+              src="/images/LOGO.png"
               alt="Entrenuts Logo"
               style={{ height: '75px', width: 'auto', display: 'block' }}
             />
