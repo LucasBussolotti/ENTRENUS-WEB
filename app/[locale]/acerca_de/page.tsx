@@ -14,7 +14,7 @@ export default function AboutPage() {
       <section className="relative w-full h-[50vh] md:h-[75vh] min-h-[400px]">
         {/* Foto de fondo (A reemplazar por la foto real de los 3 fundadores) */}
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=2000"
+          src="/images/CEOS.jpg"
           alt="Fundadores Entrenuts"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }}
         />
@@ -24,12 +24,12 @@ export default function AboutPage() {
 
         {/* Onda inferior color beige (Conecta con la sección de abajo) */}
         <div 
-          className="h-[60px] md:h-[100px]" 
+          className="h-[35px] md:h-[50px]" /* Altura ajustada para mantener la misma proporción del Navbar */
           style={{ position: 'absolute', bottom: '-1px', left: 0, right: 0, pointerEvents: 'none', overflow: 'hidden' }}
         >
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }} xmlns="http://www.w3.org/2000/svg">
             <path 
-              d="M0,60 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z" 
+              d="M0,15 C100,15 150,90 200,90 C250,90 300,15 400,15 C480,15 500,60 550,60 C600,60 620,15 700,15 C780,15 820,110 880,110 C940,110 980,15 1080,15 C1180,15 1220,80 1280,80 C1340,80 1380,15 1440,15 L1440,120 L0,120 Z" 
               fill="var(--color-footpage)" 
             />
           </svg>
@@ -72,13 +72,13 @@ export default function AboutPage() {
       <section className="max-w-5xl mx-auto px-6 md:px-12 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
-            <ImageWithFallback src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800" alt="Equipo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <ImageWithFallback src="/images/TODOSAFU.jpg" alt="Equipo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
-            <ImageWithFallback src="https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?q=80&w=800" alt="Máquinas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <ImageWithFallback src="/images/ARREGLITO.jpg" alt="Máquinas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
-            <ImageWithFallback src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=800" alt="Operario" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <ImageWithFallback src="/images/FACHACRACK.jpg" alt="Operario" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
       </section>
@@ -87,16 +87,17 @@ export default function AboutPage() {
       <section className="max-w-5xl mx-auto px-6 md:px-12 py-12 md:py-16">
         
         {/* Títulos de Misión */}
-        <div className="mb-12">
+        <div className="mb-8">
           <h2 
-            className="text-3xl md:text-5xl font-black mb-2 leading-tight"
+            className="text-3xl md:text-5xl font-black mb-1 leading-[0.95]"
             style={{ color: 'var(--color-naranja)', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}
           >
-            {t('missionTitle')}
+            {t('missionTitleLine1')} <br />
+            {t('missionTitleLine2')}
           </h2>
           <h3 
-            className="text-lg md:text-2xl font-black tracking-tight"
-            style={{ color: 'var(--text-dark)', fontFamily: 'var(--font-display)' }}
+            className="text-lg md:text-2xl font-bold tracking-tight"
+            style={{ color: 'var(--text-dark)', fontFamily: 'var(--font-body)', fontWeight: 700, lineHeight: 1.3 }}
           >
             {t('missionSubtitle')}
           </h3>
@@ -125,7 +126,7 @@ export default function AboutPage() {
       {/* ── 5. IMAGEN INFERIOR FULL-WIDTH (Línea de producción) ── */}
       <section className="relative w-full h-[35vh] md:h-[60vh] min-h-[300px]">
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1587293852726-70cdb56c2836?q=80&w=2000"
+          src="/images/MAQUINAMANIS.jpg"
           alt="Línea de producción Entrenuts"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

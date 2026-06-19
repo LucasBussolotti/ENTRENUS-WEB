@@ -126,7 +126,7 @@ export function NutiBot() {
           <X size={26} color="#ffffff" /> 
         ) : (
           <img 
-            src="images/LogoNuti.png" 
+            src="/images/LogoNuti.png" 
             alt="Abrir chat"
             style={{
               width: '60px', 

@@ -80,20 +80,16 @@
     "creatorTitle": "Are you a content creator and want to join the Entrenuts family?",
     "creatorSubtitle": "Send us your proposal via direct message on Instagram!"
   },
-  "aboutPage": {
-    "title": "Who Are We?",
-    "sub": "A family company from Entre Ríos with a clear purpose: democratize healthy eating.",
-    "story1": "Entrenuts was born with a simple idea: make eating well a pleasure, not a sacrifice. From Colón, Entre Ríos, we create natural products that combine real ingredients with genuine flavor.",
-    "story2": "Today our products are found in Argentina's main supermarket chains. We remain a family company, with the same commitment as always: quality, honesty, and flavor.",
-    "valuesTitle": "Our Values",
-    "val1Title": "Real Ingredients",
-    "val1Text": "No artificial additives or preservatives. Only what nature has to offer.",
-    "val2Title": "Democratize Healthy",
-    "val2Text": "We believe eating well should not be a luxury. That's why we create products accessible to everyone.",
-    "val3Title": "Made in Argentina",
-    "val3Text": "Local production, national suppliers, and the pride of the pampas.",
-    "presenceTitle": "National Presence",
-    "presenceSub": "Find Entrenuts in Argentina's leading supermarket chains."
+  "about": {
+  "titleLine1": "ABOUT",
+  "titleLine2": "US",
+  "missionTitleLine1": "OUR MISSION:",
+  "missionTitleLine2": "DEMOCRATIZING HEALTHY LIVING",
+  "missionSubtitle": "So more people can live better.",
+  "pillar1": "HONESTLY GOOD HEALTHY PRODUCTS",
+  "pillar2": "NATIONWIDE COVERAGE",
+  "pillar3": "COMPETITIVE PRICES",
+  "pillar4": "VARIETY OF FLAVORS AND SIZES"
   },
   "employmentPage": {
     "title": "Join Our Team",
