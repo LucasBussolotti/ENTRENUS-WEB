@@ -1,162 +1,296 @@
 "use client";
 
-import { useState } from 'react'
-import { ExternalLink, ChevronDown, ChevronUp } from 'lucide-react'
-import { useTranslations, useLocale } from 'next-intl'
-import { products, Product, ProductCategory } from '@/lib/data/products'
-import { ImageWithFallback } from '@/components/figma/ImageWithFallback'
-import { PageHeader } from '@/components/WaveDivider'
+import React, { useState, useEffect } from 'react';
+import { useLocale } from 'next-intl';
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
-const FILTERS: { key: 'all' | ProductCategory; labelKey: 'filterAll' | 'filterPastas' | 'filterGranola' | 'filterBarras' | 'filterFrutos' }[] = [
-  { key: 'all', labelKey: 'filterAll' },
-  { key: 'pastas', labelKey: 'filterPastas' },
-  { key: 'granola', labelKey: 'filterGranola' },
-  { key: 'barras', labelKey: 'filterBarras' },
-  { key: 'frutos', labelKey: 'filterFrutos' },
-]
+// 👇 IMPORTÁ TUS PRODUCTOS DESDE LA RUTA CORRECTA
+import { products } from '@/lib/data/products'; 
 
-const TAG_FILTERS = ['SIN GLUTEN', 'VEGANO', 'KETO', 'SIN AZÚCAR AGREGADA']
+const CATEGORY_MAP: Record<string, string> = {
+  "PASTAS DE MANÍ": "Pasta de maní",
+  "ACEITES DE COCO": "Aceite de coco",
+  "MIEL": "Miel",
+  "GHEE": "Ghee",
+  "BARRITAS PROTEICAS": "Barritas proteicas",
+};
 
-function NutritionBar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
+const CATEGORY_COLORS: Record<string, string> = {
+  "PASTAS DE MANÍ": "#ef7f17",
+  "ACEITES DE COCO": "#207a39",
+  "MIEL": "#f3bb29",
+  "GHEE": "#1a3445",
+  "BARRITAS PROTEICAS": "#325276",
+};
+
+const UI_CATEGORIES = Object.keys(CATEGORY_MAP);
+
+export function ProductDetail() {
+  const lang = useLocale();
+  
+  // ── ESTADOS ──
+  const [activeCategory, setActiveCategory] = useState("PASTAS DE MANÍ");
+  const [selectedProductIndex, setSelectedProductIndex] = useState(0); // Controla el producto (sabor)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);       // Controla la foto del carrusel
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Al cambiar de categoría, reseteamos producto y foto
+  useEffect(() => {
+    setSelectedProductIndex(0);
+    setCurrentImageIndex(0);
+    setIsDropdownOpen(false);
+  }, [activeCategory]);
+
+  // Al cambiar de sabor (producto), reseteamos a la primera foto
+  useEffect(() => {
+    setCurrentImageIndex(0);
+  }, [selectedProductIndex]);
+
+  // Filtramos los productos de la categoría seleccionada
+  const filteredProducts = products.filter(
+    (p) => p.nameEs === CATEGORY_MAP[activeCategory]
+  );
+
+  const currentProduct = filteredProducts[selectedProductIndex];
+
+  if (!currentProduct) return null;
+
+  // ── LÓGICA DE IMÁGENES (Galería del producto) ──
+  // Si en el futuro agregás "images: ['foto1.png', 'foto2.png']" en tu products.ts, las usa. 
+  // Si no, usa la "image" principal como única foto.
+  const productImages = (currentProduct as any).images?.length > 0 
+    ? (currentProduct as any).images 
+    : [currentProduct.image];
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
+  };
+
+  // Variables dinámicas de texto
+  const isEs = lang === 'es';
+  const productName = isEs ? currentProduct.nameEs : currentProduct.nameEn;
+  const productVariant = isEs ? currentProduct.variantEs : currentProduct.variantEn;
+  const productDesc = isEs ? currentProduct.descEs : currentProduct.descEn;
+  const activeColor = CATEGORY_COLORS[activeCategory];
+
   return (
-    <div style={{ marginBottom: '0.6rem' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-        <span style={{ fontSize: '0.72rem', color: '#7A6F64', fontFamily: 'var(--font-body)' }}>{label}</span>
-        <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#111111', fontFamily: 'var(--font-body)' }}>{value}g</span>
-      </div>
-      <div style={{ height: '4px', background: '#F0EBE3', borderRadius: '2px', overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: `${Math.min((value / max) * 100, 100)}%`, background: color, borderRadius: '2px', transition: 'width 0.4s ease' }} />
-      </div>
-    </div>
-  )
-}
-
-function ProductCard({ product }: { product: Product }) {
-  const t = useTranslations()
-  const lang = useLocale()
-  const [expanded, setExpanded] = useState(false)
-
-  return (
-    <div style={{ background: '#ffffff', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.05)' }}>
-      <div style={{ position: 'relative', aspectRatio: '4/3', overflow: 'hidden' }}>
-        <ImageWithFallback
-          src={product.image}
-          alt={lang === 'es' ? product.nameEs : product.nameEn}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-        {product.isNew && (
-          <span style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.1em', color: '#ffffff', background: '#C8935A', padding: '0.25rem 0.6rem', borderRadius: '4px', fontFamily: 'var(--font-body)' }}>
-            {t('products.newTag')}
-          </span>
-        )}
-      </div>
-
-      <div style={{ padding: '1.25rem' }}>
-        <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-          {product.tags.map((tag) => (
-            <span key={tag} style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.06em', color: '#7A6F64', background: '#F0EBE3', padding: '0.15rem 0.5rem', borderRadius: '3px', fontFamily: 'var(--font-body)' }}>
-              {tag}
-            </span>
-          ))}
+    <section className="w-full bg-[var(--color-navbar)] min-h-screen py-8 md:py-16 px-4 md:px-8">
+      <div className="max-w-[1200px] mx-auto relative">
+        
+        {/* ── 1. NAVEGACIÓN DE CATEGORÍAS ── */}
+        <div 
+          className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 md:gap-x-6 mb-8 md:mb-12 text-center"
+          style={{ fontFamily: 'var(--font-display)' }}
+        >
+          {UI_CATEGORIES.map((cat, index) => {
+            const isActive = activeCategory === cat;
+            return (
+              <React.Fragment key={cat}>
+                <button
+                  onClick={() => setActiveCategory(cat)}
+                  className={`text-2xl md:text-4xl lg:text-5xl font-black uppercase transition-colors tracking-tight ${
+                    isActive ? '' : 'text-gray-300 hover:text-gray-400'
+                  }`}
+                  style={isActive ? { color: CATEGORY_COLORS[cat] } : {}}
+                >
+                  {cat}
+                </button>
+                {index < UI_CATEGORIES.length - 1 && (
+                  <span className="text-gray-300 text-2xl md:text-4xl lg:text-5xl font-black hidden sm:inline">|</span>
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
 
-        <h3 style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', fontWeight: 700, color: '#111111', marginBottom: '0.4rem' }}>
-          {lang === 'es' ? product.nameEs : product.nameEn}
-        </h3>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.83rem', color: '#7A6F64', lineHeight: 1.5, marginBottom: '1rem' }}>
-          {lang === 'es' ? product.descEs : product.descEn}
-        </p>
+        {/* ── 2. TARJETA PRINCIPAL DEL PRODUCTO ── */}
+        <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-6 md:p-10 lg:p-16 flex flex-col lg:flex-row gap-8 lg:gap-16 relative transition-all duration-300">
+          
+          {/* COLUMNA IZQUIERDA: Imagen y Flechas de Galería */}
+          <div className="w-full lg:w-5/12 relative flex items-center justify-center min-h-[300px] md:min-h-[500px]">
+            
+            {/* Solo muestra flechas si el producto tiene más de 1 imagen */}
+            {productImages.length > 1 && (
+              <button 
+                onClick={handlePrevImage}
+                className="absolute left-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
+              >
+                <ChevronLeft size={24} className="text-gray-600" />
+              </button>
+            )}
 
-        <button
-          onClick={() => setExpanded(!expanded)}
-          style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.78rem', fontWeight: 600, color: '#7A6F64', background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'var(--font-body)', marginBottom: '0.75rem' }}
-        >
-          {t('productsPage.nutritionTitle')}
-          {expanded ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-        </button>
-
-        {expanded && (
-          <div style={{ background: '#F8F3EC', borderRadius: '8px', padding: '1rem', marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-              <span style={{ fontSize: '0.75rem', color: '#7A6F64', fontFamily: 'var(--font-body)' }}>Calorías / 100g</span>
-              <span style={{ fontSize: '1rem', fontWeight: 700, color: '#111111', fontFamily: 'var(--font-body)' }}>{product.nutrition.calories} kcal</span>
+            <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px]">
+              <ImageWithFallback
+                src={`/${productImages[currentImageIndex]}`} 
+                alt={`${productName} ${productVariant || ''} - Vista ${currentImageIndex + 1}`}
+                style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                className="transition-transform duration-500 ease-in-out hover:scale-105"
+              />
             </div>
-            <NutritionBar label="Proteínas" value={product.nutrition.protein} max={30} color="#4A7C59" />
-            <NutritionBar label="Carbohidratos" value={product.nutrition.carbs} max={80} color="#C8935A" />
-            <NutritionBar label="Grasas" value={product.nutrition.fat} max={60} color="#D4A843" />
-            <NutritionBar label="Fibra" value={product.nutrition.fiber} max={20} color="#7A6F64" />
-          </div>
-        )}
 
-        <a
-          href={product.mlUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px', background: '#111111', color: '#ffffff', fontSize: '0.82rem', fontWeight: 600, padding: '0.7rem 1rem', borderRadius: '8px', textDecoration: 'none', fontFamily: 'var(--font-body)', transition: 'background 0.2s' }}
-          className="hover:bg-[#C8935A]"
-        >
-          <ExternalLink size={14} />
-          {t('productsPage.mlLink')}
-        </a>
-      </div>
-    </div>
-  ) 
-}
-
-export default function ProductsPage() {
-  const t = useTranslations()
-  const [category, setCategory] = useState<'all' | ProductCategory>('all')
-  const [activeTag, setActiveTag] = useState<string | null>(null)
-
-  const filtered = products.filter((p) => {
-    const catOk = category === 'all' || p.category === category
-    const tagOk = !activeTag || p.tags.includes(activeTag)
-    return catOk && tagOk
-  })
-
-  return (
-    <div style={{ minHeight: '100vh', background: '#F8F3EC' }}>
-      <PageHeader
-        title={t('productsPage.title')}
-        subtitle={t('productsPage.sub')}
-        dark
-      />
-
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2.5rem clamp(1.5rem, 5vw, 4rem)' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <p style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', color: '#7A6F64', marginBottom: '0.75rem', fontFamily: 'var(--font-body)' }}>
-            {t('productsPage.filterLabel')}
-          </p>
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-            {FILTERS.map(({ key, labelKey }) => (
-              <button
-                key={key}
-                onClick={() => setCategory(key)}
-                style={{ fontSize: '0.8rem', fontWeight: 600, padding: '0.4rem 1rem', borderRadius: '20px', border: '1.5px solid', borderColor: category === key ? '#111111' : 'rgba(0,0,0,0.12)', background: category === key ? '#111111' : 'transparent', color: category === key ? '#ffffff' : '#7A6F64', cursor: 'pointer', transition: 'all 0.2s', fontFamily: 'var(--font-body)' }}
+            {productImages.length > 1 && (
+              <button 
+                onClick={handleNextImage}
+                className="absolute right-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
               >
-                {t(`products.${labelKey}`)}
+                <ChevronRight size={24} className="text-gray-600" />
               </button>
-            ))}
+            )}
           </div>
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {TAG_FILTERS.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.05em', padding: '0.35rem 0.85rem', borderRadius: '20px', border: '1.5px solid', borderColor: activeTag === tag ? '#C8935A' : 'rgba(0,0,0,0.10)', background: activeTag === tag ? '#C8935A' : 'transparent', color: activeTag === tag ? '#ffffff' : '#7A6F64', cursor: 'pointer', transition: 'all 0.2s', fontFamily: 'var(--font-body)' }}
+
+          {/* COLUMNA DERECHA: Textos y Detalles */}
+          <div className="w-full lg:w-7/12 flex flex-col justify-center text-[var(--text-dark)]">
+            
+            <h1 
+              className="text-xl md:text-2xl font-bold uppercase mb-2 transition-colors duration-300"
+              style={{ color: activeColor }}
+            >
+              {productName} {productVariant && productVariant}
+            </h1>
+            <p className="text-sm md:text-base mb-6 font-medium text-gray-600">
+              {productDesc}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm md:text-base">
+              {currentProduct.benefits && currentProduct.benefits.length > 0 && (
+                <div>
+                  <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? 'Beneficios' : 'Benefits'}</h3>
+                  <ul className="space-y-1 text-gray-700">
+                    {currentProduct.benefits.map((ben, i) => (
+                      <li key={i}>- {ben}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {currentProduct.idealFor && currentProduct.idealFor.length > 0 && (
+                <div>
+                  <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? 'Ideal para consumir:' : 'Ideal for:'}</h3>
+                  <ul className="space-y-1 text-gray-700">
+                    {currentProduct.idealFor.map((ideal, i) => (
+                      <li key={i}>- {ideal}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {currentProduct.whyChoose && currentProduct.whyChoose.length > 0 && (
+                <div>
+                  <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? '¿Por qué elegirla?' : 'Why choose it?'}</h3>
+                  <ul className="space-y-1 text-gray-700">
+                    {currentProduct.whyChoose.map((why, i) => (
+                      <li key={i}>- {why}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div>
+                <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? 'Información del producto' : 'Product Info'}</h3>
+                <ul className="space-y-1 text-gray-700">
+                  {productVariant && <li>- Sabor: {productVariant}</li>}
+                  {currentProduct.sizes && <li>- Peso por unidad: {currentProduct.sizes[1] || currentProduct.sizes[0]}</li>}
+                  <li>- Conservar en lugar fresco y seco.</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* ── BOTONES DE ACCIÓN (SELECTOR DE SABOR) ── */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 mt-auto pt-6 border-t border-gray-200">
+              
+              <div className="relative w-full sm:w-auto">
+                <button 
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  disabled={filteredProducts.length <= 1}
+                  className={`w-full px-6 py-3 rounded-full border-2 border-gray-300 font-bold flex items-center justify-between sm:justify-center gap-3 transition-colors ${
+                    filteredProducts.length > 1 ? 'hover:bg-gray-50 cursor-pointer' : 'opacity-80 cursor-default'
+                  }`}
+                >
+                  <span className="text-sm uppercase text-gray-700">
+                    {isEs ? 'SABOR:' : 'TIPO:'} {productVariant || (isEs ? 'Original' : 'Original')}
+                  </span>
+                  {filteredProducts.length > 1 && (
+                    <ChevronDown size={18} className={`text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  )}
+                </button>
+
+                {isDropdownOpen && (
+                  <div 
+                    className="fixed inset-0 z-10" 
+                    onClick={() => setIsDropdownOpen(false)}
+                  />
+                )}
+
+                {isDropdownOpen && filteredProducts.length > 1 && (
+                  <div className="absolute bottom-full left-0 mb-2 w-full bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden z-20">
+                    {filteredProducts.map((p, idx) => (
+                      <button
+                        key={p.id}
+                        onClick={() => {
+                          setSelectedProductIndex(idx);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-5 py-3 text-sm transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${
+                          selectedProductIndex === idx ? 'font-black bg-gray-50' : 'font-medium text-gray-600'
+                        }`}
+                        style={{ color: selectedProductIndex === idx ? activeColor : 'inherit' }}
+                      >
+                        {isEs ? p.variantEs || 'Original' : p.variantEn || 'Original'}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <a 
+                href={currentProduct.mlUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-8 py-3 rounded-full text-white font-bold text-center transition-opacity shadow-md hover:opacity-90"
+                style={{ backgroundColor: activeColor }}
               >
-                {tag}
-              </button>
-            ))}
+                {isEs ? 'Comprar en MercadoLibre' : 'Buy on MercadoLibre'}
+              </a>
+            </div>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.25rem' }}>
-          {filtered.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+        {/* ── 3. BANNER DE TAMAÑOS ── */}
+        <div className="mt-6 flex flex-col items-center">
+          <div 
+            className="w-full rounded-[1.5rem] py-4 text-center shadow-md mb-4 transition-colors duration-500"
+            style={{ backgroundColor: activeColor }}
+          >
+            <h2 
+              className="text-white text-3xl md:text-4xl font-black uppercase tracking-widest"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              {isEs ? 'TAMAÑOS' : 'SIZES'}
+            </h2>
+          </div>
+          
+          {currentProduct.sizes && (
+            <div className="flex flex-wrap gap-4 justify-center">
+              {currentProduct.sizes.map((size) => (
+                <span 
+                  key={size}
+                  className="px-6 py-2 bg-[#fcfbf9] text-gray-800 font-bold rounded-full shadow-sm border border-gray-200"
+                >
+                  {size}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
+
       </div>
-    </div>
-  )
+    </section>
+  );
 }
+
+export default ProductDetail;

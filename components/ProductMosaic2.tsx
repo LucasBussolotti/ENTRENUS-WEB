@@ -6,43 +6,51 @@ import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
-// ── DATOS DE CATEGORÍAS (Tus rutas locales originales) ──
+// ── DATOS DE CATEGORÍAS (Con escala personalizada por forma de envase) ──
 const CATEGORIES = [
   { 
     id: 1, 
     titleEs: 'Pasta de Maní', 
     titleEn: 'Peanut Butter',
     image: '/images/PNG_NATURAL.png',
+    // La pasta es ancha, la agrandamos un poquito
+    scaleClass: 'scale-110 group-hover:scale-125', 
   },
   { 
     id: 2, 
-    titleEs: 'Aceite de Coco ', 
-    titleEn: 'Coconut Oil + MCT',
+    titleEs: 'Aceite de Coco', 
+    titleEn: 'Coconut Oil',
     image: '/images/PNG_ACNEUTRO360.png',
+    scaleClass: 'scale-105 group-hover:scale-110',
   },
-  {
-      id: 3,
-      titleEs: 'Aceite MCT',
-      titleEn: 'MCT Oil',
-      image: '/images/PNG_MCT360.png',
+  { 
+    id: 3, 
+    titleEs: 'Aceite MCT', 
+    titleEn: 'MCT Oil',
+    image: '/images/PNG_ACMCT250.png',
+    // La botella es muy alta, la achicamos para que no tape el texto
+    scaleClass: 'scale-[0.85] group-hover:scale-95', 
   },
   { 
     id: 4, 
     titleEs: 'Barritas', 
     titleEn: 'Protein Bars',
     image: '/images/DISPLAY FRUTIDELI.png',
+    scaleClass: 'scale-100 group-hover:scale-105',
   },
   { 
     id: 5, 
     titleEs: 'Ghee', 
     titleEn: 'Ghee',
     image: '/images/PNG_GHEE300.png',
+    scaleClass: 'scale-110 group-hover:scale-125',
   },
   { 
     id: 6, 
     titleEs: 'Miel', 
     titleEn: 'Honey',
     image: '/images/PNG_MIEL LIQUIDA_500G.png',
+    scaleClass: 'scale-100 group-hover:scale-110',
   },
 ];
 
@@ -50,7 +58,6 @@ const CATEGORIES = [
 export function ProductMosaic2() {
   const lang = useLocale();
   
-  // Embla Carousel con movimiento continuo
   const [emblaRef] = useEmblaCarousel(
     { loop: true, align: 'start', dragFree: true },
     [AutoScroll({ playOnInit: true, stopOnInteraction: false, speed: 1.5 })]
@@ -78,62 +85,42 @@ export function ProductMosaic2() {
           </h2>
         </div>
 
-        {/* ── EMBLA CAROUSEL (Tarjetas rediseñadas con Offwhite) ── */}
+        {/* ── EMBLA CAROUSEL ── */}
         <div className="overflow-hidden w-full px-4 md:px-12 cursor-grab active:cursor-grabbing" ref={emblaRef}>
-          <div className="flex">
+          <div className="flex pb-4">
             {CATEGORIES.map((cat) => (
               <div 
                 key={cat.id} 
-                className="flex-[0_0_auto] w-[240px] md:w-[320px] h-[350px] md:h-[450px] mr-4 md:mr-6 relative rounded-[2rem] overflow-hidden group shadow-md hover:shadow-xl transition-shadow duration-300"
+                // Usamos relative y block para poder usar posiciones absolutas adentro
+                className="flex-[0_0_auto] w-[240px] md:w-[320px] h-[350px] md:h-[450px] mr-4 md:mr-6 rounded-[2rem] bg-[#fcfbf9] overflow-hidden group shadow-sm hover:shadow-md transition-shadow duration-300 relative block"
               >
-                {/* Imagen de Producto */}
-                <ImageWithFallback 
-                  src={cat.image} 
-                  alt={lang === 'es' ? cat.titleEs : cat.titleEn} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  className="transition-transform duration-700 group-hover:scale-105"
-                />
                 
-                {/* Gradiente Offwhite (Beige/Crema) para limpiar la zona del texto */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-footpage)] via-[var(--color-footpage)]/70 to-transparent pointer-events-none opacity-30" />
+                {/* 1. Área de la Imagen (Ocupa de arriba hasta un poco antes del texto) */}
+                <div className="absolute top-0 left-0 right-0 bottom-[4.5rem] p-4 flex items-center justify-center">
+                  <ImageWithFallback 
+                    src={cat.image} 
+                    alt={lang === 'es' ? cat.titleEs : cat.titleEn} 
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    // Acá le inyectamos la escala personalizada que definimos arriba
+                    className={`transition-transform duration-700 drop-shadow-md ${cat.scaleClass}`}
+                  />
+                </div>
                 
-                {/* Título de la Categoría */}
-                <div className="absolute bottom-6 left-6 right-6">
+                {/* 2. Área del Texto (Anclado rígidamente abajo) */}
+                <div className="absolute bottom-0 left-0 right-0 h-[4.5rem] flex items-center justify-center px-6">
                   <h3 
-                    className="text-2xl md:text-3xl font-black uppercase leading-tight tracking-tight"
-                    style={{ 
-                      fontFamily: 'var(--font-body)',
-                      fontWeight: 900,
-                      color: 'var(--text-dark)' /* Texto oscuro para contrastar */
-                    }}
+                    className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#111111] text-center"
+                    style={{ fontFamily: 'var(--font-body)' }}
                   >
                     {lang === 'es' ? cat.titleEs : cat.titleEn}
                   </h3>
                 </div>
+
               </div>
             ))}
           </div>
         </div>
 
-      </div>
-
-      {/* ── OVERLAY DE ONDA ── */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '-1px', 
-          left: 0,
-          right: 0,
-          height: '35px',
-          zIndex: 10,
-          pointerEvents: 'none',
-          lineHeight: 0,
-          overflow: 'hidden',
-        }}
-      >
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
-          <path d="M0,15 C100,15 150,90 200,90 C250,90 300,15 400,15 C480,15 500,60 550,60 C600,60 620,15 700,15 C780,15 820,110 880,110 C940,110 980,15 1080,15 C1180,15 1220,80 1280,80 C1340,80 1380,15 1440,15 L1440,120 L0,120 Z" fill="var(--color-footpage)" />
-        </svg>
       </div>
     </section>
   );

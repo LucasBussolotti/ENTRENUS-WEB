@@ -9,7 +9,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback'
 
 const SLIDES = [
   {
-    image: 'https://images.unsplash.com/photo-1704650312474-3981437230cb?w=1920&q=80',
+    image: '/images/BARRITAS_FACHA.png',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
     tagKey: 'slide1Tag' as const,
@@ -29,7 +29,7 @@ const SLIDES = [
     ctaHref: '/productos',
   },
   {
-    image: 'https://images.unsplash.com/photo-1644704170910-a0cdf183649b?w=1920&q=80',
+    image: '/images/EQUIPAZO.jpg',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
     tagKey: 'slide3Tag' as const,

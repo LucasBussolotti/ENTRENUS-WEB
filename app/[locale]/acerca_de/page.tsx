@@ -125,6 +125,21 @@ export default function AboutPage() {
 
       {/* ── 5. IMAGEN INFERIOR FULL-WIDTH (Línea de producción) ── */}
       <section className="relative w-full h-[35vh] md:h-[60vh] min-h-[300px]">
+        
+        {/* Onda superior color beige (Conecta el fondo con la foto) */}
+        <div 
+          className="h-[35px] md:h-[50px]"
+          style={{ position: 'absolute', top: '-1px', left: 0, right: 0, zIndex: 10, pointerEvents: 'none', overflow: 'hidden' }}
+        >
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }}>
+            {/* Fijate que acá rellenamos hacia arriba (L1440,0 L0,0) para que el beige baje sobre la foto */}
+            <path 
+              d="M0,15 C100,15 150,90 200,90 C250,90 300,15 400,15 C480,15 500,60 550,60 C600,60 620,15 700,15 C780,15 820,110 880,110 C940,110 980,15 1080,15 C1180,15 1220,80 1280,80 C1340,80 1380,15 1440,15 L1440,0 L0,0 Z" 
+              fill="var(--color-footpage)" 
+            />
+          </svg>
+        </div>
+
         <ImageWithFallback
           src="/images/MAQUINAMANIS.jpg"
           alt="Línea de producción Entrenuts"
