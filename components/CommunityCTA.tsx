@@ -10,13 +10,14 @@ export function CommunityCTA() {
         position: 'relative',
         overflow: 'hidden',
         background: '#1A1207',
+        marginTop: '-2px', /* Un margen negativo ínfimo por si queda alguna línea blanca suelta de 1px */
         padding: 'clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem)',
         textAlign: 'center',
       }}
     >
       {/* Background image */}
       <ImageWithFallback
-        src="https://images.unsplash.com/photo-1565895405138-6c3a1555da6a?w=1600&q=70"
+        src="images/ENSALADAMANI.jpg"
         alt=""
         style={{
           position: 'absolute',
@@ -28,10 +29,22 @@ export function CommunityCTA() {
         }}
       />
 
-      <div style={{ position: 'relative', zIndex: 1, maxWidth: '680px', margin: '0 auto' }}>
-        
-        {/* Etiqueta p vacía eliminada para limpiar el DOM */}
+      {/* ── EL TRUCO: Esfumado superior para fundir la foto con la onda de arriba ── */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '150px', /* Qué tan largo querés que sea el esfumado hacia abajo */
+          background: 'linear-gradient(to bottom, #1A1207 0%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
 
+      <div style={{ position: 'relative', zIndex: 10, maxWidth: '680px', margin: '0 auto' }}>
+        
         <h2
           style={{
             fontFamily: 'var(--font-display)',
@@ -39,6 +52,7 @@ export function CommunityCTA() {
             fontWeight: 900,
             color: '#ffffff',
             lineHeight: 1.0,
+            marginTop: 30,
             marginBottom: '1.25rem',
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
@@ -82,7 +96,6 @@ export function CommunityCTA() {
                 margin: 0,
               }}
             >
-              {/* Dividimos el texto en dos partes para mantener tu <br /> */}
               {t('ctaLine1')} <br />
               {t('ctaLine2')}
             </p>

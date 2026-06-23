@@ -12,7 +12,7 @@ const CATEGORIES = [
     id: 1, 
     titleEs: 'Pasta de Maní', 
     titleEn: 'Peanut Butter',
-    image: '/images/PNG_NATURAL.png',
+    image: '/images/PASTANATURAL.png',
     // La pasta es ancha, la agrandamos un poquito
     scaleClass: 'scale-110 group-hover:scale-125', 
   },
@@ -20,7 +20,7 @@ const CATEGORIES = [
     id: 2, 
     titleEs: 'Aceite de Coco', 
     titleEn: 'Coconut Oil',
-    image: '/images/PNG_ACNEUTRO360.png',
+    image: '/images/ACEITEDECOCO.png',
     scaleClass: 'scale-105 group-hover:scale-110',
   },
   { 
@@ -35,21 +35,21 @@ const CATEGORIES = [
     id: 4, 
     titleEs: 'Barritas', 
     titleEn: 'Protein Bars',
-    image: '/images/DISPLAY FRUTIDELI.png',
+    image: '/images/BARRITA NARANCHOC.png',
     scaleClass: 'scale-100 group-hover:scale-105',
   },
   { 
     id: 5, 
     titleEs: 'Ghee', 
     titleEn: 'Ghee',
-    image: '/images/PNG_GHEE300.png',
+    image: '/images/GHEE.png',
     scaleClass: 'scale-110 group-hover:scale-125',
   },
   { 
     id: 6, 
     titleEs: 'Miel', 
     titleEn: 'Honey',
-    image: '/images/PNG_MIEL LIQUIDA_500G.png',
+    image: '/images/MIEL.png',
     scaleClass: 'scale-100 group-hover:scale-110',
   },
 ];

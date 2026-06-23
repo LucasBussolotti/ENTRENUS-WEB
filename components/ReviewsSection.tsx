@@ -1,63 +1,58 @@
 "use client"
 
 import React, { useRef, useState } from 'react'
-import { Star, Play } from 'lucide-react'
-import { useTranslations } from 'next-intl' // 1. Cambiamos la importación
+import { Star, Play, BadgeCheck, ShoppingBag } from 'lucide-react' // 👈 Sumamos iconos nuevos
+import { useTranslations } from 'next-intl'
 import { ImageWithFallback } from './figma/ImageWithFallback'
 
-// OJO ACÁ: Ahora que tenés i18n, los textos hardcodeados de las reviews 
-// deberían pasar a tus archivos .json en el futuro, pero por ahora los dejamos
+// ─── REVIEWS SIMULANDO MERCADO LIBRE ───
 const reviews = [
   {
     name: 'Valentina M.',
-    city: 'Buenos Aires',
+    date: 'Hace 2 semanas',
     rating: 5,
-    text: 'La pasta de maní natural es adictiva. Sin azúcar, sin aceites raros — finalmente una marca que cumple lo que promete.',
-    avatar: 'https://images.unsplash.com/photo-1644704170910-a0cdf183649b?w=100&q=80',
+    text: 'Súper recomendable!! Exquisito volveré a comprar sin dudas. Es imposible que no te guste, no conocía la marca!! riquísimo!!! 😋.',
   },
   {
     name: 'Martín R.',
-    city: 'Córdoba',
+    date: 'Hace 1 mes',
     rating: 5,
-    text: 'Las barras proteicas llegaron y ya las pido de nuevo. 14g de proteína y no saben a cartón. Increíble.',
-    avatar: 'https://images.unsplash.com/photo-1625937286074-9ca519d5d9df?w=100&q=80',
+    text: 'Compré esta y con stevia, las dos me gustaron, pero en lo personal no hay con que darle a la natural.',
   },
   {
     name: 'Lucía P.',
-    city: 'Rosario',
+    date: 'Hace 2 meses',
     rating: 5,
-    text: 'La granola original con yogur es mi desayuno hace tres meses. No hay vuelta atrás. Mis hijos la aman.',
-    avatar: 'https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?w=100&q=80',
+    text: 'Rica, saludable, sin azúcar agregada, la recomiendo. Me llego ayer a casa, muy bien presentada.',
   },
 ]
 
-// OJO ACÁ TAMBIÉN: Los títulos de los reels
 const instagramReels = [
   {
     title: 'Mouse Viral',
     image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80',
-    videoSrc: 'images/Reel1.mp4', // 2. En Next.js public, se llama con barra al inicio
+    videoSrc: 'images/Reel1.mp4', 
     views: '12.4k',
     link: 'https://www.instagram.com/p/DWjgotjgFdr/', 
   },
   {
-    title: 'Smoothie Bowl Proteico',
+    title: 'Barritas en la Rutina',
     image: 'https://images.unsplash.com/photo-1558021984-46774cdb0e83?w=600&q=80',
-    videoSrc: 'images/Reel1.mp4',
+    videoSrc: 'images/Reel2.mp4',
     views: '8.2k',
     link: 'https://www.instagram.com/entrenuts/',
   },
   {
-    title: 'Postre Keto en 5 minutos',
+    title: 'Pancakes Proteicos',
     image: 'https://images.unsplash.com/photo-1542990253-a781e04c0082?w=600&q=80',
-    videoSrc: 'images/Reel1.mp4',
+    videoSrc: 'images/Reel3.mp4',
     views: '15.1k',
     link: 'https://www.instagram.com/entrenuts/',
   },
   {
-    title: 'Snack con Aceite de Coco',
+    title: 'Postre Banana Chocolate',
     image: 'https://images.unsplash.com/photo-1626697556426-8a55a8af4999?w=600&q=80',
-    videoSrc: 'images/Reel1.mp4',
+    videoSrc: 'images/Reel4.mp4',
     views: '9.8k',
     link: 'https://www.instagram.com/entrenuts/',
   },
@@ -141,7 +136,7 @@ function ReelCard({ reel }: { reel: any }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            opacity: isHovered ? 0 : 1, // 3. Reemplazamos la clase de Tailwind por estilo inline para mayor seguridad
+            opacity: isHovered ? 0 : 1,
             transition: 'opacity 0.3s ease'
           }}
         >
@@ -191,7 +186,6 @@ function ReelCard({ reel }: { reel: any }) {
 
 // ─── COMPONENTE PRINCIPAL ───
 export function ReviewsSection() {
-  // 4. Cambiamos el hook y le pasamos la categoría 'reviews'
   const t = useTranslations('reviews')
 
   return (
@@ -210,7 +204,6 @@ export function ReviewsSection() {
               textTransform: 'uppercase',
             }}
           >
-            {/* 5. Usamos el nuevo formato de t('') */}
             {t('sectionTitle')}
           </h2>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '1rem', color: '#7A6F64' }}>
@@ -231,43 +224,58 @@ export function ReviewsSection() {
             <div
               key={i}
               style={{
-                background: '#F8F3EC',
+                background: '#ffffff', // 👈 Fondo blanco para que parezca widget de ML
                 borderRadius: '14px',
                 padding: '1.75rem',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', // Sombra suave
+                border: '1px solid #ebebeb'
               }}
             >
-              <div style={{ display: 'flex', gap: '2px', marginBottom: '1rem' }}>
-                {Array.from({ length: r.rating }).map((_, s) => (
-                  // 6. Actualizado al naranja oficial
-                  <Star key={s} size={14} fill="#ef7f17" color="#ef7f17" />
-                ))}
+              {/* Encabezado de la Card: Estrellas y Tag de ML */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                <div style={{ display: 'flex', gap: '2px' }}>
+                  {Array.from({ length: r.rating }).map((_, s) => (
+                    // Usamos el azul clásico de ML para las estrellas (o podés volver a tu naranja)
+                    <Star key={s} size={16} fill="#3483FA" color="#3483FA" />
+                  ))}
+                </div>
+                <span style={{ fontSize: '0.7rem', color: '#999', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <ShoppingBag size={12} /> Mercado Libre
+                </span>
               </div>
 
+              {/* Texto de la Review */}
               <p
                 style={{
                   fontFamily: 'var(--font-body)',
                   fontSize: '0.95rem',
-                  color: '#2A2218',
-                  lineHeight: 1.65,
+                  color: '#333333',
+                  lineHeight: 1.5,
                   marginBottom: '1.5rem',
-                  fontStyle: 'italic',
                 }}
               >
-                "{r.text}"
+                {r.text}
               </p>
 
+              {/* Pie de la Card: Inicial y Compra Verificada */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <ImageWithFallback
-                  src={r.avatar}
-                  alt={r.name}
-                  style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    flexShrink: 0,
-                  }}
-                />
+                {/* Círculo con la inicial (Estilo ML) */}
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  background: '#f0f0f0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#666',
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 800,
+                  fontSize: '1.1rem'
+                }}>
+                  {r.name.charAt(0)}
+                </div>
+                
                 <div>
                   <p
                     style={{
@@ -277,10 +285,23 @@ export function ReviewsSection() {
                       color: '#111111',
                     }}
                   >
-                    {r.name}
+                    {r.name} <span style={{ color: '#999', fontWeight: 400, marginLeft: '4px' }}>• {r.date}</span>
                   </p>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', color: '#7A6F64' }}>
-                    {r.city}
+                  
+                  {/* Etiqueta Verde de ML */}
+                  <p 
+                    style={{ 
+                      fontFamily: 'var(--font-body)', 
+                      fontSize: '0.75rem', 
+                      color: '#00a650', // 👈 Verde oficial de ML 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '4px',
+                      fontWeight: 600,
+                      marginTop: '2px'
+                    }}
+                  >
+                    <BadgeCheck size={14} /> Compra verificada
                   </p>
                 </div>
               </div>

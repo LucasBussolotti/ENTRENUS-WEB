@@ -3,46 +3,48 @@
 import { useState, useEffect, useCallback } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { ImageWithFallback } from './figma/ImageWithFallback'
+import { ArrowUpRight } from 'lucide-react'
 
+// ── AGREGAMOS ctaText y ctaHref ──
 const SLIDES = [
   {
-    image: '/images/BARRITAS_FACHA.png',
+    image: '/images/HERO_BARRAS.jpeg',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
-    tagKey: 'slide1Tag' as const,
-    titleKey: 'slide1Title' as const,
-    subKey: 'slide1Sub' as const,
-    ctaKey: 'slide1Cta' as const,
+    titleText: 'Nuevos lanzamientos', 
+    ctaText: 'Conocé más', 
     ctaHref: '/productos',
   },
   {
-    image: '/images/HeroEjemplo.jpg',
+    image: '/images/HERO_CEO.jpeg',
     bgColor: '#0D0906',
     accentColor: '#D4A843',
-    tagKey: 'slide2Tag' as const,
-    titleKey: 'slide2Title' as const,
-    subKey: 'slide2Sub' as const,
-    ctaKey: 'slide2Cta' as const,
-    ctaHref: '/productos',
+    titleText: 'Democratizando lo saludable', 
+    ctaText: 'Conocenos', 
+    ctaHref: '/acerca_de',
   },
   {
     image: '/images/EQUIPAZO.jpg',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
-    tagKey: 'slide3Tag' as const,
-    titleKey: 'slide3Title' as const,
-    subKey: 'slide3Sub' as const,
-    ctaKey: 'slide3Cta' as const,
-    ctaHref: '/quienes-somos',
+    titleText: 'Hacemos rico\nlo saludable', 
+    ctaText: '', 
+    ctaHref: '/acerca_de',
   },
 ]
 
 export function HeroCarousel() {
   const t = useTranslations('hero')
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    duration: 80, 
+    dragFree: false,
+    skipSnaps: false
+  })
+  
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const onSelect = useCallback(() => {
@@ -56,14 +58,34 @@ export function HeroCarousel() {
     return () => { emblaApi.off('select', onSelect) }
   }, [emblaApi, onSelect])
 
-  // Autoplay per determinated seconds
+  // ── AUTOPLAY SIN ERRORES EN TYPESCRIPT ──
   useEffect(() => {
     if (!emblaApi) return
-    const interval = setInterval(() => emblaApi.scrollNext(), 7000)
-    return () => clearInterval(interval)
-  }, [emblaApi])
+    
+    let intervalId: NodeJS.Timeout
 
-  const slide = SLIDES[selectedIndex]
+    const startAutoplay = () => {
+      clearInterval(intervalId) 
+      intervalId = setInterval(() => {
+        emblaApi.scrollNext()
+      }, 5600) 
+    }
+
+    const stopAutoplay = () => {
+      clearInterval(intervalId)
+    }
+
+    startAutoplay()
+
+    emblaApi.on('pointerDown', stopAutoplay) 
+    emblaApi.on('pointerUp', startAutoplay)  
+
+    return () => {
+      stopAutoplay()
+      emblaApi.off('pointerDown', stopAutoplay)
+      emblaApi.off('pointerUp', startAutoplay)
+    }
+  }, [emblaApi])
 
   return (
     <section style={{ position: 'relative', height: '100svh', minHeight: '560px', overflow: 'hidden' }}>
@@ -88,109 +110,116 @@ export function HeroCarousel() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  opacity: 0.45,
+                  opacity: 0.75, 
                 }}
               />
+              
+              {/* ── CONTENEDOR DE TEXTO + BOTÓN (Abajo a la izquierda) ── */}
+              {(s.titleText || s.ctaText) && (
+                <div 
+                  style={{ 
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    justifyContent: 'flex-end', 
+                    alignItems: 'flex-start',   
+                    padding: '0 clamp(1.5rem, 5vw, 6rem)', 
+                    paddingBottom: '8.5rem',    
+                    pointerEvents: 'none',
+                    zIndex: 10
+                  }}
+                >
+                  {/* TEXTO GIGANTE */}
+                  {s.titleText && (
+                    <h1 
+                      className="text-white font-black tracking-tight uppercase"
+                      style={{ 
+                        fontFamily: 'var(--font-display)', 
+                        fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', 
+                        lineHeight: 0.95,
+                        maxWidth: '850px', 
+                        textAlign: 'left',
+                        textShadow: '0 4px 15px rgba(0,0,0,0.5)', 
+                        animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both' : 'none',
+                        margin: 0,
+                        whiteSpace: 'pre-line',
+                      }}
+                    >
+                      {s.titleText}
+                    </h1>
+                  )}
+
+                  {/* BOTÓN BLANCO CON SUBRAYADO ANIMADO Y FLECHA */}
+                  {s.ctaText && (
+                    <div style={{ 
+                      marginTop: '1.5rem', 
+                      animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) 0.2s both' : 'none' 
+                    }}>
+                      <Link
+                        href={s.ctaHref}
+                        style={{
+                          pointerEvents: 'auto',
+                          display: 'inline-flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-start', 
+                          textDecoration: 'none',
+                          cursor: 'pointer',
+                        }}
+                        className="group transition-transform duration-300 ease-out hover:scale-105"
+                      >
+                        {/* ── CONTENEDOR FLEX PARA TEXTO + ÍCONO ── */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <p
+                            style={{
+                              fontFamily: 'var(--font-body)',
+                              fontSize: '1rem',
+                              fontWeight: 800,
+                              color: '#ffffff',
+                              textAlign: 'left',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.05em',
+                              margin: 0,
+                              marginLeft: '0.25rem',
+                              textShadow: '0 2px 4px rgba(0,0,0,0.6)',
+                            }}
+                          >
+                            {s.ctaText}
+                          </p>
+                          
+                          {/* ── LA FAMOSA FLECHITA ── */}
+                          <ArrowUpRight 
+                            size={18} 
+                            color="#ffffff" 
+                            style={{ 
+                              filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.6))',
+                              transition: 'transform 0.3s ease'
+                            }} 
+                            // Le agregamos un efectito para que se mueva un poco al pasar el mouse
+                            className="group-hover:translate-x-1 group-hover:-translate-y-1" 
+                          />
+                        </div>
+                        
+                        {/* Animación de subrayado premium */}
+                        <div 
+                          style={{ 
+                            height: '2px',
+                            background: '#ffffff',
+                            marginTop: '4px' 
+                          }} 
+                          className="w-0 transition-all duration-300 ease-out group-hover:w-full"
+                        />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Overlay content */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '0 clamp(1.5rem, 5vw, 6rem)',
-          pointerEvents: 'none',
-        }}
-      >
-        <div style={{ maxWidth: '700px' }}>
-
-          {/* Etiqueta / Tag (Ej: NUEVO PRODUCTO) */}
-          <p
-            key={`tag-${selectedIndex}`}
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: '0.85rem',
-              fontWeight: 800,
-              letterSpacing: '0.15em',
-              color: slide.accentColor, 
-              marginBottom: '1rem',
-              textTransform: 'uppercase',
-              animation: 'fadeUp 0.5s ease 0.04s both',
-            }}
-          >
-            {t(slide.tagKey)}
-          </p>
-
-          {/* Title */}
-          <h1
-            key={`title-${selectedIndex}`}
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(2.6rem, 6.5vw, 5.5rem)',
-              fontWeight: 900,
-              color: '#ffffff',
-              lineHeight: 1.0,
-              marginBottom: '1rem',
-              letterSpacing: '-0.03em',
-              textTransform: 'uppercase',
-              animation: 'fadeUp 0.5s ease 0.08s both',
-            }}
-          >
-            {t(slide.titleKey)} 
-          </h1>
-
-          {/* Subtitle */}
-          <p
-            key={`sub-${selectedIndex}`}
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'clamp(0.95rem, 2vw, 1.1rem)',
-              fontWeight: 400,
-              color: 'rgba(255,255,255,0.72)',
-              marginBottom: '2rem',
-              letterSpacing: '0.01em',
-              animation: 'fadeUp 0.5s ease 0.16s both',
-            }}
-          >
-              {t(slide.subKey)} 
-            </p>
-
-          {/* CTA */}
-          <div style={{ pointerEvents: 'auto', animation: 'fadeUp 0.5s ease 0.24s both' }}>
-            <Link
-              href={slide.ctaHref}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: slide.accentColor,
-                color: '#ffffff',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                padding: '0.85rem 1.8rem',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontFamily: 'var(--font-body)',
-                letterSpacing: '0.01em',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}
-              className="hover:scale-[1.03]"
-            >
-              {t(slide.ctaKey)} 
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-
-      {/* Dot navigation */}
+      {/* Navegación por puntitos */}
       <div
         style={{
           position: 'absolute',
@@ -199,6 +228,7 @@ export function HeroCarousel() {
           transform: 'translateX(-50%)',
           display: 'flex',
           gap: '8px',
+          zIndex: 20 
         }}
       >
         {SLIDES.map((_, i) => (
@@ -212,14 +242,14 @@ export function HeroCarousel() {
               background: i === selectedIndex ? '#ef7f17' : 'rgba(255,255,255,0.4)',
               border: 'none',
               cursor: 'pointer',
-              transition: 'width 0.3s, background 0.3s',
+              transition: 'width 0.4s ease, background 0.4s ease',
               padding: 0,
             }}
           />
         ))}
       </div>
 
-      {/* ── OVERLAY DE ONDA ── */}
+      {/* Overlay de Onda inferior */}
       <div
         style={{
           position: 'absolute',
@@ -250,14 +280,14 @@ export function HeroCarousel() {
                C1180,15 1220,80 1280,80 
                C1340,80 1380,15 1440,15 
                L1440,120 L0,120 Z"
-            fill="var(--color-navbar)" /* 👈 Acá está la magia de la integración */
+            fill="var(--color-navbar)" 
           />
         </svg>
       </div>
 
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(16px); }
+          from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
