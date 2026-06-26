@@ -39,7 +39,7 @@ export const products: Product[] = [
     descEs: 'Solo maní. Sin azúcar agregada, sin aceite de palma, sin conservantes.',
     descEn: 'Just peanuts. No added sugar, no palm oil, no preservatives.',
     category: 'pastas',
-    image: 'images/PNG_NATURAL.png',
+    image: 'images/PASTANATURAL.png',
     tags: ['SIN GLUTEN', 'VEGANO', 'KETO'],
     isNew: false,
     mlUrl: 'https://www.mercadolibre.com.ar',
