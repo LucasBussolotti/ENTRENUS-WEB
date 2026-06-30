@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocale } from 'next-intl';
-import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
 // 👇 IMPORTÁ TUS PRODUCTOS DESDE LA RUTA CORRECTA
@@ -31,23 +31,18 @@ export function ProductDetail() {
   
   // ── ESTADOS ──
   const [activeCategory, setActiveCategory] = useState("PASTAS DE MANÍ");
-  const [selectedProductIndex, setSelectedProductIndex] = useState(0); // Controla el producto (sabor)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);       // Controla la foto del carrusel
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedProductIndex, setSelectedProductIndex] = useState(0); 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);       
 
-  // Al cambiar de categoría, reseteamos producto y foto
   useEffect(() => {
     setSelectedProductIndex(0);
     setCurrentImageIndex(0);
-    setIsDropdownOpen(false);
   }, [activeCategory]);
 
-  // Al cambiar de sabor (producto), reseteamos a la primera foto
   useEffect(() => {
     setCurrentImageIndex(0);
   }, [selectedProductIndex]);
 
-  // Filtramos los productos de la categoría seleccionada
   const filteredProducts = products.filter(
     (p) => p.nameEs === CATEGORY_MAP[activeCategory]
   );
@@ -56,9 +51,6 @@ export function ProductDetail() {
 
   if (!currentProduct) return null;
 
-  // ── LÓGICA DE IMÁGENES (Galería del producto) ──
-  // Si en el futuro agregás "images: ['foto1.png', 'foto2.png']" en tu products.ts, las usa. 
-  // Si no, usa la "image" principal como única foto.
   const productImages = (currentProduct as any).images?.length > 0 
     ? (currentProduct as any).images 
     : [currentProduct.image];
@@ -71,7 +63,6 @@ export function ProductDetail() {
     setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length);
   };
 
-  // Variables dinámicas de texto
   const isEs = lang === 'es';
   const productName = isEs ? currentProduct.nameEs : currentProduct.nameEn;
   const productVariant = isEs ? currentProduct.variantEs : currentProduct.variantEn;
@@ -109,186 +100,196 @@ export function ProductDetail() {
         </div>
 
         {/* ── 2. TARJETA PRINCIPAL DEL PRODUCTO ── */}
-        <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-6 md:p-10 lg:p-16 flex flex-col lg:flex-row gap-8 lg:gap-16 relative transition-all duration-300">
+        <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-6 md:p-10 lg:p-16 flex flex-col relative transition-all duration-300">
           
-          {/* COLUMNA IZQUIERDA: Imagen y Flechas de Galería */}
-          <div className="w-full lg:w-5/12 relative flex items-center justify-center min-h-[300px] md:min-h-[500px]">
-            
-            {/* Solo muestra flechas si el producto tiene más de 1 imagen */}
-            {productImages.length > 1 && (
-              <button 
-                onClick={handlePrevImage}
-                className="absolute left-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
-              >
-                <ChevronLeft size={24} className="text-gray-600" />
-              </button>
-            )}
-
-            <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px]">
-              <ImageWithFallback
-                src={`/${productImages[currentImageIndex]}`} 
-                alt={`${productName} ${productVariant || ''} - Vista ${currentImageIndex + 1}`}
-                style={{ objectFit: 'contain', width: '100%', height: '100%' }}
-                className="transition-transform duration-500 ease-in-out hover:scale-105"
-              />
-            </div>
-
-            {productImages.length > 1 && (
-              <button 
-                onClick={handleNextImage}
-                className="absolute right-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
-              >
-                <ChevronRight size={24} className="text-gray-600" />
-              </button>
-            )}
-          </div>
-
-          {/* COLUMNA DERECHA: Textos y Detalles */}
-          <div className="w-full lg:w-7/12 flex flex-col justify-center text-[var(--text-dark)]">
-            
-            <h1 
-              className="text-xl md:text-2xl font-bold uppercase mb-2 transition-colors duration-300"
-              style={{ color: activeColor }}
-            >
-              {productName} {productVariant && productVariant}
-            </h1>
-            <p className="text-sm md:text-base mb-6 font-medium text-gray-600">
-              {productDesc}
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-sm md:text-base">
-              {currentProduct.benefits && currentProduct.benefits.length > 0 && (
-                <div>
-                  <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? 'Beneficios' : 'Benefits'}</h3>
-                  <ul className="space-y-1 text-gray-700">
-                    {currentProduct.benefits.map((ben, i) => (
-                      <li key={i}>- {ben}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {currentProduct.idealFor && currentProduct.idealFor.length > 0 && (
-                <div>
-                  <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? 'Ideal para consumir:' : 'Ideal for:'}</h3>
-                  <ul className="space-y-1 text-gray-700">
-                    {currentProduct.idealFor.map((ideal, i) => (
-                      <li key={i}>- {ideal}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {currentProduct.whyChoose && currentProduct.whyChoose.length > 0 && (
-                <div>
-                  <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? '¿Por qué elegirla?' : 'Why choose it?'}</h3>
-                  <ul className="space-y-1 text-gray-700">
-                    {currentProduct.whyChoose.map((why, i) => (
-                      <li key={i}>- {why}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              <div>
-                <h3 className="font-bold mb-1" style={{ color: activeColor }}>{isEs ? 'Información del producto' : 'Product Info'}</h3>
-                <ul className="space-y-1 text-gray-700">
-                  {productVariant && <li>- Sabor: {productVariant}</li>}
-                  {currentProduct.sizes && <li>- Peso por unidad: {currentProduct.sizes[1] || currentProduct.sizes[0]}</li>}
-                  <li>- Conservar en lugar fresco y seco.</li>
-                </ul>
-              </div>
-            </div>
-
-            {/* ── BOTONES DE ACCIÓN (SELECTOR DE SABOR) ── */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 mt-auto pt-6 border-t border-gray-200">
-              
-              <div className="relative w-full sm:w-auto">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
+            {/* COLUMNA IZQUIERDA */}
+            <div className="w-full lg:w-5/12 relative flex items-center justify-center min-h-[300px] md:min-h-[450px]">
+              {productImages.length > 1 && (
                 <button 
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  disabled={filteredProducts.length <= 1}
-                  className={`w-full px-6 py-3 rounded-full border-2 border-gray-300 font-bold flex items-center justify-between sm:justify-center gap-3 transition-colors ${
-                    filteredProducts.length > 1 ? 'hover:bg-gray-50 cursor-pointer' : 'opacity-80 cursor-default'
-                  }`}
+                  onClick={handlePrevImage}
+                  className="absolute left-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
                 >
-                  <span className="text-sm uppercase text-gray-700">
-                    {isEs ? 'SABOR:' : 'TIPO:'} {productVariant || (isEs ? 'Original' : 'Original')}
-                  </span>
-                  {filteredProducts.length > 1 && (
-                    <ChevronDown size={18} className={`text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-                  )}
+                  <ChevronLeft size={24} className="text-gray-600" />
                 </button>
+              )}
 
-                {isDropdownOpen && (
-                  <div 
-                    className="fixed inset-0 z-10" 
-                    onClick={() => setIsDropdownOpen(false)}
-                  />
-                )}
+              <div key={selectedProductIndex} className="relative w-full h-[300px] md:h-[450px] lg:h-[500px] animate-fade-in">
+                <ImageWithFallback
+                  src={`/${productImages[currentImageIndex]}`} 
+                  alt={`${productName} ${productVariant || ''} - Vista ${currentImageIndex + 1}`}
+                  style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                  className="transition-transform duration-500 ease-in-out hover:scale-105"
+                />
+              </div>
 
-                {isDropdownOpen && filteredProducts.length > 1 && (
-                  <div className="absolute bottom-full left-0 mb-2 w-full bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden z-20">
-                    {filteredProducts.map((p, idx) => (
-                      <button
-                        key={p.id}
-                        onClick={() => {
-                          setSelectedProductIndex(idx);
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-5 py-3 text-sm transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0 ${
-                          selectedProductIndex === idx ? 'font-black bg-gray-50' : 'font-medium text-gray-600'
-                        }`}
-                        style={{ color: selectedProductIndex === idx ? activeColor : 'inherit' }}
-                      >
-                        {isEs ? p.variantEs || 'Original' : p.variantEn || 'Original'}
-                      </button>
-                    ))}
+              {productImages.length > 1 && (
+                <button 
+                  onClick={handleNextImage}
+                  className="absolute right-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
+                >
+                  <ChevronRight size={24} className="text-gray-600" />
+                </button>
+              )}
+            </div>
+
+            {/* COLUMNA DERECHA */}
+            <div className="w-full lg:w-7/12 flex flex-col justify-start text-[var(--text-dark)] pt-4">
+              <h1 
+                className="text-3xl md:text-5xl font-black uppercase mb-4 transition-colors duration-300 leading-none"
+                style={{ color: activeColor, fontFamily: 'var(--font-display)' }}
+              >
+                {productName} {productVariant && <span className="block mt-2">{productVariant}</span>}
+              </h1>
+              
+              <p className="text-base md:text-lg mb-8 font-medium text-gray-600">
+                {productDesc}
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10 text-sm md:text-base">
+                {currentProduct.benefits && currentProduct.benefits.length > 0 && (
+                  <div>
+                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? 'Beneficios' : 'Benefits'}</h3>
+                    <ul className="space-y-1.5 text-gray-700">
+                      {currentProduct.benefits.map((ben, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span style={{ color: activeColor }}>•</span> {ben}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
+
+                {currentProduct.idealFor && currentProduct.idealFor.length > 0 && (
+                  <div>
+                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? 'Ideal para:' : 'Ideal for:'}</h3>
+                    <ul className="space-y-1.5 text-gray-700">
+                      {currentProduct.idealFor.map((ideal, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span style={{ color: activeColor }}>•</span> {ideal}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {currentProduct.whyChoose && currentProduct.whyChoose.length > 0 && (
+                  <div>
+                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? '¿Por qué elegirla?' : 'Why choose it?'}</h3>
+                    <ul className="space-y-1.5 text-gray-700">
+                      {currentProduct.whyChoose.map((why, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span style={{ color: activeColor }}>•</span> {why}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div>
+                  <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? 'Info. del producto' : 'Product Info'}</h3>
+                  <ul className="space-y-1.5 text-gray-700">
+                    {productVariant && <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> Sabor: {productVariant}</li>}
+                    {currentProduct.sizes && <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> Peso: {currentProduct.sizes[1] || currentProduct.sizes[0]}</li>}
+                    <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> Conservar en lugar fresco.</li>
+                  </ul>
+                </div>
               </div>
 
-              <a 
-                href={currentProduct.mlUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-3 rounded-full text-white font-bold text-center transition-opacity shadow-md hover:opacity-90"
-                style={{ backgroundColor: activeColor }}
-              >
-                {isEs ? 'Comprar en MercadoLibre' : 'Buy on MercadoLibre'}
-              </a>
+              {/* ── BOTÓN COMPRAR (ESTÉTICO + EFECTO HOVER ML) ── */}
+              <div className="mt-auto pt-6 border-t border-gray-200">
+                <a 
+                  href={currentProduct.mlUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group relative inline-flex w-full sm:w-[260px] h-[60px] items-center justify-center rounded-full overflow-hidden shadow-[0_8px_20px_rgb(0,0,0,0.15)] hover:shadow-[0_12px_25px_rgba(255,230,0,0.4)] transition-all duration-300 hover:-translate-y-1 border-2 border-transparent hover:border-[#090080]"
+                >
+                  {/* 1. Fondo original de la web (Naranja/Verde/etc) */}
+                  <div 
+                    className="absolute inset-0 transition-opacity duration-300 group-hover:opacity-0"
+                    style={{ backgroundColor: activeColor }}
+                  />
+                  
+                  {/* 2. Fondo amarillo de Mercado Libre */}
+                  <div 
+                    className="absolute inset-0 bg-[#FFE600] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+
+                  {/* 3. Texto "COMPRAR" (Letras más separadas y tamaño ajustado para más elegancia) */}
+                  <span 
+                    className="relative z-10 text-white font-black uppercase tracking-[0.05em] text-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-75"
+                    style={{ fontFamily: 'var(--font-body)', marginTop: '2px', marginLeft: '6px' /* El margin left compensa visualmente el tracking extra */ }}
+                  >
+                    {isEs ? 'Comprar' : 'Buy'}
+                  </span>
+
+                  {/* 4. Logo de Mercado Libre (Aparece en el centro) */}
+                  <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
+                    <div className="w-14 h-14 flex items-center justify-center">
+                      <ImageWithFallback 
+                        src="/images/LOGOMELI2.png" 
+                        alt="Mercado Libre" 
+                        style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                      />
+                    </div>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* ── 3. BANNER DE TAMAÑOS ── */}
-        <div className="mt-6 flex flex-col items-center">
-          <div 
-            className="w-full rounded-[1.5rem] py-4 text-center shadow-md mb-4 transition-colors duration-500"
-            style={{ backgroundColor: activeColor }}
-          >
-            <h2 
-              className="text-white text-3xl md:text-4xl font-black uppercase tracking-widest"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
-              {isEs ? 'TAMAÑOS' : 'SIZES'}
-            </h2>
-          </div>
-          
-          {currentProduct.sizes && (
-            <div className="flex flex-wrap gap-4 justify-center">
-              {currentProduct.sizes.map((size) => (
-                <span 
-                  key={size}
-                  className="px-6 py-2 bg-[#fcfbf9] text-gray-800 font-bold rounded-full shadow-sm border border-gray-200"
-                >
-                  {size}
-                </span>
-              ))}
+          {/* ── 3. GALERÍA DE MINIATURAS (Pegadita al botón) ── */}
+          {filteredProducts.length > 1 && (
+            <div className="mt-6 pt-6 w-full">
+              <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                {filteredProducts.map((p, idx) => {
+                  const isSelected = selectedProductIndex === idx;
+                  const thumbImage = (p as any).images?.length > 0 ? (p as any).images[0] : p.image;
+                  
+                  return (
+                    <button
+                      key={p.id || idx}
+                      onClick={() => setSelectedProductIndex(idx)}
+                      className="relative flex-shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-xl bg-white border-2 transition-all duration-200 overflow-hidden shadow-sm"
+                      style={{
+                        borderColor: isSelected ? activeColor : 'transparent',
+                        opacity: isSelected ? 1 : 0.5
+                      }}
+                      title={isEs ? p.variantEs : p.variantEn}
+                    >
+                      <ImageWithFallback
+                        src={`/${thumbImage}`}
+                        alt={p.variantEs || p.nameEs}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '8px' }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
+
         </div>
 
       </div>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.98); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.4s ease-out forwards;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 }
