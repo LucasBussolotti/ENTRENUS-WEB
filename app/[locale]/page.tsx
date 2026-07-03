@@ -12,13 +12,16 @@ export default function HomePage() {
       
       <ProductMosaic2 />
       
-      <WaveDivider fromColor="var(--color-navbar)" toColor="#111111" height={40} />
-      <ValueProposition />
-      
-      <WaveDivider fromColor="#111111" toColor="#e8ddca" height={35} />
+      {/* ── 1. Ahora primero van los REELS Y OPINIONES ── */}
+      <WaveDivider fromColor="var(--color-navbar)" toColor="#e8ddca" height={40} />
       <ReviewsSection />
       
-      <WaveDivider fromColor="#e8ddca" toColor="#1A1207" height={40} />
+      {/* ── 2. Después va el MENSAJE / PROPUESTA DE VALOR ── */}
+      <WaveDivider fromColor="#e8ddca" toColor="#111111" height={35} />
+      <ValueProposition />
+      
+      {/* ── 3. Finalmente la comunidad ── */}
+      <WaveDivider fromColor="#111111" toColor="#1A1207" height={40} />
       <CommunityCTA />
     </main>
   )

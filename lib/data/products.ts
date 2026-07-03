@@ -288,7 +288,7 @@ export const products: Product[] = [
     descEn: '14g of protein per serving. Real ingredients, no artificial fillers.',
     category: 'barras',
     image: 'images/FRUTIDELI BARRITA.png',
-    images: ['images/FRUTIDELI BARRITA.png', 'images/DISPLAY FRUTIDELI.png'], // Recordá poner la imagen correcta
+    images: ['images/FRUTIDELI BARRITA.png', 'images/DISPLAY FRUTIDELI.png'], 
     tags: ['SIN GLUTEN', 'KETO', 'SIN AZÚCAR'],
     isNew: true,
     mlUrl: 'https://www.mercadolibre.com.ar',

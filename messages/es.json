@@ -65,8 +65,20 @@
     "chatbotLabel": "Hablá con Nuti"
   },
   "bot": {
-    "chatbotLabel": "Hablá con Nuti"
+    "chatbotLabel": "Asistente Virtual",
+    "welcomeMessage": "¡Hola! Soy Nuti 🥜. ¿En qué te puedo ayudar hoy?",
+    "optionCompany": "Sobre EntreNuts",
+    "optionProducts": "Nuestros Productos",
+    "optionShipping": "Envíos y Pagos",
+    "optionMainPastas": "Pastas de Maní",
+    "optionMielGhee": "Miel y Ghee",
+    "optionReturn": "Volver al inicio",
+    "companyDescription": "EntreNuts nació en 2020 en Colón, Entre Ríos. Nuestra misión es ofrecer alimentos saludables, naturales y de alta calidad.",
+    "productCategoriesMessage": "¡Tenemos de todo! ¿Qué categoría te interesa?",
+    "pastasDescription": "Tenemos 6 sabores: Clásica, Crocante, Cacao, Coco, Stevia y Proteica (¡esta última tiene 14g de proteína cada 20g!). Son Sin TACC y aptas veganas.",
+    "shippingDescription": "Hacemos envíos a todo el país. Podés comprar directamente desde nuestra tienda oficial en Mercado Libre."
   },
+
   "productsPage": {
     "title": "Nuestros Productos",
     "sub": "Alimentos reales, simples y ricos — hechos con ingredientes que podés leer.",
