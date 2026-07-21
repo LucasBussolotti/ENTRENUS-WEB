@@ -26,6 +26,7 @@ export interface Product {
   idealFor?: string[]
   whyChoose?: string[]
   sizes?: string[]
+  model3d?: string
 }
 
 export const products: Product[] = [
@@ -49,6 +50,7 @@ export const products: Product[] = [
     idealFor: ['Como merienda saludable', 'Después de entrenar', 'Entre comidas'],
     whyChoose: ['Ayuda a cubrir la ingesta diaria de proteína', 'Brinda energía sostenida'],
     sizes: ['190g', '370g', '1kg'],
+    model3d: "3D/FPN3D.glb"
   },
   {
     id: 'pasta-mani-crocante',
@@ -59,7 +61,8 @@ export const products: Product[] = [
     descEs: 'Con trocitos de maní entero para esa textura que tanto te gusta.',
     descEn: 'With chunks of whole peanut for that texture you love so much.',
     category: 'pastas',
-    image: 'images/PNG_CROCANTE.png',
+    image: 'images/CROC4.jpg',
+    images: ['images/CROC4.jpg', 'images/CROC3.jpg', 'images/CROC2.jpg', 'images/CROC1.jpg'], // Ajustá los nombres de las fotos si son distintos
     tags: ['SIN GLUTEN', 'VEGANO'],
     isNew: false,
     mlUrl: 'https://www.mercadolibre.com.ar',
@@ -243,7 +246,7 @@ export const products: Product[] = [
     descEs: 'Manteca clarificada, el oro líquido de la cocina Ayurveda. Sabor puro e intenso.',
     descEn: 'Clarified butter, the liquid gold of Ayurvedic cuisine.',
     category: 'granola',
-    image: 'images/PNG_GHEE300.png',
+    image: 'images/GHEE.png',
     tags: ['KETO', 'SIN LACTOSA'],
     isNew: false,
     mlUrl: 'https://www.mercadolibre.com.ar',
@@ -265,7 +268,7 @@ export const products: Product[] = [
     descEs: 'La dulzura natural de la miel de campo, sin aditivos ni conservantes.',
     descEn: 'The natural sweetness of raw honey, without additives or preservatives.',
     category: 'frutos',
-    image: 'images/PNG_MIEL LIQUIDA_500G.png',
+    image: 'images/MIEL.png',
     tags: ['SIN GLUTEN', 'VEGETARIANO', 'NATURAL'],
     isNew: false,
     mlUrl: 'https://www.mercadolibre.com.ar',

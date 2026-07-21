@@ -66,7 +66,7 @@
   },
   "bot": {
     "chatbotLabel": "Asistente Virtual",
-    "welcomeMessage": "¡Hola! Soy Nuti 🥜. ¿En qué te puedo ayudar hoy?",
+    "welcomeMessage": "¡Hola! Soy Nuti. ¿En qué te puedo ayudar hoy?",
     "optionCompany": "Sobre EntreNuts",
     "optionProducts": "Nuestros Productos",
     "optionShipping": "Envíos y Pagos",
