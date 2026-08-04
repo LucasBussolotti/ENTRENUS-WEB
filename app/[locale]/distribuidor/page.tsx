@@ -1,121 +1,193 @@
 "use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { Lock, CheckCircle, Send } from 'lucide-react'
-import { useTranslations, useLocale } from 'next-intl'
-import { PageHeader } from '@/components/WaveDivider'
+import React, { useState } from 'react';
 
-export default function DistributorPage() {
-  const t = useTranslations('distributorPage')
-  const lang = useLocale()
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', city: '', message: '' })
-  const [sent, setSent] = useState(false)
+export default function DistribuidoresPage() {
+  const [leadForm, setLeadForm] = useState({
+    nombre: '', ubicacion: '', zona: '', telefono: '', email: ''
+  });
+  
+  const [loginForm, setLoginForm] = useState({
+    usuario: '', password: ''
+  });
 
-  const benefits = [
-    'Acceso a toda la línea de productos Entrenuts',
-    'Precios mayoristas competitivos',
-    'Materiales de merchandising y POP',
-    'Soporte comercial dedicado',
-    'Acceso al área exclusiva de distribuidores',
-  ]
+  const handleLeadSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Lead Form Data:", leadForm);
+    // Aquí viajarán los datos hacia el pipeline del ERP
+  };
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setSent(true)
-  }
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Login Data:", loginForm);
+    // Aquí se autentica contra el backend
+  };
 
   return (
-    <div>
-      <PageHeader title={t('publicTitle')} subtitle={t('publicSub')} />
+    <div className="w-full min-h-screen bg-[#EBE5D9] font-body text-[#111111] pb-20">
+      
+      {/* ── HEADER ONDA (Ajustable a tu layout global) ── */}
+      <div className="w-full h-[120px] relative overflow-hidden">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="absolute bottom-0 w-full h-[40px]">
+          <path d="M0,15 C100,15 150,90 200,90 C250,90 300,15 400,15 C480,15 500,60 550,60 C600,60 620,15 700,15 C780,15 820,110 880,110 C940,110 980,15 1080,15 C1180,15 1220,80 1280,80 C1340,80 1380,15 1440,15 L1440,120 L0,120 Z" fill="#EBE5D9" />
+        </svg>
+      </div>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '3rem clamp(1.5rem, 5vw, 4rem)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-12 pt-8">
         
-        {/* Benefits */}
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', fontWeight: 700, color: '#111111', marginBottom: '1.5rem', letterSpacing: '-0.01em' }}>
-            ¿Por qué distribuir Entrenuts?
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            {benefits.map((b, i) => (
-              <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                <CheckCircle size={17} color="#C8935A" style={{ flexShrink: 0, marginTop: '1px' }} />
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#444', lineHeight: 1.5 }}>{b}</p>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ marginTop: '2.5rem', background: '#111111', borderRadius: '12px', padding: '1.5rem', color: '#ffffff' }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', color: '#C8935A', marginBottom: '0.5rem' }}>
-              ¿YA ERES DISTRIBUIDOR?
-            </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.88rem', color: 'rgba(255,255,255,0.7)', marginBottom: '1rem' }}>
-              Accedé al área exclusiva con tu contraseña.
-            </p>
-            <Link
-              href={`/${lang}/distribuidor/privado`}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 600, color: '#ffffff', background: '#C8935A', padding: '0.6rem 1.25rem', borderRadius: '7px', textDecoration: 'none', fontFamily: 'var(--font-body)' }}
+        {/* ── SECCIÓN SUPERIOR: FORMULARIOS ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
+          
+          {/* COLUMNA IZQUIERDA: QUIERO SER DISTRIBUIDOR */}
+          <div className="flex flex-col">
+            <h1 
+              className="font-black uppercase text-[var(--color-naranja)] mb-2 leading-none"
+              style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 6vw, 4.5rem)' }}
             >
-              <Lock size={13} />
-              Ingresar al área privada
-            </Link>
-          </div>
-        </div>
+              SER DISTRIBUIDOR
+            </h1>
+            <p className="text-lg font-medium mb-10 text-gray-800 max-w-[90%] leading-tight">
+              Dejanos tus datos para que nuestro equipo de ventas se ponga en contacto y te presente nuestra propuesta comercial.
+            </p>
 
-        {/* Form */}
-        <div>
-          <h2 style={{ fontFamily: 'var(--font-body)', fontSize: '1.2rem', fontWeight: 700, color: '#111111', marginBottom: '1.5rem', letterSpacing: '-0.01em' }}>
-            Contactanos
-          </h2>
-
-          {sent ? (
-            <div style={{ background: '#F0FAF4', border: '1px solid #4A7C59', borderRadius: '10px', padding: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <CheckCircle size={22} color="#4A7C59" />
-              <div>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.95rem', fontWeight: 700, color: '#4A7C59' }}>¡Consulta enviada!</p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: '#555' }}>Te contactaremos en las próximas 48 horas hábiles.</p>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <form onSubmit={handleLeadSubmit} className="flex flex-col gap-8">
               {[
-                { key: 'name',  label: t('formName'),  type: 'text'  },
-                { key: 'email', label: t('formEmail'), type: 'email' },
-                { key: 'phone', label: t('formPhone'), type: 'tel'   },
-                { key: 'city',  label: t('formCity'),  type: 'text'  },
-              ].map(({ key, label, type }) => (
-                <div key={key}>
-                  <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#555', marginBottom: '0.3rem', fontFamily: 'var(--font-body)' }}>{label}</label>
-                  <input
-                    type={type}
+                { label: 'Nombre completo', key: 'nombre', type: 'text', placeholder: 'Ingrese su nombre completo' },
+                { label: 'Ubicación', key: 'ubicacion', type: 'text', placeholder: 'Ingrese su ubicación' },
+                { label: 'Zona de cobertura', key: 'zona', type: 'text', placeholder: 'Ingrese su zona de cobertura' },
+                { label: 'Telefono', key: 'telefono', type: 'tel', placeholder: 'Ingrese su telefono' },
+                { label: 'Email', key: 'email', type: 'email', placeholder: 'Ingrese su dirección de correo' },
+              ].map((field) => (
+                <div key={field.key} className="flex flex-col gap-1">
+                  <label className="font-black text-xl">{field.label}</label>
+                  <input 
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#999999] focus:outline-none pb-2 text-lg transition-colors focus:border-[var(--color-naranja)]"
+                    value={(leadForm as any)[field.key]}
+                    onChange={(e) => setLeadForm({...leadForm, [field.key]: e.target.value})}
                     required
-                    value={formData[key as keyof typeof formData]}
-                    onChange={(e) => setFormData((f) => ({ ...f, [key]: e.target.value }))}
-                    style={{ width: '100%', padding: '0.7rem 0.9rem', border: '1.5px solid rgba(0,0,0,0.1)', borderRadius: '8px', fontSize: '0.9rem', fontFamily: 'var(--font-body)', outline: 'none', boxSizing: 'border-box' }}
                   />
                 </div>
               ))}
-              <div>
-                <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: 600, color: '#555', marginBottom: '0.3rem', fontFamily: 'var(--font-body)' }}>{t('formMessage')}</label>
-                <textarea
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData((f) => ({ ...f, message: e.target.value }))}
-                  style={{ width: '100%', padding: '0.7rem 0.9rem', border: '1.5px solid rgba(0,0,0,0.1)', borderRadius: '8px', fontSize: '0.9rem', fontFamily: 'var(--font-body)', outline: 'none', resize: 'vertical', boxSizing: 'border-box' }}
-                />
-              </div>
-              <button
+
+              <button 
                 type="submit"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', fontSize: '0.9rem', fontWeight: 600, color: '#ffffff', background: '#111111', padding: '0.8rem 1.75rem', borderRadius: '8px', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-body)', alignSelf: 'flex-start', transition: 'background 0.2s' }}
-                className="hover:bg-[#C8935A]"
+                className="w-full bg-[var(--color-naranja)] text-white font-black text-2xl rounded-[1rem] py-4 mt-4 hover:bg-[#d45d0f] transition-all shadow-sm"
               >
-                <Send size={14} />
-                {t('formSend')}
+                Enviar
               </button>
             </form>
-          )}
+          </div>
+
+          {/* COLUMNA DERECHA: YA SOY DISTRIBUIDOR (PRÓXIMAMENTE) */}
+          <div className="flex items-start justify-center pt-2 lg:pt-8 group perspective-[1500px]">
+            
+            <div className="bg-[#FCFBF9] w-full max-w-[480px] rounded-[2rem] overflow-hidden shadow-lg transition-transform duration-700 ease-out transform-style-3d group-hover:rotate-y-[-5deg] group-hover:rotate-x-[2deg] flex flex-col">
+              
+              {/* 1. Ajustamos el padding: pt-10 px-10 pb-6 para reducir el espacio en blanco abajo */}
+              <div className="pt-10 px-10 pb-6 md:pt-12 md:px-12 md:pb-8 flex flex-col items-center">
+                <h2 className="font-black text-3xl md:text-4xl text-[var(--color-naranja)] mb-3 text-center">
+                  ¿Ya sos distribuidor?
+                </h2>
+                <p className="text-center text-[#4A4A4A] font-medium mb-8 leading-snug">
+                  Accedé a nuestro portal para enterarte<br/>de todas las novedades!
+                </p>
+
+                <form className="w-full flex flex-col gap-6 opacity-60 pointer-events-none select-none">
+                  <div className="flex flex-col gap-2 items-center">
+                    <label className="font-black text-lg text-[#111111]">Usuario</label>
+                    <input 
+                      type="text"
+                      disabled
+                      className="w-full h-[55px] bg-[#EAE5D9] rounded-[1.25rem] px-4 text-center text-lg cursor-not-allowed border-none focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2 items-center">
+                    <label className="font-black text-lg text-[#111111]">Contraseña</label>
+                    <input 
+                      type="password"
+                      disabled
+                      className="w-full h-[55px] bg-[#EAE5D9] rounded-[1.25rem] px-4 text-center text-lg cursor-not-allowed border-none focus:outline-none"
+                    />
+                  </div>
+                </form>
+              </div>
+
+              {/* ── BARRA INFERIOR NARANJA (Sin márgenes extra) ── */}
+              <div className="w-full flex flex-col mt-auto">
+                
+                <svg viewBox="0 0 500 50" preserveAspectRatio="none" className="w-full h-[25px] md:h-[50px] block">
+                  <path 
+                    d="M0,25 C150,50 250,0 350,25 C450,50 480,10 500,25 L500,50 L0,50 Z" 
+                    fill="#F97316" 
+                  />
+                </svg>
+
+                {/* 2. El -mt-[1px] elimina la línea de corte visible en tu imagen */}
+                <div className="w-full bg-[#F97316] py-5 md:py-6 flex items-center justify-center -mt-[15px]">
+                  <span 
+                    className="text-white font-black text-2xl md:text-3xl lg:text-3.2xl tracking-widest uppercase"
+                    style={{ fontFamily: 'var(--font-body)' }}
+                  >
+                    Próximamente
+                  </span>
+                </div>
+                
+              </div>
+
+            </div>
+          </div>
+
         </div>
+
+        {/* ── SECCIÓN INFERIOR: DESCARGAR CATÁLOGO ── */}
+        <div className="flex flex-col items-center justify-center mt-12 w-full">
+          <div className="bg-[#FCFBF9] p-4 md:p-6 rounded-[2rem] w-full max-w-[800px] shadow-sm hover:shadow-md transition-shadow">
+            
+            {/* Convertimos el contenedor de la imagen en un enlace descargable */}
+            <a 
+              href="/catalogo/CATÁLOGO 2026.pdf" /* <-- REEMPLAZÁ CON LA RUTA REAL DE TU PDF */
+              download="Catalogo_Entrenuts_2026.pdf"  /* <-- NOMBRE CON EL QUE SE GUARDARÁ EN LA PC DEL USUARIO */
+              className="w-full aspect-[16/9] bg-black rounded-xl overflow-hidden flex items-center justify-center cursor-pointer relative group block"
+            >
+              <div className="text-center transition-transform duration-300 group-hover:scale-105">
+                <span className="text-white font-display text-4xl tracking-tight block">entrenuts</span>
+                <span className="bg-[var(--color-naranja)] text-white font-black text-xs px-2 py-0.5 mt-1 inline-block transform -skew-x-12">CATÁLOGO 2026</span>
+              </div>
+              <p className="absolute bottom-4 text-gray-500 text-[10px]">www.entrenuts.com.ar | @entrenuts</p>
+            </a>
+            
+            {/* Convertimos el botón en un enlace descargable */}
+            <a 
+              href="/catalogo/CATÁLOGO 2026.pdf" /* <-- MISMA RUTA ACÁ */
+              download="CATÁLOGO 2026.pdf"
+              className="w-full text-center mt-6 font-black text-xl text-[#111111] hover:text-[var(--color-naranja)] transition-colors block cursor-pointer"
+            >
+              Descargar catálogo
+            </a>
+            
+          </div>
+        </div>
+
       </div>
+
+      <style>{`
+        /* Clases utilitarias para el efecto 3D */
+        .perspective-[1500px] {
+          perspective: 1500px;
+        }
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        .rotate-y-\\[-5deg\\] {
+          transform: rotateY(-5deg);
+        }
+        .rotate-x-\\[2deg\\] {
+          transform: rotateX(2deg);
+        }
+      `}</style>
     </div>
-  )
+  );
 }
