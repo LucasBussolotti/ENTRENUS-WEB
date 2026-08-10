@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 export default function EmploymentPage() {
-  const t = useTranslations('employmentPage'); // Mantenemos el hook por si lo necesitas a futuro
+  const t = useTranslations('employmentPage');
   
   const [formData, setFormData] = useState({
     nombre: '',
@@ -16,9 +16,79 @@ export default function EmploymentPage() {
     cv: null as File | null
   });
 
+  // ── ESTADOS NUEVOS PARA EL DRAG & DROP ──
+  const [isDragging, setIsDragging] = useState(false);
+  const [fileName, setFileName] = useState<string>('');
+
+  // ── FUNCIÓN DE VALIDACIÓN DE SEGURIDAD Y PESO ──
+  const validarArchivo = (file: File): boolean => {
+    // Tipos MIME permitidos (PDF y Word)
+    const tiposPermitidos = [
+      'application/pdf', 
+      'application/msword', 
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ];
+    
+    // Límite de peso: 5MB (en bytes)
+    const pesoMaximo = 5 * 1024 * 1024; 
+
+    if (!tiposPermitidos.includes(file.type)) {
+      alert("Formato no válido. Por favor, subí un archivo PDF o Word (.doc, .docx).");
+      return false;
+    }
+
+    if (file.size > pesoMaximo) {
+      alert("El archivo es muy pesado. El tamaño máximo permitido es de 5MB.");
+      return false;
+    }
+
+    return true;
+  };
+
+  // ── MANEJADORES DE EVENTOS PARA EL ARCHIVO ──
+  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault(); 
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      
+      // Aplicamos el seguro antes de guardarlo
+      if (validarArchivo(file)) {
+        setFormData({ ...formData, cv: file });
+        setFileName(file.name);
+      }
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      
+      // Aplicamos el seguro antes de guardarlo
+      if (validarArchivo(file)) {
+        setFormData({ ...formData, cv: file });
+        setFileName(file.name);
+      } else {
+        // Limpiamos el input si el archivo fue rechazado
+        e.target.value = ''; 
+      }
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí irá tu lógica para enviar el formulario a tu backend/email
+    console.log("Datos a enviar:", formData);
     alert('¡Gracias por postularte!');
   };
 
@@ -61,15 +131,12 @@ export default function EmploymentPage() {
             letterSpacing: '-0.02em'
           }}
         >
-          {/* TRABAJÁ: Más grande y con su propio interlineado */}
           <span 
             className="leading-[0.85]" 
             style={{ fontSize: 'clamp(4.5rem, 14vw, 10.5rem)' }}
           >
             TRABAJÁ
           </span>
-          
-          {/* CON NOSOTROS: Más chico, y con un pequeño margen superior (mt-1) para que no choque */}
           <span 
             className="leading-[0.9] mt-1 md:mt-2" 
             style={{ fontSize: 'clamp(2.1rem, 6.5vw, 4.8rem)' }}
@@ -92,6 +159,8 @@ export default function EmploymentPage() {
                 type="text"
                 placeholder="Ingrese su nombre completo"
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                value={formData.nombre}
+                onChange={(e) => setFormData({...formData, nombre: e.target.value})}
                 required
               />
             </div>
@@ -105,6 +174,8 @@ export default function EmploymentPage() {
                 type="text"
                 placeholder="Ingrese su DNI"
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                value={formData.dni}
+                onChange={(e) => setFormData({...formData, dni: e.target.value})}
                 required
               />
             </div>
@@ -118,6 +189,8 @@ export default function EmploymentPage() {
                 type="tel"
                 placeholder="Ingrese su número de telefono"
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                value={formData.telefono}
+                onChange={(e) => setFormData({...formData, telefono: e.target.value})}
                 required
               />
             </div>
@@ -131,6 +204,8 @@ export default function EmploymentPage() {
                 type="text"
                 placeholder="Ingrese su localidad/provincia"
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                value={formData.localidad}
+                onChange={(e) => setFormData({...formData, localidad: e.target.value})}
                 required
               />
             </div>
@@ -147,6 +222,8 @@ export default function EmploymentPage() {
                 type="email"
                 placeholder="Ingrese su dirección de correo"
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 required
               />
             </div>
@@ -159,7 +236,8 @@ export default function EmploymentPage() {
               <select 
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#888888] focus:outline-none pb-2 text-lg font-body appearance-none cursor-pointer"
                 required
-                defaultValue=""
+                value={formData.area}
+                onChange={(e) => setFormData({...formData, area: e.target.value})}
               >
                 <option value="" disabled>Seleccione la opción correcta</option>
                 <option value="produccion">Producción</option>
@@ -176,14 +254,38 @@ export default function EmploymentPage() {
               </div>
             </div>
 
-            {/* Subida de CV */}
+            {/* Subida de CV con Drag & Drop */}
             <div className="flex flex-col gap-2 flex-grow">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 Adjuntar CV
               </label>
-              <label className="flex-grow w-full bg-[#FCFBF9] rounded-[1rem] flex items-center justify-center cursor-pointer min-h-[120px] transition-all hover:shadow-md hover:-translate-y-0.5">
-                <span className="text-[#A0A0A0] font-medium font-body text-lg">Haz clic para subir tu CV</span>
-                <input type="file" className="hidden" accept=".pdf,.doc,.docx" />
+              <label 
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                className={`flex-grow w-full rounded-[1rem] flex items-center justify-center cursor-pointer min-h-[120px] transition-all hover:shadow-md hover:-translate-y-0.5 border-2 ${
+                  isDragging 
+                    ? 'bg-[#d45d0f]/10 border-dashed border-[var(--color-naranja)] scale-[1.02]' 
+                    : 'bg-[#FCFBF9] border-solid border-transparent'
+                }`}
+              >
+                <span className="text-center px-4 font-medium font-body text-lg">
+                  {fileName ? (
+                    <span className="text-[var(--color-naranja)] font-bold truncate block max-w-[250px] md:max-w-[350px]">
+                      📄 {fileName}
+                    </span>
+                  ) : (
+                    <span className="text-[#A0A0A0]">
+                      Haz clic o <span className="underline decoration-dashed underline-offset-4">arrastrá</span> tu CV aquí
+                    </span>
+                  )}
+                </span>
+                <input 
+                  type="file" 
+                  className="hidden" 
+                  accept=".pdf,.doc,.docx" 
+                  onChange={handleFileChange}
+                />
               </label>
             </div>
 

@@ -13,7 +13,7 @@ const SLIDES = [
     image: '/images/HERO_BARRAS.jpeg',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
-    titleText: 'Nuevos lanzamientos', 
+    titleText: 'Nuevas barritas proteicas', 
     ctaText: 'Conocé más', 
     ctaHref: '/productos',
   },
