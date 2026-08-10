@@ -1,4 +1,4 @@
-import React from 'react'; // Asegurate de tener esto si usás React.DetailedHTMLProps
+import React from 'react';
 
 declare global {
   namespace JSX {
@@ -11,12 +11,17 @@ declare global {
         alt?: string;
         'auto-rotate'?: boolean | string;
         'camera-controls'?: boolean | string;
-        'shadow-intensity'?: string;
-        exposure?: string;
+        'camera-orbit'?: string;
+        'camera-target'?: string;
+        'interaction-prompt'?: string;
+        'shadow-intensity'?: string | number;
+        exposure?: string | number;
         'environment-image'?: string;
         'skybox-image'?: string;
+        loading?: 'auto' | 'lazy' | 'eager';
+        poster?: string;
         suppressHydrationWarning?: boolean;
-        // Permite cualquier otra propiedad personalizada que necesites a futuro
+        // El comodín por si agregás algo nuevo en el futuro
         [key: string]: any; 
       };
     }

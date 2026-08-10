@@ -8,6 +8,33 @@ import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 // 👇 IMPORTÁ TUS PRODUCTOS DESDE LA RUTA CORRECTA
 import { products } from '@/lib/data/products';
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'model-viewer': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      > & {
+        src?: string;
+        alt?: string;
+        'auto-rotate'?: boolean | string;
+        'camera-controls'?: boolean | string;
+        'camera-orbit'?: string;
+        'camera-target'?: string;
+        'interaction-prompt'?: string;
+        'shadow-intensity'?: string | number;
+        exposure?: string | number;
+        'environment-image'?: string;
+        'skybox-image'?: string;
+        loading?: 'auto' | 'lazy' | 'eager';
+        poster?: string;
+        suppressHydrationWarning?: boolean;
+        [key: string]: any; 
+      };
+    }
+  }
+}
+
 const CATEGORY_MAP: Record<string, string> = {
   "PASTAS DE MANÍ": "Pasta de maní",
   "ACEITES DE COCO": "Aceite de coco",
