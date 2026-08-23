@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * PostCSS Configuration
  *
@@ -13,3 +14,12 @@
  * Otherwise, you can leave this file empty.
  */
 export default {}
+=======
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+>>>>>>> 1ad5f137e60cc3a81dbacd69670d807af12359ce

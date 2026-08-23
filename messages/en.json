@@ -1,0 +1,120 @@
+{
+  "nav": {
+    "inicio": "Home",
+    "productos": "Products",
+    "recetas": "Recipes",
+    "quienesSomos": "About Us",
+    "empleo": "Careers",
+    "distribuidor": "Distributor",
+    "soyDistribuidor": "I'm a Distributor",
+    "quieroSerDistribuidor": "Become a Distributor",
+    "serDistribuidor": "Become a Distributor"
+  },
+  "hero": {
+    "slide1Tag": "NEW PRODUCT",
+    "slide1Title": "14g of protein in 2 tablespoons",
+    "slide1Sub": "Protein Bars — New from Entrenuts",
+    "slide1Cta": "Learn more",
+    "slide2Tag": "OUR BRAND",
+    "slide2Title": "Made to make healthy a pleasure",
+    "slide2Sub": "Your Healthy Pleasure Habit",
+    "slide2Cta": "See products",
+    "slide3Tag": "ENTRENUTS",
+    "slide3Title": "Among friends, family and flavor",
+    "slide3Sub": "Born in Entre Ríos, made for the whole country",
+    "slide3Cta": "About us"
+  },
+  "products": {
+    "sectionTitle": "Our Products",
+    "sectionSub": "Discover noble, delicious products made with real ingredients.",
+    "filterAll": "All",
+    "filterPastas": "Pastes",
+    "filterGranola": "Granola",
+    "filterBarras": "Bars",
+    "filterFrutos": "Nuts",
+    "newTag": "NEW",
+    "verProducto": "Buy on Mercado Libre",
+    "verTodos": "View all products"
+  },
+  "quote": {
+    "text": "\"Healthy food should no longer be inaccessible, expensive, or tasteless. That's why we create real, simple, and delicious food within everyone's reach. Our purpose is clear: to democratize healthy living so everyone can live better.\"",
+    "author": "Entrenuts Founders",
+    "tagline": "Your healthy pleasure habit, every day."
+  },
+  "reviews": {
+    "sectionTitle": "What our community says",
+    "sectionSub": "Recipes, reviews and real moments from those who already choose Entrenuts.",
+    "recipesTitle": "Recipes with Entrenuts"
+  },
+  "community": {
+    "title": "EAT AND LIVE HEALTHIER",
+    "sub": "Join our community. We share recipes, tips and news every day.",
+    "cta": "Follow us on Instagram",
+    "ctaLine1": "Find these recipes and more",
+    "ctaLine2": "at @entrenuts"
+  },
+  "footer": {
+    "tagline": "Your healthy pleasure habit.",
+    "empresa": "Company",
+    "sobreNosotros": "About us",
+    "productos": "Products",
+    "quieroDistribuidor": "Become a distributor",
+    "contacto": "Contact",
+    "direccion": "Bv. Ferrari 715, Colón, Entre Ríos",
+    "rights": "© 2026 Entrenuts. All rights reserved.",
+    "chatbotLabel": "Chat with Nuti"
+  },
+  "bot": {
+    "chatbotLabel": "Chat with Nuti"
+  },
+  "productsPage": {
+    "title": "Our Products",
+    "sub": "Real, simple, delicious food — made with ingredients you can read.",
+    "nutritionTitle": "Nutritional Information",
+    "filterLabel": "Filter by:",
+    "mlLink": "Buy on Mercado Libre"
+  },
+  "recipes": {
+    "title": "Recipes",
+    "findMore": "Find these recipes and more at",
+    "creatorTitle": "Are you a content creator and want to join the Entrenuts family?",
+    "creatorSubtitle": "Send us your proposal via direct message on Instagram!"
+  },
+  "about": {
+  "titleLine1": "ABOUT",
+  "titleLine2": "US",
+  "missionTitleLine1": "OUR MISSION:",
+  "missionTitleLine2": "DEMOCRATIZING HEALTHY LIVING",
+  "missionSubtitle": "So more people can live better.",
+  "pillar1": "HONESTLY GOOD HEALTHY PRODUCTS",
+  "pillar2": "NATIONWIDE COVERAGE",
+  "pillar3": "COMPETITIVE PRICES",
+  "pillar4": "VARIETY OF FLAVORS AND SIZES"
+  },
+  "employmentPage": {
+    "title": "Join Our Team",
+    "sub": "We look for passionate people who love healthy food and want to grow.",
+    "openPositions": "Open positions",
+    "noPosition": "Don't find your ideal role? Send us your CV anyway.",
+    "sendCV": "Send spontaneous CV",
+    "applyNow": "Apply now",
+    "contactEmail": "careers@entrenuts.com.ar"
+  },
+  "distributorPage": {
+    "publicTitle": "Become a Distributor",
+    "publicSub": "Add Entrenuts to your catalog. We work with distributors across the country.",
+    "privateTitle": "Exclusive Area",
+    "privateSub": "Access for active Entrenuts distributors.",
+    "formName": "Full name",
+    "formEmail": "Email",
+    "formPhone": "Phone",
+    "formCity": "City / Province",
+    "formMessage": "Tell us about your business",
+    "formSend": "Send inquiry",
+    "loginPassword": "Password",
+    "loginEnter": "Enter",
+    "loginWrong": "Wrong password. Contact your representative.",
+    "privateArea": "Distributor Area",
+    "privateWelcome": "Welcome to the exclusive area. Here you will find catalogs, materials and news."
+  }
+}

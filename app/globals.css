@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  /* ── ESTRUCTURA Y MARCA ── */
+  --color-navbar: #fff8ea;     /* Fondo del Home y Navbar */
+  --color-footpage: #e8ddca;   /* Fondo del resto de secciones y Footer */
+  --color-naranja: #ef7f17;
+  --text-dark: #2A2218;        /* El marrón bien oscuro para los textos */
+
+  /* ── PASTAS DE MANÍ ── */
+  --prod-stevia: #4b8557;
+  --prod-natural: #ef7f17;
+  --prod-crocante: #aa1b22;
+  --prod-mix-semillas: #ee9390;
+  --prod-coco: #80b6b5;
+  --prod-cacao: #4f7795;
+  --prod-salted: #111111;      
+  --prod-cc: #111111;
+  --prod-sal-marina: #999ab9;
+
+  /* ── ACEITES Y OTROS ── */
+  --prod-aceite-virgen: #f5afc3;
+  --prod-aceite-neutro: #207a39;
+  --prod-mct: #483321;
+  --prod-ghee: #1a3445;
+  --prod-miel: #f3bb29;
+
+  /* ── BARRITAS PROTEICAS ── */
+  --prod-bar-chocomani: #325276;
+  --prod-bar-frutideli: #cf4d79;
+  --prod-bar-naranchoc: #ef7742;
+  --prod-bar-lemon-pie: #ffe100;
+}
+
+@theme inline {
+  --color-background: var(--color-navbar);
+  --color-foreground: var(--text-dark);
+}
+
+/* Unificamos el body en uno solo. 
+  Por defecto, le damos el color crema del Excel (--color-navbar)
+*/
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-navbar); 
+  color: var(--text-dark);
+}
