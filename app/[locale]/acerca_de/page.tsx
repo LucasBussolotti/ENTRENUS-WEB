@@ -1,5 +1,3 @@
-"use client";
-
 import { useLocale, useTranslations } from 'next-intl';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback'; 
 
@@ -21,7 +19,7 @@ export default function AboutPage() {
       {/* ── 1. HERO IMAGE (Fundadores en el depósito) ── */}
       <section className="relative w-full h-[50vh] md:h-[75vh] min-h-[400px]">
         <ImageWithFallback
-          src="/images/CEOS.jpg"
+          src="/images/CEOS.webp"
           alt="Fundadores Entrenuts"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 20%' }}
         />
@@ -77,13 +75,13 @@ export default function AboutPage() {
       <section className="max-w-5xl mx-auto px-6 md:px-12 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
-            <ImageWithFallback src="/images/TODOSAFU.jpg" alt="Equipo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <ImageWithFallback src="/images/TODOSAFU.webp" alt="Equipo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
-            <ImageWithFallback src="/images/ARREGLITO.jpg" alt="Máquinas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <ImageWithFallback src="/images/ARREGLITO.webp" alt="Máquinas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
-            <ImageWithFallback src="/images/FACHACRACK.jpg" alt="Operario" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <ImageWithFallback src="/images/FACHACRACK.webp" alt="Operario" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
         </div>
       </section>
@@ -159,7 +157,7 @@ export default function AboutPage() {
         </div>
 
         <ImageWithFallback
-          src="/images/MAQUINAMANIS.jpg"
+          src="/images/MAQUINAMANIS.webp"
           alt="Línea de producción Entrenuts"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

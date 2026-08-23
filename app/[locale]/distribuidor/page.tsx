@@ -11,10 +11,27 @@ export default function DistribuidoresPage() {
     usuario: '', password: ''
   });
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Lead Form Data:", leadForm);
-    // Aquí viajarán los datos hacia el pipeline del ERP
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch('/api/distribuidor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadForm),
+      });
+      if (!res.ok) throw new Error('request failed');
+      alert('¡Gracias! Nuestro equipo de ventas se pondrá en contacto pronto.');
+      setLeadForm({ nombre: '', ubicacion: '', zona: '', telefono: '', email: '' });
+    } catch {
+      alert('Hubo un error al enviar el formulario. Por favor, intentá de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
@@ -71,11 +88,12 @@ export default function DistribuidoresPage() {
                 </div>
               ))}
 
-              <button 
+              <button
                 type="submit"
-                className="w-full bg-[var(--color-naranja)] text-white font-black text-2xl rounded-[1rem] py-4 mt-4 hover:bg-[#d45d0f] transition-all shadow-sm"
+                disabled={isSubmitting}
+                className="w-full bg-[var(--color-naranja)] text-white font-black text-2xl rounded-[1rem] py-4 mt-4 hover:bg-[#d45d0f] transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Enviar
+                {isSubmitting ? 'Enviando...' : 'Enviar'}
               </button>
             </form>
           </div>

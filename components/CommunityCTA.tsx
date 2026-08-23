@@ -17,7 +17,7 @@ export function CommunityCTA() {
     >
       {/* Background image */}
       <ImageWithFallback
-        src="images/ENSALADAMANI.jpg"
+        src="/images/ENSALADAMANI.jpg"
         alt=""
         style={{
           position: 'absolute',

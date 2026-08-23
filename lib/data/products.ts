@@ -26,7 +26,6 @@ export interface Product {
   idealFor?: string[]
   whyChoose?: string[]
   sizes?: string[]
-  model3d?: string
 }
 
 export const products: Product[] = [
@@ -50,7 +49,6 @@ export const products: Product[] = [
     idealFor: ['Como merienda saludable', 'Después de entrenar', 'Entre comidas'],
     whyChoose: ['Ayuda a cubrir la ingesta diaria de proteína', 'Brinda energía sostenida'],
     sizes: ['190g', '370g', '1kg'],
-    model3d: "3D/FPN3D.glb"
   },
   {
     id: 'pasta-mani-crocante',

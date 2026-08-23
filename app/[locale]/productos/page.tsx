@@ -8,33 +8,6 @@ import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 // 👇 IMPORTÁ TUS PRODUCTOS DESDE LA RUTA CORRECTA
 import { products } from '@/lib/data/products';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'model-viewer': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & {
-        src?: string;
-        alt?: string;
-        'auto-rotate'?: boolean | string;
-        'camera-controls'?: boolean | string;
-        'camera-orbit'?: string;
-        'camera-target'?: string;
-        'interaction-prompt'?: string;
-        'shadow-intensity'?: string | number;
-        exposure?: string | number;
-        'environment-image'?: string;
-        'skybox-image'?: string;
-        loading?: 'auto' | 'lazy' | 'eager';
-        poster?: string;
-        suppressHydrationWarning?: boolean;
-        [key: string]: any; 
-      };
-    }
-  }
-}
-
 const CATEGORY_MAP: Record<string, string> = {
   "PASTAS DE MANÍ": "Pasta de maní",
   "ACEITES DE COCO": "Aceite de coco",
@@ -71,27 +44,17 @@ export function ProductDetail() {
   const [activeCategory, setActiveCategory] = useState("PASTAS DE MANÍ");
   const [selectedProductIndex, setSelectedProductIndex] = useState(0); 
   const [currentImageIndex, setCurrentImageIndex] = useState(0); 
-  const [isMounted, setIsMounted] = useState(false);
-  
-  const [activeView, setActiveView] = useState("front"); 
   
   // Referencias
-  const modelRef = useRef<any>(null);
-  const thumbsRef = useRef<HTMLDivElement>(null); // 👈 Nueva ref para el carrusel de miniaturas
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const thumbsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setSelectedProductIndex(0);
     setCurrentImageIndex(0);
-    setActiveView("front");
   }, [activeCategory]);
 
   useEffect(() => {
     setCurrentImageIndex(0);
-    setActiveView("front");
   }, [selectedProductIndex]);
 
   const filteredProducts = products.filter(
@@ -119,24 +82,6 @@ export function ProductDetail() {
     if (thumbsRef.current) {
       const scrollAmount = direction === 'left' ? -180 : 180;
       thumbsRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
-
-  // ── FUNCIONES DE CONTROL DE CÁMARA 3D ──
-  const handleZoomNutrition = () => {
-    if (modelRef.current) {
-      modelRef.current.autoRotate = false;
-      modelRef.current.setAttribute("camera-target", "0m -0.9m 0m");
-      modelRef.current.setAttribute("camera-orbit", "170deg 90deg 10%");
-      setActiveView("nutrition"); 
-    }
-  };
-
-  const handleResetView = () => {
-    if (modelRef.current) {
-      modelRef.current.setAttribute("camera-target", "auto auto auto");
-      modelRef.current.setAttribute("camera-orbit", "-90deg 75deg 105%");
-      setActiveView("front"); 
     }
   };
 
@@ -185,67 +130,34 @@ export function ProductDetail() {
             {/* COLUMNA IZQUIERDA */}
             <div className="w-full lg:w-5/12 flex flex-col items-center justify-start h-full">
               
-              {/* Contenedor de la Imagen o Modelo 3D */}
+              {/* Contenedor de la Imagen 2D */}
               <div 
                 className="relative w-full flex items-center justify-center"
                 style={{ height: '420px' }}
               >
                 {productImages.length > 1 && (
-                  <button 
+                  <button
                     onClick={handlePrevImage}
+                    aria-label={isEs ? 'Imagen anterior' : 'Previous image'}
                     className="absolute left-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
                   >
                     <ChevronLeft size={24} className="text-gray-600" />
                   </button>
                 )}
 
-                {/* LÓGICA CONDICIONAL: 3D vs IMAGEN 2D */}
-                {(currentProduct as any).model3d && currentImageIndex === 0 ? (
-                  <div 
-                    key={`3d-${selectedProductIndex}`} 
-                    className="relative w-full animate-fade-in flex items-center justify-center" 
-                    style={{ height: '100%' }} 
-                  >
-                    {isMounted && (
-                      <model-viewer
-                        ref={modelRef}
-                        src={`/${(currentProduct as any).model3d}`}
-                        alt={productName}
-                        auto-rotate={false}
-                        camera-controls={true}
-                        camera-orbit="-90deg 75deg 105%" 
-                        camera-target="auto auto auto"
-                        interaction-prompt="none"
-                        shadow-intensity="1"
-                        exposure="1"
-                        environment-image="neutral"
-                        loading="eager"
-                        poster={`/${currentProduct.image}`}
-                        style={{ 
-                          width: "100%", 
-                          height: "420px", 
-                          minHeight: "350px", 
-                          display: "block",
-                          margin: "0 auto"
-                        }} 
-                        suppressHydrationWarning={true}
-                      ></model-viewer>
-                    )}
-                  </div>
-                ) : (
-                  <div key={`img-${selectedProductIndex}`} className="relative w-full h-[260px] md:h-[380px] lg:h-[420px] animate-fade-in">
-                    <ImageWithFallback
-                      src={`/${productImages[currentImageIndex]}`} 
-                      alt={`${productName} ${productVariant || ''} - Vista ${currentImageIndex + 1}`}
-                      style={{ objectFit: 'contain', width: '100%', height: '100%' }}
-                      className="transition-transform duration-500 ease-in-out hover:scale-105"
-                    />
-                  </div>
-                )}
+                <div key={`img-${selectedProductIndex}-${currentImageIndex}`} className="relative w-full h-[260px] md:h-[380px] lg:h-[420px] animate-fade-in">
+                  <ImageWithFallback
+                    src={`/${productImages[currentImageIndex]}`} 
+                    alt={`${productName} ${productVariant || ''} - Vista ${currentImageIndex + 1}`}
+                    style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                    className="transition-transform duration-500 ease-in-out hover:scale-105"
+                  />
+                </div>
 
                 {productImages.length > 1 && (
-                  <button 
+                  <button
                     onClick={handleNextImage}
+                    aria-label={isEs ? 'Imagen siguiente' : 'Next image'}
                     className="absolute right-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
                   >
                     <ChevronRight size={24} className="text-gray-600" />
@@ -253,41 +165,15 @@ export function ProductDetail() {
                 )}
               </div>
 
-              {/* BOTONES DE CONTROL 3D */}
-              {(currentProduct as any).model3d && currentImageIndex === 0 ? (
-                <div className="mt-6 flex flex-wrap justify-center gap-8 animate-fade-in">
-                  <button
-                    onClick={handleResetView}
-                    className="text-sm md:text-base font-black uppercase tracking-wider transition-colors duration-300 hover:opacity-70"
-                    style={{ 
-                      fontFamily: 'var(--font-body)',
-                      color: activeView === 'front' ? activeColor : '#000000' 
-                    }}
-                  >
-                    • {isEs ? 'Frente' : 'Front'}
-                  </button>
-                  <button
-                    onClick={handleZoomNutrition}
-                    className="text-sm md:text-base font-black uppercase tracking-wider transition-colors duration-300 hover:opacity-70"
-                    style={{ 
-                      fontFamily: 'var(--font-body)',
-                      color: activeView === 'nutrition' ? activeColor : '#000000' 
-                    }}
-                  >
-                    • {isEs ? 'Tabla Nutricional' : 'Nutrition Table'}
-                  </button>
-                </div>
-              ) : null}
-
               {/* 3. GALERÍA DE MINIATURAS (Flechas separadas) */}
               {filteredProducts.length > 1 && (
                 <div className="mt-8 md:mt-auto pt-6 w-full flex justify-center relative px-8"> 
-                  {/* Se agregó px-8 arriba para darle espacio a las flechas y que no se corten */}
                   <div className="relative w-full max-w-[340px] md:max-w-[420px] flex items-center justify-center">
                     
                     {/* Flecha Izquierda (Más separada) */}
-                    <button 
+                    <button
                       onClick={() => scrollThumbs('left')}
+                      aria-label={isEs ? 'Desplazar miniaturas a la izquierda' : 'Scroll thumbnails left'}
                       className="absolute left-[-30px] md:left-[-45px] z-10 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow hover:scale-105 transition-all text-gray-500 hover:text-gray-800"
                     >
                       <ChevronLeft size={20} />
@@ -324,8 +210,9 @@ export function ProductDetail() {
                     </div>
 
                     {/* Flecha Derecha (Más separada) */}
-                    <button 
+                    <button
                       onClick={() => scrollThumbs('right')}
+                      aria-label={isEs ? 'Desplazar miniaturas a la derecha' : 'Scroll thumbnails right'}
                       className="absolute right-[-30px] md:right-[-45px] z-10 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow hover:scale-105 transition-all text-gray-500 hover:text-gray-800"
                     >
                       <ChevronRight size={20} />
@@ -442,8 +329,8 @@ export function ProductDetail() {
                     {isEs ? 'Comprar' : 'Buy'}
                   </span>
                   <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
-                    <div className="w-14 h-14 flex items-center justify-center">
-                      <ImageWithFallback 
+                    <div className="relative w-14 h-14 flex items-center justify-center">
+                      <ImageWithFallback
                         src="/images/LOGOMELI2.png" 
                         alt="Mercado Libre" 
                         style={{ objectFit: 'contain', width: '100%', height: '100%' }}
@@ -473,14 +360,6 @@ export function ProductDetail() {
         .scrollbar-hide {
           -ms-overflow-style: none;
           scrollbar-width: none;
-        }
-        
-        /* Oculta los bordes azules que a veces Chrome le pone al model-viewer al hacer clic */
-        model-viewer {
-          --poster-color: transparent;
-        }
-        model-viewer:focus-visible {
-          outline: none;
         }
       `}</style>
     </section>

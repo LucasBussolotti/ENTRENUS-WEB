@@ -1,20 +1,4 @@
-<<<<<<< HEAD
-/**
- * PostCSS Configuration
- *
- * Tailwind CSS v4 (via @tailwindcss/vite) automatically sets up all required
- * PostCSS plugins — you do NOT need to include `tailwindcss` or `autoprefixer` here.
- *
- * This file only exists for adding additional PostCSS plugins, if needed.
- * For example:
- *
- * import postcssNested from 'postcss-nested'
- * export default { plugins: [postcssNested()] }
- *
- * Otherwise, you can leave this file empty.
- */
-export default {}
-=======
+/** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
     "@tailwindcss/postcss": {},
@@ -22,4 +6,3 @@ const config = {
 };
 
 export default config;
->>>>>>> 1ad5f137e60cc3a81dbacd69670d807af12359ce

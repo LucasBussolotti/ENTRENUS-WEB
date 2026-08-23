@@ -19,6 +19,7 @@ export default function EmploymentPage() {
   // ── ESTADOS NUEVOS PARA EL DRAG & DROP ──
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // ── FUNCIÓN DE VALIDACIÓN DE SEGURIDAD Y PESO ──
   const validarArchivo = (file: File): boolean => {
@@ -86,10 +87,31 @@ export default function EmploymentPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Datos a enviar:", formData);
-    alert('¡Gracias por postularte!');
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    const payload = new FormData();
+    payload.append('nombre', formData.nombre);
+    payload.append('dni', formData.dni);
+    payload.append('telefono', formData.telefono);
+    payload.append('localidad', formData.localidad);
+    payload.append('email', formData.email);
+    payload.append('area', formData.area);
+    if (formData.cv) payload.append('cv', formData.cv);
+
+    try {
+      const res = await fetch('/api/empleos', { method: 'POST', body: payload });
+      if (!res.ok) throw new Error('request failed');
+      alert('¡Gracias por postularte!');
+      setFormData({ nombre: '', dni: '', telefono: '', localidad: '', email: '', area: '', cv: null });
+      setFileName('');
+    } catch {
+      alert('Hubo un error al enviar tu postulación. Por favor, intentá de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -100,7 +122,7 @@ export default function EmploymentPage() {
         {/* Imagen de fondo */}
         <div 
           className="absolute inset-0 w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/EMPLEO.jpg')" }} 
+          style={{ backgroundImage: "url('/images/EMPLEO.webp')" }}
         />
         {/* Superposición oscura sutil por si la imagen es muy brillante */}
         <div className="absolute inset-0 bg-black/10" />
@@ -290,11 +312,12 @@ export default function EmploymentPage() {
             </div>
 
             {/* Botón de Envío */}
-            <button 
+            <button
               type="submit"
-              className="w-full bg-[var(--color-naranja)] text-white font-black text-xl md:text-2xl rounded-[1rem] py-4 mt-auto hover:bg-[#d45d0f] transition-colors shadow-sm font-body tracking-wide"
+              disabled={isSubmitting}
+              className="w-full bg-[var(--color-naranja)] text-white font-black text-xl md:text-2xl rounded-[1rem] py-4 mt-auto hover:bg-[#d45d0f] transition-colors shadow-sm font-body tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Enviar
+              {isSubmitting ? 'Enviando...' : 'Enviar'}
             </button>
           </div>
 

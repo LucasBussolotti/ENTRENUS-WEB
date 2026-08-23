@@ -7,7 +7,6 @@ import { Footer } from '@/components/Footer';
 import { NutiBot } from '@/components/NutiBot';
 import '@/app/globals.css';
 import localFont from 'next/font/local';
-import Script from 'next/script';
 
 const locales = ['es', 'en'];
 
@@ -58,13 +57,6 @@ export default async function LocaleLayout({
           <Footer />
           <NutiBot />
         </NextIntlClientProvider>
-
-        {/* 👇 REEMPLAZAR AQUÍ CON LA 'S' MAYÚSCULA */}
-        <Script 
-          type="module" 
-          src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" 
-          strategy="lazyOnload"
-        />
       </body>
     </html>
   );

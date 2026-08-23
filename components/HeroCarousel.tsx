@@ -10,7 +10,7 @@ import { ArrowUpRight } from 'lucide-react'
 // ── AGREGAMOS ctaText y ctaHref ──
 const SLIDES = [
   {
-    image: '/images/HERO_BARRAS.jpeg',
+    image: '/images/HERO_BARRAS.webp',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
     titleText: 'Nuevas barritas proteicas', 
@@ -18,7 +18,7 @@ const SLIDES = [
     ctaHref: '/productos',
   },
   {
-    image: '/images/HERO_CEO.jpeg',
+    image: '/images/HERO_CEO.webp',
     bgColor: '#0D0906',
     accentColor: '#D4A843',
     titleText: 'Democratizando lo saludable', 
@@ -26,7 +26,7 @@ const SLIDES = [
     ctaHref: '/acerca_de',
   },
   {
-    image: '/images/RICOSALUDABLE.jpg',
+    image: '/images/RICOSALUDABLE.webp',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
     titleText: 'Hacemos rico\nlo saludable', 
@@ -235,6 +235,8 @@ export function HeroCarousel() {
           <button
             key={i}
             onClick={() => emblaApi?.scrollTo(i)}
+            aria-label={`Ir a la diapositiva ${i + 1}`}
+            aria-current={i === selectedIndex}
             style={{
               width: i === selectedIndex ? '24px' : '8px',
               height: '8px',

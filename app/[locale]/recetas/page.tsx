@@ -80,11 +80,12 @@ export default function RecipesPage() {
                         autoPlay 
                         className="w-full h-full object-cover"
                       />
-                      <button 
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           setPlayingId(null);
                         }}
+                        aria-label={lang === 'es' ? 'Cerrar video' : 'Close video'}
                         className="absolute top-3 right-3 bg-black/60 backdrop-blur-md p-1.5 rounded-full hover:bg-black/80 transition-colors z-50"
                       >
                         <X size={16} color="white" />

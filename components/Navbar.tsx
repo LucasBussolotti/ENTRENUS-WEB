@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
@@ -16,8 +16,6 @@ export function Navbar() {
   const router = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [waveColor, setWaveColor] = useState(DEFAULT_WAVE_COLOR)
-  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const navLinks = [
      { href: `/${lang}`, label: t('inicio') }, // Antes era t('inicio')
@@ -37,42 +35,20 @@ export function Navbar() {
   // Cerrar menú al cambiar de ruta
   useEffect(() => {
     setMobileOpen(false)
-    setDistributorOpen(false)
   }, [pathname])
 
-  // Cerrar dropdown al hacer clic afuera
+  // Sombra al hacer scroll
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDistributorOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    const handleScroll = () => setScrolled(window.scrollY > 8)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  // Intersection Observer para color dinámico
-  useEffect(() => {
-    const sections = document.querySelectorAll('section[data-wave-color]')
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const newColor = entry.target.getAttribute('data-wave-color') || DEFAULT_WAVE_COLOR
-          setWaveColor(newColor)
-        }
-      })
-    }, { threshold: 0.5, rootMargin: `-${NAV_HEIGHT}px 0px 0px 0px` })
-
-    sections.forEach(section => observer.observe(section))
-    return () => observer.disconnect()
-  }, [pathname])
 
   const isActive = (href: string) =>
     href === `/${lang}` ? pathname === `/${lang}` : pathname.startsWith(href)
 
   const isHome = pathname === `/${lang}`
-
-  const [distributorOpen, setDistributorOpen] = useState(false)
 
   return (
     <>
@@ -90,7 +66,7 @@ export function Navbar() {
       >
         <div
           style={{
-            background: waveColor,
+            background: DEFAULT_WAVE_COLOR,
             height: `${NAV_HEIGHT}px`,
             display: 'flex',
             alignItems: 'center',
@@ -175,6 +151,8 @@ export function Navbar() {
             </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? (lang === 'es' ? 'Cerrar menú' : 'Close menu') : (lang === 'es' ? 'Abrir menú' : 'Open menu')}
+              aria-expanded={mobileOpen}
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#111' }}
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -187,7 +165,7 @@ export function Navbar() {
           <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: '100%', height: '100%', display: 'block' }} xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0,15 C100,15 150,90 200,90 C250,90 300,15 400,15 C480,15 500,60 550,60 C600,60 620,15 700,15 C780,15 820,110 880,110 C940,110 980,15 1080,15 C1180,15 1220,80 1280,80 C1340,80 1380,15 1440,15 L1440,0 L0,0 Z"
-              fill={waveColor}
+              fill={DEFAULT_WAVE_COLOR}
               style={{ transition: 'fill 0.6s cubic-bezier(0.4, 0, 0.2, 1)' }}
             />
           </svg>
@@ -195,7 +173,7 @@ export function Navbar() {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <div style={{ background: waveColor, borderTop: '1px solid rgba(0,0,0,0.05)', padding: '1rem 1.5rem 1.5rem', transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1)' }} className="lg:hidden">
+          <div style={{ background: DEFAULT_WAVE_COLOR, borderTop: '1px solid rgba(0,0,0,0.05)', padding: '1rem 1.5rem 1.5rem', transition: 'background 0.6s cubic-bezier(0.4, 0, 0.2, 1)' }} className="lg:hidden">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

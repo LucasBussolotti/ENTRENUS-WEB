@@ -157,10 +157,10 @@ export function NutiBot() {
 
             {/* Botones de acción */}
             <div style={{ display: 'flex', gap: '0.2rem', zIndex: 1 }}>
-              <button onClick={resetBot} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
+              <button onClick={resetBot} aria-label="Reiniciar conversación" style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
                 <RotateCcw size={18} />
               </button>
-              <button onClick={closeBot} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
+              <button onClick={closeBot} aria-label="Cerrar chat" style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
                 <X size={22} />
               </button>
             </div>
