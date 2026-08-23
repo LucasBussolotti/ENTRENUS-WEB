@@ -26,7 +26,7 @@ const SLIDES = [
     ctaHref: '/acerca_de',
   },
   {
-    image: '/images/EQUIPAZO.jpg',
+    image: '/images/RICOSALUDABLE.jpg',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
     titleText: 'Hacemos rico\nlo saludable', 
