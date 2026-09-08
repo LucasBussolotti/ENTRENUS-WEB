@@ -53,21 +53,15 @@ export default function AboutPage() {
           className="text-lg md:text-xl md:leading-relaxed"
           style={{ color: 'var(--text-dark)', fontFamily: 'var(--font-body)', fontWeight: 400 }}
         >
-          <p className="mb-4">
-            Entrenuts es una <strong style={{ fontFamily: 'var(--font-body)', fontWeight: 700 }}>empresa joven</strong> ubicada en la ciudad de Colón, Entre Ríos.
-          </p>
-          <p className="mb-4">
-            Comenzó como un proyecto de amigos y en sólo <strong style={{ fontFamily: 'var(--font-body)', fontWeight: 700 }}>3 años logró expandirse a nivel mundial.</strong>
-          </p>
-          <p className="mb-4">
-            El primer día de producción fue el 20 de marzo de 2020, coincidiendo con el día en que se declaró la cuarentena obligatoria en Argentina.
-          </p>
-          <p className="mb-4">
-            Trabajamos día a día en la mejora continua, <strong style={{ fontFamily: 'var(--font-body)', fontWeight: 700 }}>creando nuevas oportunidades de trabajo y crecimiento.</strong>
-          </p>
-          <p>
-            Actualmente el promedio de edad de los integrantes de la empresa es de 25 años. Nos enorgullece contar con un <strong style={{ fontFamily: 'var(--font-body)', fontWeight: 700 }}>equipo joven, profesional y responsable.</strong>
-          </p>
+          {(["body1", "body2", "body3", "body4", "body5"] as const).map((key, index, all) => (
+            <p key={key} className={index < all.length - 1 ? "mb-4" : undefined}>
+              {t.rich(key, {
+                b: (chunks) => (
+                  <strong style={{ fontFamily: 'var(--font-body)', fontWeight: 700 }}>{chunks}</strong>
+                )
+              })}
+            </p>
+          ))}
         </div>
       </section>
 

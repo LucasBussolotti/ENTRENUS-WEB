@@ -16,7 +16,7 @@ export function Footer() {
         <div>
           <div style={{ marginBottom: '1rem', marginLeft: '-1.60rem' }}>
             <img 
-              src="/images/LOGO.png"
+              src="/images/LOGO.webp"
               alt="Entrenuts Logo"
               style={{ height: '75px', width: 'auto', display: 'block' }}
             />
@@ -57,8 +57,8 @@ export function Footer() {
           <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#111111', marginBottom: '1rem' }}>Redes</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '1rem' }}>
             <a href="https://www.instagram.com/entrenuts/" target="_blank" rel="noopener noreferrer" style={{ color: '#111111', textDecoration: 'none' }}>Instagram</a>
-            <a href="#" style={{ color: '#111111', textDecoration: 'none' }}>Facebook</a>
-            <a href="#" style={{ color: '#111111', textDecoration: 'none' }}>Twitter</a>
+            <a href="https://www.tiktok.com/@entrenuts" target="_blank" rel="noopener noreferrer" style={{ color: '#111111', textDecoration: 'none' }}>Tiktok</a>
+            <a href="https://www.facebook.com/Entrenuts/?locale=es_LA" target="_blank" rel="noopener noreferrer" style={{ color: '#111111', textDecoration: 'none' }}>Facebook</a>
           </div>
         </div>
       </div>

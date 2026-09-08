@@ -14,6 +14,8 @@ const CATEGORY_MAP: Record<string, string> = {
   "MIEL": "Miel",
   "GHEE": "Ghee",
   "BARRITAS PROTEICAS": "Barritas proteicas",
+  "PUFFS": "Puffs proteicos",
+  "PREMEZCLAS": "Pancakes proteicos",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -22,6 +24,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   "MIEL": "#f3bb29",
   "GHEE": "#1a3445",
   "BARRITAS PROTEICAS": "#325276",
+  "PUFFS": "#008191",
+  "PREMEZCLAS": "#492b0a",
 };
 
 const VARIANT_COLORS: Record<string, string> = {
@@ -32,7 +36,12 @@ const VARIANT_COLORS: Record<string, string> = {
   "Proteína": "#6b6b6b",   // Gris
   "Natural": "#ef7f17",     // Naranja (o el color que prefieras)
   "PROTEIN Cookies & Cream": "#800080",  // Morado
-  "PROTEIN Salted Caramel": "#ff8c00"  // Naranja oscuro
+  "PROTEIN Salted Caramel": "#ff8c00",  // Naranja oscuro
+  "Cebolla a la crema": "#009aa6",  // Turquesa
+  "Mostaza y miel": "#f0b323",     // Amarillo
+  "Barbacoa": "#8e2434",           // Bordo
+  "Vainilla": "#c9a227",           // Dorado
+  "Chocolate": "#4a3228"           // Marron oscuro
 };
 
 const UI_CATEGORIES = Object.keys(CATEGORY_MAP);
@@ -63,11 +72,11 @@ export function ProductDetail() {
 
   const currentProduct = filteredProducts[selectedProductIndex];
 
-  if (!currentProduct) return null;
-
-  const productImages = (currentProduct as any).images?.length > 0 
-    ? (currentProduct as any).images 
-    : [currentProduct.image];
+  const productImages: string[] = currentProduct
+    ? (currentProduct.images && currentProduct.images.length > 0
+        ? currentProduct.images
+        : [currentProduct.image])
+    : [];
 
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % productImages.length);
@@ -86,9 +95,9 @@ export function ProductDetail() {
   };
 
   const isEs = lang === 'es';
-  const productName = isEs ? currentProduct.nameEs : currentProduct.nameEn;
-  const productVariant = isEs ? currentProduct.variantEs : currentProduct.variantEn;
-  const productDesc = isEs ? currentProduct.descEs : currentProduct.descEn;
+  const productName = currentProduct ? (isEs ? currentProduct.nameEs : currentProduct.nameEn) : '';
+  const productVariant = currentProduct ? (isEs ? currentProduct.variantEs : currentProduct.variantEn) : undefined;
+  const productDesc = currentProduct ? (isEs ? currentProduct.descEs : currentProduct.descEn) : '';
   const activeColor = CATEGORY_COLORS[activeCategory];
 
   return (
@@ -123,6 +132,7 @@ export function ProductDetail() {
         </div>
 
         {/* ── 2. TARJETA PRINCIPAL DEL PRODUCTO ── */}
+        {currentProduct ? (
         <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-6 md:p-10 lg:p-16 flex flex-col relative transition-all duration-300">
           
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
@@ -331,7 +341,7 @@ export function ProductDetail() {
                   <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
                     <div className="relative w-14 h-14 flex items-center justify-center">
                       <ImageWithFallback
-                        src="/images/LOGOMELI2.png" 
+                        src="/images/LOGOMELI2.webp" 
                         alt="Mercado Libre" 
                         style={{ objectFit: 'contain', width: '100%', height: '100%' }}
                       />
@@ -343,6 +353,22 @@ export function ProductDetail() {
           </div>
 
         </div>
+        ) : (
+          /* Categoría sin productos cargados todavía: mantiene visible la navegación */
+          <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-10 md:p-16 flex flex-col items-center justify-center text-center min-h-[420px]">
+            <h2
+              className="text-3xl md:text-5xl font-black uppercase mb-4 leading-none"
+              style={{ fontFamily: 'var(--font-display)', color: activeColor }}
+            >
+              {isEs ? 'Muy pronto' : 'Coming soon'}
+            </h2>
+            <p className="text-base md:text-lg font-medium text-gray-600 max-w-md">
+              {isEs
+                ? 'Estamos preparando esta línea de productos. Volvé pronto para conocerla.'
+                : 'We are getting this product line ready. Check back soon.'}
+            </p>
+          </div>
+        )}
       </div>
 
       <style>{`

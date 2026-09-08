@@ -65,7 +65,7 @@ export function ValueProposition() {
         {/* Sellos PNG */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img 
-            src="/images/SellosBlanco4.png" 
+            src="/images/SellosBlanco4.webp" 
             alt="Sellos de calidad" 
             style={{ 
               height: '120px', 

@@ -10,10 +10,10 @@ import { ArrowUpRight } from 'lucide-react'
 // ── AGREGAMOS ctaText y ctaHref ──
 const SLIDES = [
   {
-    image: '/images/HERO_BARRAS.webp',
+    image: '/images/PUFFS_NUEVO.webp',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
-    titleText: 'Nuevas barritas proteicas', 
+    titleText: 'Nuevos lanzamientos', 
     ctaText: 'Conocé más', 
     ctaHref: '/productos',
   },

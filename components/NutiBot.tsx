@@ -140,7 +140,7 @@ export function NutiBot() {
                   justifyContent: 'center',
                 }}
               >
-                <img src="/images/LogoNuti.png" alt="Nuti" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
+                <img src="/images/LogoNuti.webp" alt="Nuti" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
               </div>
               <div>
                 <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.5px', margin: 0, lineHeight: 1.2 }}>
@@ -209,7 +209,7 @@ export function NutiBot() {
           <div>
             <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
               <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#E46A17', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <img src="/images/LogoNuti.png" alt="Nuti" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
+                <img src="/images/LogoNuti.webp" alt="Nuti" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
               </div>
               
               <div style={{ 
@@ -311,7 +311,7 @@ export function NutiBot() {
         {open ? (
           <X size={26} color="#ffffff" style={{ transform: 'rotate(-90deg)' }} /> 
         ) : (
-          <img src="/images/LogoNuti.png" alt="Abrir chat" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+          <img src="/images/LogoNuti.webp" alt="Abrir chat" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
         )}
       </button>
     </>
