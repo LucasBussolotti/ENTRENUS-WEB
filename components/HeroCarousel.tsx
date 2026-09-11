@@ -26,10 +26,12 @@ const SLIDES = [
     ctaHref: '/acerca_de',
   },
   {
-    image: '/images/RICOSALUDABLE.webp',
+    image: '/images/RICOSALUDABLE5.webp',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
-    titleText: 'Hacemos rico\nlo saludable', 
+    titleText: 'Hacemos rico lo saludable', 
+    // Los productos llenan casi toda la foto: el título va en una línea sobre la franja libre inferior
+    titleBelowProducts: true,
     ctaText: '', 
     ctaHref: '/acerca_de',
   },
@@ -123,9 +125,9 @@ export function HeroCarousel() {
                     display: 'flex', 
                     flexDirection: 'column', 
                     justifyContent: 'flex-end', 
-                    alignItems: 'flex-start',   
+                    alignItems: 'flex-start',
                     padding: '0 clamp(1.5rem, 5vw, 6rem)', 
-                    paddingBottom: '8.5rem',    
+                    paddingBottom: s.titleBelowProducts ? '6.5rem' : '8.5rem',
                     pointerEvents: 'none',
                     zIndex: 10
                   }}
@@ -136,14 +138,14 @@ export function HeroCarousel() {
                       className="text-white font-black tracking-tight uppercase"
                       style={{ 
                         fontFamily: 'var(--font-display)', 
-                        fontSize: 'clamp(2.8rem, 7vw, 5.5rem)', 
+                        fontSize: s.titleBelowProducts ? 'clamp(1.1rem, min(5.8vw, 8svh), 4.5rem)' : 'clamp(2.8rem, 7vw, 5.5rem)',
                         lineHeight: 0.95,
-                        maxWidth: '850px', 
+                        maxWidth: s.titleBelowProducts ? 'none' : '850px',
                         textAlign: 'left',
                         textShadow: '0 4px 15px rgba(0,0,0,0.5)', 
                         animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both' : 'none',
                         margin: 0,
-                        whiteSpace: 'pre-line',
+                        whiteSpace: s.titleBelowProducts ? 'nowrap' : 'pre-line',
                       }}
                     >
                       {s.titleText}

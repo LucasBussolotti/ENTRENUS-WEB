@@ -33,7 +33,7 @@ const CATEGORIES = [
   },
   { 
     id: 4, 
-    titleEs: 'Barritas', 
+    titleEs: 'Barritas proteicas', 
     titleEn: 'Protein Bars',
     image: '/images/BARRITA NARANCHOC.webp',
     scaleClass: 'scale-100 group-hover:scale-105',
@@ -51,6 +51,21 @@ const CATEGORIES = [
     titleEn: 'Honey',
     image: '/images/MIEL.webp',
     scaleClass: 'scale-100 group-hover:scale-110',
+  },
+  { 
+    id: 7, 
+    titleEs: 'Puffs proteicos', 
+    titleEn: 'Protein Puffs',
+    image: '/images/PUFFS/PUFFS-mosaico.webp',
+    // Imagen recortada al ras del envase (sin margen transparente): se achica para igualar a las demás
+    scaleClass: 'scale-[0.72] group-hover:scale-[0.77]',
+  },
+  { 
+    id: 8, 
+    titleEs: 'Pancakes proteicos', 
+    titleEn: 'Protein Pancakes',
+    image: '/images/PANCAKES/PANCAKES-mosaico.webp',
+    scaleClass: 'scale-[0.75] group-hover:scale-[0.8]',
   },
 ];
 
