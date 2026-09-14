@@ -56,9 +56,9 @@ const CATEGORIES = [
     id: 7, 
     titleEs: 'Puffs proteicos', 
     titleEn: 'Protein Puffs',
-    image: '/images/PUFFS/PUFFS-mosaico.webp',
-    // Imagen recortada al ras del envase (sin margen transparente): se achica para igualar a las demás
-    scaleClass: 'scale-[0.72] group-hover:scale-[0.77]',
+    image: '/images/PUFFS/QUESO/QUESO1_2.webp',
+    // El lienzo es cuadrado y el envase ocupa poca parte: se agranda para igualar la altura del resto
+    scaleClass: 'scale-[1.1] group-hover:scale-[1.18]',
   },
   { 
     id: 8, 

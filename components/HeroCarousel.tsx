@@ -127,35 +127,15 @@ export function HeroCarousel() {
                     justifyContent: 'flex-end', 
                     alignItems: 'flex-start',
                     padding: '0 clamp(1.5rem, 5vw, 6rem)', 
-                    paddingBottom: s.titleBelowProducts ? '6.5rem' : '8.5rem',
+                    paddingBottom: s.titleBelowProducts ? '5rem' : '6rem',
                     pointerEvents: 'none',
                     zIndex: 10
                   }}
                 >
-                  {/* TEXTO GIGANTE */}
-                  {s.titleText && (
-                    <h1 
-                      className="text-white font-black tracking-tight uppercase"
-                      style={{ 
-                        fontFamily: 'var(--font-display)', 
-                        fontSize: s.titleBelowProducts ? 'clamp(1.1rem, min(5.8vw, 8svh), 4.5rem)' : 'clamp(2.8rem, 7vw, 5.5rem)',
-                        lineHeight: 0.95,
-                        maxWidth: s.titleBelowProducts ? 'none' : '850px',
-                        textAlign: 'left',
-                        textShadow: '0 4px 15px rgba(0,0,0,0.5)', 
-                        animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both' : 'none',
-                        margin: 0,
-                        whiteSpace: s.titleBelowProducts ? 'nowrap' : 'pre-line',
-                      }}
-                    >
-                      {s.titleText}
-                    </h1>
-                  )}
-
                   {/* BOTÓN BLANCO CON SUBRAYADO ANIMADO Y FLECHA */}
                   {s.ctaText && (
                     <div style={{ 
-                      marginTop: '1.5rem', 
+                      marginBottom: '1.5rem', 
                       animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) 0.2s both' : 'none' 
                     }}>
                       <Link
@@ -213,6 +193,26 @@ export function HeroCarousel() {
                         />
                       </Link>
                     </div>
+                  )}
+
+                  {/* TEXTO GIGANTE */}
+                  {s.titleText && (
+                    <h1 
+                      className="text-white font-black tracking-tight uppercase"
+                      style={{ 
+                        fontFamily: 'var(--font-display)', 
+                        fontSize: 'clamp(1.1rem, min(5.8vw, 8svh), 4.5rem)',
+                        lineHeight: 0.95,
+                        maxWidth: s.titleBelowProducts ? 'none' : '850px',
+                        textAlign: 'left',
+                        textShadow: '0 4px 15px rgba(0,0,0,0.5)', 
+                        animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both' : 'none',
+                        margin: 0,
+                        whiteSpace: s.titleBelowProducts ? 'nowrap' : 'pre-line',
+                      }}
+                    >
+                      {s.titleText}
+                    </h1>
                   )}
                 </div>
               )}

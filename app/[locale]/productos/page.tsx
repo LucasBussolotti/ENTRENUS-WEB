@@ -14,8 +14,8 @@ const CATEGORY_MAP: Record<string, string> = {
   "MIEL": "Miel",
   "GHEE": "Ghee",
   "BARRITAS PROTEICAS": "Barritas proteicas",
-  "PUFFS": "Puffs proteicos",
-  "PREMEZCLAS": "Pancakes proteicos",
+  "PUFFS PROTEICOS": "Puffs proteicos",
+  "PANCAKES PROTEICOS": "Pancakes proteicos",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -24,8 +24,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   "MIEL": "#f3bb29",
   "GHEE": "#1a3445",
   "BARRITAS PROTEICAS": "#325276",
-  "PUFFS": "#008191",
-  "PREMEZCLAS": "#492b0a",
+  "PUFFS PROTEICOS": "#008191",
+  "PANCAKES PROTEICOS": "#492b0a",
 };
 
 const VARIANT_COLORS: Record<string, string> = {
