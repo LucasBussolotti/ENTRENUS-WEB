@@ -34,12 +34,12 @@ export default function EmploymentPage() {
     const pesoMaximo = 5 * 1024 * 1024; 
 
     if (!tiposPermitidos.includes(file.type)) {
-      alert("Formato no válido. Por favor, subí un archivo PDF o Word (.doc, .docx).");
+      alert(t('invalidFormat'));
       return false;
     }
 
     if (file.size > pesoMaximo) {
-      alert("El archivo es muy pesado. El tamaño máximo permitido es de 5MB.");
+      alert(t('fileTooLarge'));
       return false;
     }
 
@@ -104,11 +104,11 @@ export default function EmploymentPage() {
     try {
       const res = await fetch('/api/empleos', { method: 'POST', body: payload });
       if (!res.ok) throw new Error('request failed');
-      alert('¡Gracias por postularte!');
+      alert(t('success'));
       setFormData({ nombre: '', dni: '', telefono: '', localidad: '', email: '', area: '', cv: null });
       setFileName('');
     } catch {
-      alert('Hubo un error al enviar tu postulación. Por favor, intentá de nuevo.');
+      alert(t('error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -157,13 +157,13 @@ export default function EmploymentPage() {
             className="leading-[0.85]" 
             style={{ fontSize: 'clamp(4.5rem, 14vw, 10.5rem)' }}
           >
-            TRABAJÁ
+            {t('titleLine1')}
           </span>
           <span 
             className="leading-[0.9] mt-1 md:mt-2" 
             style={{ fontSize: 'clamp(2.1rem, 6.5vw, 4.8rem)' }}
           >
-            CON NOSOTROS
+            {t('titleLine2')}
           </span>
         </h1>
 
@@ -175,11 +175,11 @@ export default function EmploymentPage() {
             {/* Input: Nombre */}
             <div className="flex flex-col gap-2">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                Nombre completo
+                {t('nameLabel')}
               </label>
               <input 
                 type="text"
-                placeholder="Ingrese su nombre completo"
+                placeholder={t('namePlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
                 value={formData.nombre}
                 onChange={(e) => setFormData({...formData, nombre: e.target.value})}
@@ -190,11 +190,11 @@ export default function EmploymentPage() {
             {/* Input: DNI */}
             <div className="flex flex-col gap-2">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                DNI
+                {t('dniLabel')}
               </label>
               <input 
                 type="text"
-                placeholder="Ingrese su DNI"
+                placeholder={t('dniPlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
                 value={formData.dni}
                 onChange={(e) => setFormData({...formData, dni: e.target.value})}
@@ -205,11 +205,11 @@ export default function EmploymentPage() {
             {/* Input: Teléfono */}
             <div className="flex flex-col gap-2">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                Telefono
+                {t('phoneLabel')}
               </label>
               <input 
                 type="tel"
-                placeholder="Ingrese su número de telefono"
+                placeholder={t('phonePlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
                 value={formData.telefono}
                 onChange={(e) => setFormData({...formData, telefono: e.target.value})}
@@ -220,11 +220,11 @@ export default function EmploymentPage() {
             {/* Input: Localidad/Provincia */}
             <div className="flex flex-col gap-2">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                Localidad/Provincia
+                {t('locationLabel')}
               </label>
               <input 
                 type="text"
-                placeholder="Ingrese su localidad/provincia"
+                placeholder={t('locationPlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
                 value={formData.localidad}
                 onChange={(e) => setFormData({...formData, localidad: e.target.value})}
@@ -238,11 +238,11 @@ export default function EmploymentPage() {
             {/* Input: Email */}
             <div className="flex flex-col gap-2">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                Email
+                {t('emailLabel')}
               </label>
               <input 
                 type="email"
-                placeholder="Ingrese su dirección de correo"
+                placeholder={t('emailPlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -253,7 +253,7 @@ export default function EmploymentPage() {
             {/* Select: Área de aplicación */}
             <div className="flex flex-col gap-2 relative">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                ¿En qué área queres aplicar?
+                {t('areaLabel')}
               </label>
               <select 
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#888888] focus:outline-none pb-2 text-lg font-body appearance-none cursor-pointer"
@@ -261,12 +261,12 @@ export default function EmploymentPage() {
                 value={formData.area}
                 onChange={(e) => setFormData({...formData, area: e.target.value})}
               >
-                <option value="" disabled>Seleccione la opción correcta</option>
-                <option value="produccion">Producción</option>
-                <option value="administracion">Administración</option>
-                <option value="ventas">Ventas / Comercial</option>
-                <option value="marketing">Marketing</option>
-                <option value="logistica">Logística</option>
+                <option value="" disabled>{t('areaPlaceholder')}</option>
+                <option value="produccion">{t('areaProduction')}</option>
+                <option value="administracion">{t('areaAdministration')}</option>
+                <option value="ventas">{t('areaSales')}</option>
+                <option value="marketing">{t('areaMarketing')}</option>
+                <option value="logistica">{t('areaLogistics')}</option>
               </select>
               {/* Ícono de flechita personalizado para el Select */}
               <div className="absolute right-2 bottom-3 pointer-events-none">
@@ -279,7 +279,7 @@ export default function EmploymentPage() {
             {/* Subida de CV con Drag & Drop */}
             <div className="flex flex-col gap-2 flex-grow">
               <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
-                Adjuntar CV
+                {t('cvLabel')}
               </label>
               <label 
                 onDragOver={handleDragOver}
@@ -298,7 +298,9 @@ export default function EmploymentPage() {
                     </span>
                   ) : (
                     <span className="text-[#A0A0A0]">
-                      Haz clic o <span className="underline decoration-dashed underline-offset-4">arrastrá</span> tu CV aquí
+                      {t.rich('cvDropzone', {
+                        u: (chunks) => <span className="underline decoration-dashed underline-offset-4">{chunks}</span>
+                      })}
                     </span>
                   )}
                 </span>
@@ -317,7 +319,7 @@ export default function EmploymentPage() {
               disabled={isSubmitting}
               className="w-full bg-[var(--color-naranja)] text-white font-black text-xl md:text-2xl rounded-[1rem] py-4 mt-auto hover:bg-[#d45d0f] transition-colors shadow-sm font-body tracking-wide disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Enviando...' : 'Enviar'}
+              {isSubmitting ? t('sending') : t('send')}
             </button>
           </div>
 

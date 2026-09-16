@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function DistribuidoresPage() {
+  const t = useTranslations('distributorPage');
+
   const [leadForm, setLeadForm] = useState({
     nombre: '', ubicacion: '', zona: '', telefono: '', email: ''
   });
@@ -25,10 +28,10 @@ export default function DistribuidoresPage() {
         body: JSON.stringify(leadForm),
       });
       if (!res.ok) throw new Error('request failed');
-      alert('¡Gracias! Nuestro equipo de ventas se pondrá en contacto pronto.');
+      alert(t('success'));
       setLeadForm({ nombre: '', ubicacion: '', zona: '', telefono: '', email: '' });
     } catch {
-      alert('Hubo un error al enviar el formulario. Por favor, intentá de nuevo.');
+      alert(t('error'));
     } finally {
       setIsSubmitting(false);
     }
@@ -61,19 +64,19 @@ export default function DistribuidoresPage() {
               className="font-black uppercase text-[var(--color-naranja)] mb-2 leading-none"
               style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3rem, 6vw, 4.5rem)' }}
             >
-              SER DISTRIBUIDOR
+              {t('leadTitle')}
             </h1>
             <p className="text-lg font-medium mb-10 text-gray-800 max-w-[90%] leading-tight">
-              Dejanos tus datos para que nuestro equipo de ventas se ponga en contacto y te presente nuestra propuesta comercial.
+              {t('leadSub')}
             </p>
 
             <form onSubmit={handleLeadSubmit} className="flex flex-col gap-8">
               {[
-                { label: 'Nombre completo', key: 'nombre', type: 'text', placeholder: 'Ingrese su nombre completo' },
-                { label: 'Ubicación', key: 'ubicacion', type: 'text', placeholder: 'Ingrese su ubicación' },
-                { label: 'Zona de cobertura', key: 'zona', type: 'text', placeholder: 'Ingrese su zona de cobertura' },
-                { label: 'Telefono', key: 'telefono', type: 'tel', placeholder: 'Ingrese su telefono' },
-                { label: 'Email', key: 'email', type: 'email', placeholder: 'Ingrese su dirección de correo' },
+                { label: t('formName'), key: 'nombre', type: 'text', placeholder: t('namePlaceholder') },
+                { label: t('locationLabel'), key: 'ubicacion', type: 'text', placeholder: t('locationPlaceholder') },
+                { label: t('coverageLabel'), key: 'zona', type: 'text', placeholder: t('coveragePlaceholder') },
+                { label: t('formPhone'), key: 'telefono', type: 'tel', placeholder: t('phonePlaceholder') },
+                { label: t('formEmail'), key: 'email', type: 'email', placeholder: t('emailPlaceholder') },
               ].map((field) => (
                 <div key={field.key} className="flex flex-col gap-1">
                   <label className="font-black text-xl">{field.label}</label>
@@ -93,7 +96,7 @@ export default function DistribuidoresPage() {
                 disabled={isSubmitting}
                 className="w-full bg-[var(--color-naranja)] text-white font-black text-2xl rounded-[1rem] py-4 mt-4 hover:bg-[#d45d0f] transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Enviando...' : 'Enviar'}
+                {isSubmitting ? t('sending') : t('send')}
               </button>
             </form>
           </div>
@@ -106,15 +109,15 @@ export default function DistribuidoresPage() {
               {/* 1. Ajustamos el padding: pt-10 px-10 pb-6 para reducir el espacio en blanco abajo */}
               <div className="pt-10 px-10 pb-6 md:pt-12 md:px-12 md:pb-8 flex flex-col items-center">
                 <h2 className="font-black text-3xl md:text-4xl text-[var(--color-naranja)] mb-3 text-center">
-                  ¿Ya sos distribuidor?
+                  {t('alreadyTitle')}
                 </h2>
                 <p className="text-center text-[#4A4A4A] font-medium mb-8 leading-snug">
-                  Accedé a nuestro portal para enterarte<br/>de todas las novedades!
+                  {t.rich('alreadySub', { br: () => <br /> })}
                 </p>
 
                 <form className="w-full flex flex-col gap-6 opacity-60 pointer-events-none select-none">
                   <div className="flex flex-col gap-2 items-center">
-                    <label className="font-black text-lg text-[#111111]">Usuario</label>
+                    <label className="font-black text-lg text-[#111111]">{t('username')}</label>
                     <input 
                       type="text"
                       disabled
@@ -123,7 +126,7 @@ export default function DistribuidoresPage() {
                   </div>
 
                   <div className="flex flex-col gap-2 items-center">
-                    <label className="font-black text-lg text-[#111111]">Contraseña</label>
+                    <label className="font-black text-lg text-[#111111]">{t('loginPassword')}</label>
                     <input 
                       type="password"
                       disabled
@@ -149,7 +152,7 @@ export default function DistribuidoresPage() {
                     className="text-white font-black text-2xl md:text-3xl lg:text-3.2xl tracking-widest uppercase"
                     style={{ fontFamily: 'var(--font-body)' }}
                   >
-                    Próximamente
+                    {t('comingSoon')}
                   </span>
                 </div>
                 
@@ -172,7 +175,7 @@ export default function DistribuidoresPage() {
             >
               <div className="text-center transition-transform duration-300 group-hover:scale-105">
                 <span className="text-white font-display text-4xl tracking-tight block">entrenuts</span>
-                <span className="bg-[var(--color-naranja)] text-white font-black text-xs px-2 py-0.5 mt-1 inline-block transform -skew-x-12">CATÁLOGO 2026</span>
+                <span className="bg-[var(--color-naranja)] text-white font-black text-xs px-2 py-0.5 mt-1 inline-block transform -skew-x-12">{t('catalogLabel')}</span>
               </div>
               <p className="absolute bottom-4 text-gray-500 text-[10px]">www.entrenuts.com.ar | @entrenuts</p>
             </a>
@@ -183,7 +186,7 @@ export default function DistribuidoresPage() {
               download="CATÁLOGO 2026.pdf"
               className="w-full text-center mt-6 font-black text-xl text-[#111111] hover:text-[var(--color-naranja)] transition-colors block cursor-pointer"
             >
-              Descargar catálogo
+              {t('downloadCatalog')}
             </a>
             
           </div>

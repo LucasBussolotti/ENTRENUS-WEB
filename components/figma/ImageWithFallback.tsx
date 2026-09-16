@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import type { CSSProperties } from 'react'
 
 const ERROR_IMG_SRC =
@@ -17,6 +18,7 @@ interface ImageWithFallbackProps {
 }
 
 export function ImageWithFallback({ src, alt, style, className, sizes = '100vw', priority }: ImageWithFallbackProps) {
+  const t = useTranslations('common')
   const [didError, setDidError] = useState(false)
 
   if (didError) {
@@ -26,7 +28,7 @@ export function ImageWithFallback({ src, alt, style, className, sizes = '100vw',
         style={style}
       >
         <div className="flex items-center justify-center w-full h-full">
-          <img src={ERROR_IMG_SRC} alt="Error loading image" data-original-url={src} />
+          <img src={ERROR_IMG_SRC} alt={t('imageError')} data-original-url={src} />
         </div>
       </div>
     )

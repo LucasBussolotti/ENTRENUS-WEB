@@ -9,50 +9,50 @@ import { ImageWithFallback } from './figma/ImageWithFallback'
 const reviews = [
   {
     name: 'Valentina M.',
-    date: 'Hace 2 semanas',
+    dateKey: 'review1Date',
     rating: 5,
-    text: 'Súper recomendable!! Exquisito volveré a comprar sin dudas. Es imposible que no te guste, no conocía la marca!! riquísimo!!! 😋.',
+    textKey: 'review1Text',
   },
   {
     name: 'Martín R.',
-    date: 'Hace 1 mes',
+    dateKey: 'review2Date',
     rating: 5,
-    text: 'Compré esta y con stevia, las dos me gustaron, pero en lo personal no hay con que darle a la natural.',
+    textKey: 'review2Text',
   },
   {
     name: 'Lucía P.',
-    date: 'Hace 2 meses',
+    dateKey: 'review3Date',
     rating: 5,
-    text: 'Rica, saludable, sin azúcar agregada, la recomiendo. Me llego ayer a casa, muy bien presentada.',
+    textKey: 'review3Text',
   },
 ]
 
 const instagramReels = [
   {
-    title: 'Mouse Viral',
+    titleKey: 'reel1Title',
     image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80',
-    videoSrc: 'images/Reel1.mp4', 
+    videoSrc: 'images/REELS/REEL1.mp4', 
     views: '12.4k',
     link: 'https://www.instagram.com/p/DWjgotjgFdr/', 
   },
   {
-    title: 'Barritas en la Rutina',
+    titleKey: 'reel2Title',
     image: 'https://images.unsplash.com/photo-1558021984-46774cdb0e83?w=600&q=80',
-    videoSrc: 'images/Reel2.mp4',
+    videoSrc: 'images/REELS/REEL3.mp4',
     views: '8.2k',
     link: 'https://www.instagram.com/entrenuts/',
   },
   {
-    title: 'Pancakes Proteicos',
+    titleKey: 'reel3Title',
     image: 'https://images.unsplash.com/photo-1542990253-a781e04c0082?w=600&q=80',
-    videoSrc: 'images/Reel3.mp4',
+    videoSrc: 'images/REELS/REEL5.mp4',
     views: '15.1k',
     link: 'https://www.instagram.com/entrenuts/',
   },
   {
-    title: 'Postre Banana Chocolate',
+    titleKey: 'reel4Title',
     image: 'https://images.unsplash.com/photo-1626697556426-8a55a8af4999?w=600&q=80',
-    videoSrc: 'images/Reel4.mp4',
+    videoSrc: 'images/REELS/REEL7.mp4',
     views: '9.8k',
     link: 'https://www.instagram.com/entrenuts/',
   },
@@ -60,6 +60,7 @@ const instagramReels = [
 
 // ─── MINI COMPONENTE PARA CONTROLAR EL VIDEO EN HOVER ───
 function ReelCard({ reel }: { reel: any }) {
+  const t = useTranslations('reviews')
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isHovered, setIsHovered] = useState(false)
 
@@ -176,7 +177,7 @@ function ReelCard({ reel }: { reel: any }) {
               lineHeight: 1.3,
             }}
           >
-            {reel.title}
+            {t(reel.titleKey)}
           </p>
         </div>
       </div>
@@ -254,7 +255,7 @@ export function ReviewsSection() {
                   marginBottom: '1.5rem',
                 }}
               >
-                {r.text}
+                {t(r.textKey)}
               </p>
 
               {/* Pie de la Card: Inicial y Compra Verificada */}
@@ -285,7 +286,7 @@ export function ReviewsSection() {
                       color: '#111111',
                     }}
                   >
-                    {r.name} <span style={{ color: '#999', fontWeight: 400, marginLeft: '4px' }}>• {r.date}</span>
+                    {r.name} <span style={{ color: '#999', fontWeight: 400, marginLeft: '4px' }}>• {t(r.dateKey)}</span>
                   </p>
                   
                   {/* Etiqueta Verde de ML */}
@@ -301,7 +302,7 @@ export function ReviewsSection() {
                       marginTop: '2px'
                     }}
                   >
-                    <BadgeCheck size={14} /> Compra verificada
+                    <BadgeCheck size={14} /> {t('verifiedPurchase')}
                   </p>
                 </div>
               </div>

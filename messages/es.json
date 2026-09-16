@@ -1,4 +1,7 @@
 {
+  "common": {
+    "imageError": "No se pudo cargar la imagen"
+  },
   "nav": {
     "inicio": "Inicio",
     "productos": "Productos",
@@ -8,21 +11,30 @@
     "distribuidor": "Distribuidor",
     "soyDistribuidor": "Soy Distribuidor",
     "quieroSerDistribuidor": "Quiero Ser Distribuidor",
-    "serDistribuidor": "Ser Distribuidor"
+    "serDistribuidor": "Ser Distribuidor",
+    "distribuidores": "Distribuidores",
+    "changeLanguage": "Cambiar idioma",
+    "currentLanguage": "Español",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
   },
   "hero": {
-    "slide1Tag": "NUEVO PRODUCTO",
-    "slide1Title": "14g de proteína en 2 cucharadas",
-    "slide1Sub": "Barras Proteicas — Las nuevas de Entrenuts",
-    "slide1Cta": "Descubrí más",
-    "slide2Tag": "NUESTRA MARCA",
-    "slide2Title": "Hecho para que lo saludable sea un placer",
-    "slide2Sub": "Tu Hábito de Placer Saludable",
-    "slide2Cta": "Ver productos",
-    "slide3Tag": "ENTRENUTS",
-    "slide3Title": "Entre amigos, entre familia, entre sabor",
-    "slide3Sub": "Nacidos en Entre Ríos, hechos para todo el país",
-    "slide3Cta": "Quiénes somos"
+    "slide1Title": "Nuevos lanzamientos",
+    "slide1Cta": "Conocé más",
+    "slide2Title": "Democratizando lo saludable",
+    "slide2Cta": "Conocenos",
+    "slide3Title": "Hacemos rico lo saludable",
+    "goToSlide": "Ir a la diapositiva {number}"
+  },
+  "categories": {
+    "peanutButter": "Pasta de maní",
+    "coconutOil": "Aceite de coco",
+    "mctOil": "Aceite MCT",
+    "proteinBars": "Barritas proteicas",
+    "ghee": "Ghee",
+    "honey": "Miel",
+    "proteinPuffs": "Puffs proteicos",
+    "proteinPancakes": "Pancakes proteicos"
   },
   "products": {
     "sectionTitle": "Nuestros Productos",
@@ -39,12 +51,24 @@
   "quote": {
     "text": "\"Lo saludable debe dejar de ser inaccesible, caro o sin sabor. Por eso creamos alimentos reales, simples y ricos, al alcance de todos. Nuestro propósito es claro: democratizar lo saludable para que todos vivan mejor.\"",
     "author": "EntreNuts",
-    "tagline": "Hacemos rico lo saludable."
+    "tagline": "Hacemos rico lo saludable.",
+    "sealsAlt": "Sellos de calidad"
   },
   "reviews": {
     "sectionTitle": "Lo que dice nuestra comunidad",
     "sectionSub": "Recetas, reviews y momentos reales de quienes ya eligen Entrenuts.",
-    "recipesTitle": "Recetas con Entrenuts"
+    "recipesTitle": "Recetas con Entrenuts",
+    "verifiedPurchase": "Compra verificada",
+    "review1Date": "Hace 2 semanas",
+    "review1Text": "Súper recomendable!! Exquisito volveré a comprar sin dudas. Es imposible que no te guste, no conocía la marca!! riquísimo!!! 😋.",
+    "review2Date": "Hace 1 mes",
+    "review2Text": "Compré esta y con stevia, las dos me gustaron, pero en lo personal no hay con que darle a la natural.",
+    "review3Date": "Hace 2 meses",
+    "review3Text": "Rica, saludable, sin azúcar agregada, la recomiendo. Me llego ayer a casa, muy bien presentada.",
+    "reel1Title": "Tostada con pasta de maní",
+    "reel2Title": "Galletas con pasta proteica",
+    "reel3Title": "Pancakes con pasta de maní crocante",
+    "reel4Title": "Bizcochos con aceite de coco"
   },
   "community": {
     "title": "COME Y VIVÍ MÁS SALUDABLE",
@@ -54,43 +78,78 @@
     "ctaLine2": "en @entrenuts"
   },
   "footer": {
-    "tagline": "Tu hábito de placer saludable.",
+    "tagline": "Hacemos rico lo saludable",
+    "logoAlt": "Logo de Entrenuts",
     "empresa": "Empresa",
-    "sobreNosotros": "Sobre nosotros",
+    "quienesSomos": "¿Quiénes somos?",
     "productos": "Productos",
-    "quieroDistribuidor": "Quiero ser distribuidor",
+    "distribuidores": "Distribuidores",
+    "trabajaConNosotros": "Trabajá con nosotros",
     "contacto": "Contacto",
-    "direccion": "Bv. Ferrari 715, Colón, Entre Ríos",
-    "rights": "© 2026 Entrenuts. Todos los derechos reservados.",
-    "chatbotLabel": "Hablá con Nuti"
+    "redes": "Redes",
+    "rights": "© 2026 Entrenuts. Todos los derechos reservados."
   },
   "bot": {
-    "chatbotLabel": "Asistente Virtual",
-    "welcomeMessage": "¡Hola! Soy Nuti. ¿En qué te puedo ayudar hoy?",
+    "chatbotLabel": "Hablá con Nuti",
+    "online": "En línea",
+    "resetChat": "Reiniciar conversación",
+    "closeChat": "Cerrar chat",
+    "openChat": "Abrir chat",
+    "welcomeMessage": "¡Hola! Soy Nuti 💛. ¿En qué te puedo ayudar hoy?",
+    "companyMessage": "EntreNuts nació en 2020 en Colón, Entre Ríos. Nuestra misión es ofrecer alimentos saludables, naturales y de alta calidad.",
+    "productsMessage": "¡Tenemos de todo! ¿Qué categoría te interesa?",
+    "pastasMessage": "Tenemos 6 sabores: Clásica, Crocante, Cacao, Coco, Stevia y Proteica (¡esta última tiene 14g de proteína cada 20g!). Son Sin TACC y aptas veganas.",
+    "shippingMessage": "Hacemos envíos a todo el país. Podés comprar directamente desde nuestra tienda oficial en Mercado Libre.",
+    "honeyGheeMessage": "Nuestra Miel y Ghee son productos premium, ideales para darle un toque especial a tus desayunos y comidas.",
+    "returnsMessage": "Si tu producto llegó dañado, contactanos por WhatsApp y te enviamos uno nuevo sin cargo.",
+    "ratingsMessage": "¡Nuestros clientes nos aman! Tenemos 4.9 estrellas en Mercado Libre.",
     "optionCompany": "Sobre EntreNuts",
     "optionProducts": "Nuestros Productos",
     "optionShipping": "Envíos y Pagos",
-    "optionMainPastas": "Pastas de Maní",
-    "optionMielGhee": "Miel y Ghee",
-    "optionReturn": "Volver al inicio",
-    "companyDescription": "EntreNuts nació en 2020 en Colón, Entre Ríos. Nuestra misión es ofrecer alimentos saludables, naturales y de alta calidad.",
-    "productCategoriesMessage": "¡Tenemos de todo! ¿Qué categoría te interesa?",
-    "pastasDescription": "Tenemos 6 sabores: Clásica, Crocante, Cacao, Coco, Stevia y Proteica (¡esta última tiene 14g de proteína cada 20g!). Son Sin TACC y aptas veganas.",
-    "shippingDescription": "Hacemos envíos a todo el país. Podés comprar directamente desde nuestra tienda oficial en Mercado Libre."
+    "optionReturns": "Devoluciones",
+    "optionRatings": "Valoraciones",
+    "optionPastas": "Pastas de Maní",
+    "optionHoneyGhee": "Miel y Ghee",
+    "optionBack": "Volver al inicio"
   },
-
   "productsPage": {
     "title": "Nuestros Productos",
     "sub": "Alimentos reales, simples y ricos — hechos con ingredientes que podés leer.",
     "nutritionTitle": "Información Nutricional",
     "filterLabel": "Filtrar por:",
-    "mlLink": "Comprar en Mercado Libre"
+    "mlLink": "Comprar en Mercado Libre",
+    "categories": {
+      "peanutButters": "Pastas de maní",
+      "coconutOils": "Aceites de coco",
+      "honey": "Miel",
+      "ghee": "Ghee",
+      "proteinBars": "Barritas proteicas",
+      "proteinPuffs": "Puffs proteicos",
+      "proteinPancakes": "Pancakes proteicos"
+    },
+    "prevImage": "Imagen anterior",
+    "nextImage": "Imagen siguiente",
+    "scrollThumbsLeft": "Desplazar miniaturas a la izquierda",
+    "scrollThumbsRight": "Desplazar miniaturas a la derecha",
+    "imageAlt": "{product} - Vista {number}",
+    "benefits": "Beneficios",
+    "idealFor": "Ideal para:",
+    "whyChoose": "¿Por qué elegirla?",
+    "productInfo": "Info. del producto",
+    "flavor": "Sabor: {value}",
+    "weight": "Peso: {value}",
+    "storage": "Conservar en lugar fresco.",
+    "buy": "Comprar",
+    "comingSoonTitle": "Muy pronto",
+    "comingSoonText": "Estamos preparando esta línea de productos. Volvé pronto para conocerla."
   },
   "recipes": {
     "title": "Recetas",
     "findMore": "Encontrá estas recetas y más en",
     "creatorTitle": "¿Sos creador de contenido y te interesa sumarte a la familia Entrenuts?",
-    "creatorSubtitle": "¡Envianos tu propuesta por mensaje privado en Instagram!"
+    "creatorSubtitle": "¡Envianos tu propuesta por mensaje privado en Instagram!",
+    "recipeAlt": "Receta {number}",
+    "closeVideo": "Cerrar video"
   },
   "about": {
     "titleLine1": "SOBRE",
@@ -106,7 +165,12 @@
     "pillar1": "PRODUCTOS SALUDABLES HONESTAMENTE BUENOS",
     "pillar2": "GRAN COBERTURA A LO LARGO DEL PAÍS",
     "pillar3": "PRECIOS COMPETITIVOS",
-    "pillar4": "VARIEDAD DE SABORES Y TAMAÑOS"
+    "pillar4": "VARIEDAD DE SABORES Y TAMAÑOS",
+    "foundersAlt": "Fundadores de Entrenuts",
+    "teamAlt": "Equipo de Entrenuts",
+    "machinesAlt": "Máquinas de la planta",
+    "operatorAlt": "Operario en la planta",
+    "productionLineAlt": "Línea de producción de Entrenuts"
   },
   "employmentPage": {
     "title": "Sumate al Equipo",
@@ -115,7 +179,34 @@
     "noPosition": "¿No encontrás tu puesto ideal? Envianos tu CV igualmente.",
     "sendCV": "Enviar CV espontáneo",
     "applyNow": "Postularme",
-    "contactEmail": "empleos@entrenuts.com.ar"
+    "contactEmail": "empleos@entrenuts.com.ar",
+    "titleLine1": "TRABAJÁ",
+    "titleLine2": "CON NOSOTROS",
+    "nameLabel": "Nombre completo",
+    "namePlaceholder": "Ingrese su nombre completo",
+    "dniLabel": "DNI",
+    "dniPlaceholder": "Ingrese su DNI",
+    "phoneLabel": "Teléfono",
+    "phonePlaceholder": "Ingrese su número de teléfono",
+    "locationLabel": "Localidad/Provincia",
+    "locationPlaceholder": "Ingrese su localidad/provincia",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Ingrese su dirección de correo",
+    "areaLabel": "¿En qué área querés aplicar?",
+    "areaPlaceholder": "Seleccione la opción correcta",
+    "areaProduction": "Producción",
+    "areaAdministration": "Administración",
+    "areaSales": "Ventas / Comercial",
+    "areaMarketing": "Marketing",
+    "areaLogistics": "Logística",
+    "cvLabel": "Adjuntar CV",
+    "cvDropzone": "Hacé clic o <u>arrastrá</u> tu CV aquí",
+    "invalidFormat": "Formato no válido. Por favor, subí un archivo PDF o Word (.doc, .docx).",
+    "fileTooLarge": "El archivo es muy pesado. El tamaño máximo permitido es de 5MB.",
+    "success": "¡Gracias por postularte!",
+    "error": "Hubo un error al enviar tu postulación. Por favor, intentá de nuevo.",
+    "sending": "Enviando...",
+    "send": "Enviar"
   },
   "distributorPage": {
     "publicTitle": "Quiero Ser Distribuidor",
@@ -132,6 +223,25 @@
     "loginEnter": "Ingresar",
     "loginWrong": "Contraseña incorrecta. Contactá a tu representante.",
     "privateArea": "Área de Distribuidores",
-    "privateWelcome": "Bienvenido al área exclusiva. Aquí encontrarás catálogos, materiales y novedades."
+    "privateWelcome": "Bienvenido al área exclusiva. Aquí encontrarás catálogos, materiales y novedades.",
+    "leadTitle": "SER DISTRIBUIDOR",
+    "leadSub": "Dejanos tus datos para que nuestro equipo de ventas se ponga en contacto y te presente nuestra propuesta comercial.",
+    "namePlaceholder": "Ingrese su nombre completo",
+    "locationLabel": "Ubicación",
+    "locationPlaceholder": "Ingrese su ubicación",
+    "coverageLabel": "Zona de cobertura",
+    "coveragePlaceholder": "Ingrese su zona de cobertura",
+    "phonePlaceholder": "Ingrese su teléfono",
+    "emailPlaceholder": "Ingrese su dirección de correo",
+    "sending": "Enviando...",
+    "send": "Enviar",
+    "success": "¡Gracias! Nuestro equipo de ventas se pondrá en contacto pronto.",
+    "error": "Hubo un error al enviar el formulario. Por favor, intentá de nuevo.",
+    "alreadyTitle": "¿Ya sos distribuidor?",
+    "alreadySub": "¡Accedé a nuestro portal para enterarte<br></br>de todas las novedades!",
+    "username": "Usuario",
+    "comingSoon": "Próximamente",
+    "catalogLabel": "CATÁLOGO 2026",
+    "downloadCatalog": "Descargar catálogo"
   }
 }

@@ -23,9 +23,13 @@ export interface Product {
   }
   color: string
   benefits?: string[]
+  benefitsEn?: string[]
   idealFor?: string[]
+  idealForEn?: string[]
   whyChoose?: string[]
+  whyChooseEn?: string[]
   sizes?: string[]
+  sizesEn?: string[]
 }
 
 export const products: Product[] = [
@@ -47,8 +51,11 @@ export const products: Product[] = [
     nutrition: { calories: 598, protein: 25, carbs: 20, fat: 50, fiber: 6 },
     color: '#ef7f17',
     benefits: ['14g de proteína cada 20g', 'Libre de gluten (apta para celíacos)', 'Sin octógonos'],
+    benefitsEn: ['14g of protein per 20g', 'Gluten-free (suitable for celiacs)', 'No warning labels'],
     idealFor: ['Como merienda saludable', 'Después de entrenar', 'Entre comidas'],
+    idealForEn: ['As a healthy snack', 'After working out', 'Between meals'],
     whyChoose: ['Ayuda a cubrir la ingesta diaria de proteína', 'Brinda energía sostenida'],
+    whyChooseEn: ['Helps you meet your daily protein intake', 'Provides sustained energy'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -68,8 +75,11 @@ export const products: Product[] = [
     nutrition: { calories: 610, protein: 24, carbs: 19, fat: 52, fiber: 5 },
     color: '#aa1b22',
     benefits: ['14g de proteína cada 20g', 'Libre de gluten', 'Textura crujiente inigualable'],
+    benefitsEn: ['14g of protein per 20g', 'Gluten-free', 'Unbeatable crunchy texture'],
     idealFor: ['Para untar en tostadas', 'Como topping en yogures', 'Directo del frasco'],
+    idealForEn: ['Spreading on toast', 'As a yogurt topping', 'Straight from the jar'],
     whyChoose: ['Aporta saciedad', 'Rica en grasas saludables'],
+    whyChooseEn: ['Keeps you full', 'Rich in healthy fats'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -89,8 +99,11 @@ export const products: Product[] = [
     nutrition: { calories: 590, protein: 25, carbs: 22, fat: 49, fiber: 6 },
     color: '#4b8557',
     benefits: ['14g de proteína cada 20g', 'Endulzada naturalmente con Stevia', 'Sin octógonos'],
+    benefitsEn: ['14g of protein per 20g', 'Naturally sweetened with Stevia', 'No warning labels'],
     idealFor: ['Desayunos dulces', 'Recetas de repostería saludable', 'Smoothies'],
+    idealForEn: ['Sweet breakfasts', 'Healthy baking recipes', 'Smoothies'],
     whyChoose: ['Satisface antojos dulces sin azúcar', 'Acompaña dietas bajas en carbohidratos'],
+    whyChooseEn: ['Satisfies sweet cravings without sugar', 'Fits low-carb diets'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -110,8 +123,11 @@ export const products: Product[] = [
     nutrition: { calories: 580, protein: 22, carbs: 24, fat: 48, fiber: 7 },
     color: '#4f7795',
     benefits: ['14g de proteína cada 20g', 'Alto en antioxidantes por el cacao', 'Sin octógonos'],
+    benefitsEn: ['14g of protein per 20g', 'High in antioxidants from cacao', 'No warning labels'],
     idealFor: ['Panqueques', 'Frutas', 'Antojos de chocolate'],
+    idealForEn: ['Pancakes', 'Fruit', 'Chocolate cravings'],
     whyChoose: ['Reemplazo saludable a los untables de chocolate procesados'],
+    whyChooseEn: ['A healthy swap for processed chocolate spreads'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -131,8 +147,11 @@ export const products: Product[] = [
     nutrition: { calories: 605, protein: 23, carbs: 21, fat: 51, fiber: 7 },
     color: '#80b6b5',
     benefits: ['14g de proteína cada 20g', 'Grasas saludables del coco', 'Sin octógonos'],
+    benefitsEn: ['14g of protein per 20g', 'Healthy fats from coconut', 'No warning labels'],
     idealFor: ['Avena', 'Yogur natural', 'Licuados frutales'],
+    idealForEn: ['Oatmeal', 'Plain yogurt', 'Fruit smoothies'],
     whyChoose: ['Sabor exótico y textura única', 'Extra aporte energético'],
+    whyChooseEn: ['Exotic flavor and unique texture', 'Extra energy boost'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -152,8 +171,11 @@ export const products: Product[] = [
     nutrition: { calories: 595, protein: 28, carbs: 23, fat: 48, fiber: 5 },
     color: '#111111', // Negro según excel
     benefits: ['Extra proteína (14g cada 20g)', 'Sabor gourmet', 'Ideal pre-entreno'],
+    benefitsEn: ['Extra protein (14g per 20g)', 'Gourmet flavor', 'Great pre-workout'],
     idealFor: ['Cucharadas directas', 'Bowl de frutas', 'Postres fit'],
+    idealForEn: ['Straight by the spoonful', 'Fruit bowls', 'Healthy desserts'],
     whyChoose: ['Para los fanáticos de lo agridulce', 'Excelente fuente de energía rápida'],
+    whyChooseEn: ['For sweet-and-salty lovers', 'Excellent source of quick energy'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -173,8 +195,11 @@ export const products: Product[] = [
     nutrition: { calories: 590, protein: 28, carbs: 25, fat: 47, fiber: 5 },
     color: '#111111', // Negro según excel
     benefits: ['Extra proteína', 'Libre de culpa', 'Sabor intenso'],
+    benefitsEn: ['Extra protein', 'Guilt-free', 'Intense flavor'],
     idealFor: ['Después de entrenar', 'Para calmar la ansiedad por dulces'],
+    idealForEn: ['After working out', 'Curbing sweet cravings'],
     whyChoose: ['El sabor más indulgente de la línea deportiva'],
+    whyChooseEn: ['The most indulgent flavor in the sports line'],
     sizes: ['190g', '370g', '1kg'],
   },
   {
@@ -194,8 +219,11 @@ export const products: Product[] = [
     nutrition: { calories: 600, protein: 25, carbs: 19, fat: 50, fiber: 6 },
     color: '#999ab9',
     benefits: ['Aporte de minerales por la sal marina', 'Sabor realzado', 'Sin azúcar'],
+    benefitsEn: ['Minerals from sea salt', 'Enhanced flavor', 'Sugar-free'],
     idealFor: ['Recetas saladas', 'Salsas tipo satay', 'Tostadas con palta'],
+    idealForEn: ['Savory recipes', 'Satay-style sauces', 'Avocado toast'],
     whyChoose: ['Versatilidad en la cocina', 'Equilibrio perfecto de sabor'],
+    whyChooseEn: ['Versatile in the kitchen', 'Perfect flavor balance'],
     sizes: ['190g', '370g', '1kg'],
   },
 
@@ -217,8 +245,11 @@ export const products: Product[] = [
     nutrition: { calories: 862, protein: 0, carbs: 0, fat: 100, fiber: 0 },
     color: '#f5afc3',
     benefits: ['Rico en ácidos grasos de cadena media (MCT)', 'Prensado en frío', 'Natural'],
+    benefitsEn: ['Rich in medium-chain fatty acids (MCT)', 'Cold-pressed', 'Natural'],
     idealFor: ['Repostería saludable', 'Cuidado de la piel y el cabello', 'Cocina oriental'],
+    idealForEn: ['Healthy baking', 'Skin and hair care', 'Asian cooking'],
     whyChoose: ['Sabor auténtico', 'Múltiples usos cosméticos y gastronómicos'],
+    whyChooseEn: ['Authentic flavor', 'Multiple cosmetic and culinary uses'],
     sizes: ['360ml', '500ml'],
   },
   {
@@ -238,8 +269,11 @@ export const products: Product[] = [
     nutrition: { calories: 862, protein: 0, carbs: 0, fat: 100, fiber: 0 },
     color: '#207a39',
     benefits: ['Soporta altas temperaturas', 'No altera el sabor de las comidas', 'Alternativa saludable a aceites refinados'],
+    benefitsEn: ['Withstands high temperatures', 'Does not change the flavor of your food', 'Healthy alternative to refined oils'],
     idealFor: ['Saltear vegetales', 'Freír de manera saludable', 'Reemplazo de manteca'],
+    idealForEn: ['Sautéing vegetables', 'Healthier frying', 'Butter substitute'],
     whyChoose: ['La opción más versátil para la cocina diaria'],
+    whyChooseEn: ['The most versatile option for everyday cooking'],
     sizes: ['360ml', '500ml'],
   },
 
@@ -261,8 +295,11 @@ export const products: Product[] = [
     nutrition: { calories: 898, protein: 0, carbs: 0, fat: 99, fiber: 0 },
     color: '#1a3445',
     benefits: ['Libre de lactosa y caseína', 'Rico en vitaminas A, E y K', 'Soporta altas temperaturas'],
+    benefitsEn: ['Lactose- and casein-free', 'Rich in vitamins A, E and K', 'Withstands high temperatures'],
     idealFor: ['Cocinar carnes y vegetales', 'El clásico Bulletproof Coffee', 'Tostadas'],
+    idealForEn: ['Cooking meat and vegetables', 'The classic Bulletproof Coffee', 'Toast'],
     whyChoose: ['Aporta un sabor inigualable', 'Fácil digestión'],
+    whyChooseEn: ['Adds an unbeatable flavor', 'Easy to digest'],
     sizes: ['300g'],
   },
 
@@ -284,8 +321,11 @@ export const products: Product[] = [
     nutrition: { calories: 304, protein: 0, carbs: 82, fat: 0, fiber: 0 },
     color: '#f3bb29',
     benefits: ['Endulzante 100% natural', 'Propiedades antibacterianas', 'Rica en antioxidantes'],
+    benefitsEn: ['100% natural sweetener', 'Antibacterial properties', 'Rich in antioxidants'],
     idealFor: ['Endulzar infusiones', 'Acompañar yogures', 'Recetas agridulces'],
+    idealForEn: ['Sweetening tea and infusions', 'Topping yogurt', 'Sweet-and-sour recipes'],
     whyChoose: ['Extraída directamente del panal, envasada en origen'],
+    whyChooseEn: ['Extracted straight from the honeycomb, packed at the source'],
     sizes: ['250g', '500g', '1kg'],
   },
   {
@@ -305,8 +345,11 @@ export const products: Product[] = [
     nutrition: { calories: 304, protein: 0, carbs: 82, fat: 0, fiber: 0 },
     color: '#f3bb29',
     benefits: ['Endulzante 100% natural', 'Propiedades antibacterianas', 'Rica en antioxidantes'],
+    benefitsEn: ['100% natural sweetener', 'Antibacterial properties', 'Rich in antioxidants'],
     idealFor: ['Untar en tostadas', 'Acompañar yogures', 'Recetas agridulces'],
+    idealForEn: ['Spreading on toast', 'Topping yogurt', 'Sweet-and-sour recipes'],
     whyChoose: ['Extraída directamente del panal, envasada en origen', 'Se unta, no chorrea'],
+    whyChooseEn: ['Extracted straight from the honeycomb, packed at the source', 'Spreads without dripping'],
     sizes: ['500g'],
   },
 
@@ -328,9 +371,13 @@ export const products: Product[] = [
     nutrition: { calories: 220, protein: 14, carbs: 22, fat: 8, fiber: 4 },
     color: '#4A7C59',
     benefits: ['14g de proteína de alta calidad', 'Fácil de transportar', 'Sin octógonos'],
+    benefitsEn: ['14g of high-quality protein', 'Easy to carry', 'No warning labels'],
     idealFor: ['Llevar en la mochila', 'Snack post-entreno rápido', 'Calmar el hambre entre reuniones'],
+    idealForEn: ['Tossing in your backpack', 'Quick post-workout snack', 'Curbing hunger between meetings'],
     whyChoose: ['La forma más práctica de sumar proteína a tu día'],
+    whyChooseEn: ['The most practical way to add protein to your day'],
     sizes: ['Pack x 12', 'Unidad 45g'],
+    sizesEn: ['Pack of 12', 'Single 45g bar'],
   },
   {
     id: 'barras-proteicas-choco',
@@ -349,9 +396,13 @@ export const products: Product[] = [
     nutrition: { calories: 240, protein: 14, carbs: 20, fat: 12, fiber: 5 },
     color: '#325276', // El color que marcaste en el excel
     benefits: ['14g de proteína de alta calidad', 'Sabor espectacular', 'Sin octógonos'],
+    benefitsEn: ['14g of high-quality protein', 'Amazing flavor', 'No warning labels'],
     idealFor: ['Llevar en la mochila', 'Snack post-entreno rápido', 'Calmar el hambre entre reuniones'],
+    idealForEn: ['Tossing in your backpack', 'Quick post-workout snack', 'Curbing hunger between meetings'],
     whyChoose: ['La combinación clásica que nunca falla'],
+    whyChooseEn: ['The classic combo that never fails'],
     sizes: ['Pack x 12', 'Unidad 45g'],
+    sizesEn: ['Pack of 12', 'Single 45g bar'],
   },
   {
     id: 'barras-proteicas-lemon',
@@ -370,9 +421,13 @@ export const products: Product[] = [
     nutrition: { calories: 215, protein: 14, carbs: 21, fat: 8, fiber: 4 },
     color: '#d4ca3b', // Color amarillo limón genérico
     benefits: ['14g de proteína de alta calidad', 'Fácil de transportar', 'Sin octógonos'],
+    benefitsEn: ['14g of high-quality protein', 'Easy to carry', 'No warning labels'],
     idealFor: ['Snack refrescante', 'Días calurosos', 'Post-entreno'],
+    idealForEn: ['Refreshing snack', 'Hot days', 'Post-workout'],
     whyChoose: ['Para quienes buscan sabores menos empalagosos'],
+    whyChooseEn: ['For those who prefer less cloying flavors'],
     sizes: ['Pack x 12', 'Unidad 45g'],
+    sizesEn: ['Pack of 12', 'Single 45g bar'],
   },
   {
     id: 'barras-proteicas-coco',
@@ -391,9 +446,13 @@ export const products: Product[] = [
     nutrition: { calories: 230, protein: 14, carbs: 24, fat: 10, fiber: 5 },
     color: '#a37b56', // Color tostado/dulce de leche
     benefits: ['14g de proteína de alta calidad', 'Fácil de transportar', 'Sin octógonos'],
+    benefitsEn: ['14g of high-quality protein', 'Easy to carry', 'No warning labels'],
     idealFor: ['Antojos súper dulces', 'Reemplazo de golosinas', 'Post-entreno'],
+    idealForEn: ['Super sweet cravings', 'Candy substitute', 'Post-workout'],
     whyChoose: ['El sabor más goloso y reconfortante'],
+    whyChooseEn: ['The most indulgent and comforting flavor'],
     sizes: ['Pack x 12', 'Unidad 45g'],
+    sizesEn: ['Pack of 12', 'Single 45g bar'],
   },
 
   // ── PUFFS PROTEIN ──
@@ -414,8 +473,11 @@ export const products: Product[] = [
     nutrition: { calories: 412, protein: 30, carbs: 52, fat: 9.2, fiber: 1.6 },
     color: '#f18a21',
     benefits: ['15g de proteína por paquete', 'Horneado, no frito', 'Sin sellos de advertencia'],
+    benefitsEn: ['15g of protein per bag', 'Baked, not fried', 'No warning labels'],
     idealFor: ['Para llevar al gimnasio', 'En el trabajo', 'Meriendas'],
+    idealForEn: ['Taking to the gym', 'At work', 'Afternoon snacks'],
     whyChoose: ['El crunch que nutre', 'Snack proteico libre de gluten'],
+    whyChooseEn: ['The crunch that nourishes', 'Gluten-free protein snack'],
     sizes: ['50g'],
   },
   {
@@ -435,8 +497,11 @@ export const products: Product[] = [
     nutrition: { calories: 412, protein: 30, carbs: 52, fat: 9.2, fiber: 1.6 },
     color: '#009aa6',
     benefits: ['15g de proteína por paquete', 'Horneado, no frito', 'Sin sellos de advertencia'],
+    benefitsEn: ['15g of protein per bag', 'Baked, not fried', 'No warning labels'],
     idealFor: ['Para llevar al gimnasio', 'En el trabajo', 'Meriendas'],
+    idealForEn: ['Taking to the gym', 'At work', 'Afternoon snacks'],
     whyChoose: ['El crunch que nutre', 'Snack proteico libre de gluten'],
+    whyChooseEn: ['The crunch that nourishes', 'Gluten-free protein snack'],
     sizes: ['50g'],
   },
   {
@@ -456,8 +521,11 @@ export const products: Product[] = [
     nutrition: { calories: 412, protein: 30, carbs: 52, fat: 9.2, fiber: 1.6 },
     color: '#f0b323',
     benefits: ['15g de proteína por paquete', 'Horneado, no frito', 'Sin sellos de advertencia'],
+    benefitsEn: ['15g of protein per bag', 'Baked, not fried', 'No warning labels'],
     idealFor: ['Para llevar al gimnasio', 'En el trabajo', 'Meriendas'],
+    idealForEn: ['Taking to the gym', 'At work', 'Afternoon snacks'],
     whyChoose: ['El crunch que nutre', 'Snack proteico libre de gluten'],
+    whyChooseEn: ['The crunch that nourishes', 'Gluten-free protein snack'],
     sizes: ['50g'],
   },
   {
@@ -477,8 +545,11 @@ export const products: Product[] = [
     nutrition: { calories: 412, protein: 30, carbs: 52, fat: 9.2, fiber: 1.6 },
     color: '#8e2434',
     benefits: ['15g de proteína por paquete', 'Horneado, no frito', 'Sin sellos de advertencia'],
+    benefitsEn: ['15g of protein per bag', 'Baked, not fried', 'No warning labels'],
     idealFor: ['Para llevar al gimnasio', 'En el trabajo', 'Meriendas'],
+    idealForEn: ['Taking to the gym', 'At work', 'Afternoon snacks'],
     whyChoose: ['El crunch que nutre', 'Snack proteico libre de gluten'],
+    whyChooseEn: ['The crunch that nourishes', 'Gluten-free protein snack'],
     sizes: ['50g'],
   },
 
@@ -499,9 +570,12 @@ export const products: Product[] = [
     mlUrl: 'https://www.mercadolibre.com.ar',
     nutrition: { calories: 330, protein: 30, carbs: 46, fat: 2.8, fiber: 5 },
     color: '#d9c9a3',
-    benefits: ['15g de proteína por porción', 'Rinde 8 porciónes', 'Listos en 2 minutos', '0% de azúcares agregados', 'Sin sellos de advertencia'],
+    benefits: ['15g de proteína por porción', 'Rinde 8 porciones', 'Listos en 2 minutos', '0% de azúcares agregados', 'Sin sellos de advertencia'],
+    benefitsEn: ['15g of protein per serving', 'Makes 8 servings', 'Ready in 2 minutes', '0% added sugars', 'No warning labels'],
     idealFor: ['Desayunos', 'Meriendas', 'Post-entrenamiento'],
+    idealForEn: ['Breakfasts', 'Afternoon snacks', 'Post-workout'],
     whyChoose: ['Sólo necesitás agua', 'Rico y fácil de preparar'],
+    whyChooseEn: ['Just add water', 'Delicious and easy to make'],
     sizes: ['400g'],
   },
   {
@@ -520,9 +594,12 @@ export const products: Product[] = [
     mlUrl: 'https://www.mercadolibre.com.ar',
     nutrition: { calories: 328, protein: 30, carbs: 46, fat: 2.8, fiber: 5 },
     color: '#b8b2a8',
-    benefits: ['15g de proteína por porción', 'Rinde 8 porciónes', 'Listos en 2 minutos', '0% de azúcares agregados'],
+    benefits: ['15g de proteína por porción', 'Rinde 8 porciones', 'Listos en 2 minutos', '0% de azúcares agregados'],
+    benefitsEn: ['15g of protein per serving', 'Makes 8 servings', 'Ready in 2 minutes', '0% added sugars'],
     idealFor: ['Desayunos', 'Meriendas', 'Post-entrenamiento'],
+    idealForEn: ['Breakfasts', 'Afternoon snacks', 'Post-workout'],
     whyChoose: ['Sólo necesitás agua', 'Rico y fácil de preparar'],
+    whyChooseEn: ['Just add water', 'Delicious and easy to make'],
     sizes: ['400g'],
   },
   {
@@ -541,9 +618,12 @@ export const products: Product[] = [
     mlUrl: 'https://www.mercadolibre.com.ar',
     nutrition: { calories: 280, protein: 30, carbs: 34, fat: 3, fiber: 5 },
     color: '#4a3228',
-    benefits: ['15g de proteína por porción', 'Rinde 8 porciónes', 'Listos en 2 minutos', '0% de azúcares agregados', 'Sin sellos de advertencia'],
+    benefits: ['15g de proteína por porción', 'Rinde 8 porciones', 'Listos en 2 minutos', '0% de azúcares agregados', 'Sin sellos de advertencia'],
+    benefitsEn: ['15g of protein per serving', 'Makes 8 servings', 'Ready in 2 minutes', '0% added sugars', 'No warning labels'],
     idealFor: ['Desayunos', 'Meriendas', 'Post-entrenamiento'],
+    idealForEn: ['Breakfasts', 'Afternoon snacks', 'Post-workout'],
     whyChoose: ['Sólo necesitás agua', 'Rico y fácil de preparar'],
+    whyChooseEn: ['Just add water', 'Delicious and easy to make'],
     sizes: ['400g'],
   },
 ]

@@ -66,7 +66,7 @@ export function ValueProposition() {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <img 
             src="/images/SellosBlanco4.webp" 
-            alt="Sellos de calidad" 
+            alt={t('sealsAlt')} 
             style={{ 
               height: '120px', 
               width: 'auto',

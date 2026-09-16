@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { ImageWithFallback } from './figma/ImageWithFallback'
 import { ArrowUpRight } from 'lucide-react'
 
@@ -13,33 +13,34 @@ const SLIDES = [
     image: '/images/PUFFS_NUEVO.webp',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
-    titleText: 'Nuevos lanzamientos', 
-    ctaText: 'Conocé más', 
+    titleKey: 'slide1Title',
+    ctaKey: 'slide1Cta',
     ctaHref: '/productos',
   },
   {
     image: '/images/HERO_CEO.webp',
     bgColor: '#0D0906',
     accentColor: '#D4A843',
-    titleText: 'Democratizando lo saludable', 
-    ctaText: 'Conocenos', 
+    titleKey: 'slide2Title',
+    ctaKey: 'slide2Cta',
     ctaHref: '/acerca_de',
   },
   {
     image: '/images/RICOSALUDABLE5.webp',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
-    titleText: 'Hacemos rico lo saludable', 
+    titleKey: 'slide3Title',
     // Los productos llenan casi toda la foto: el título va en una línea sobre la franja libre inferior
     titleBelowProducts: true,
-    ctaText: '', 
+    ctaKey: null,
     ctaHref: '/acerca_de',
   },
 ]
 
 export function HeroCarousel() {
   const t = useTranslations('hero')
-  
+  const locale = useLocale()
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true,
     duration: 80, 
@@ -93,7 +94,10 @@ export function HeroCarousel() {
     <section style={{ position: 'relative', height: '100svh', minHeight: '560px', overflow: 'hidden' }}>
       <div ref={emblaRef} style={{ height: '100%', overflow: 'hidden' }}>
         <div style={{ display: 'flex', height: '100%' }}>
-          {SLIDES.map((s, i) => (
+          {SLIDES.map((s, i) => {
+            const titleText = t(s.titleKey)
+            const ctaText = s.ctaKey ? t(s.ctaKey) : ''
+            return (
             <div
               key={i}
               style={{
@@ -117,7 +121,7 @@ export function HeroCarousel() {
               />
               
               {/* ── CONTENEDOR DE TEXTO + BOTÓN (Abajo a la izquierda) ── */}
-              {(s.titleText || s.ctaText) && (
+              {(titleText || ctaText) && (
                 <div 
                   style={{ 
                     position: 'absolute',
@@ -133,13 +137,13 @@ export function HeroCarousel() {
                   }}
                 >
                   {/* BOTÓN BLANCO CON SUBRAYADO ANIMADO Y FLECHA */}
-                  {s.ctaText && (
+                  {ctaText && (
                     <div style={{ 
                       marginBottom: '1.5rem', 
                       animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) 0.2s both' : 'none' 
                     }}>
                       <Link
-                        href={s.ctaHref}
+                        href={`/${locale}${s.ctaHref}`}
                         style={{
                           pointerEvents: 'auto',
                           display: 'inline-flex',
@@ -166,7 +170,7 @@ export function HeroCarousel() {
                               textShadow: '0 2px 4px rgba(0,0,0,0.6)',
                             }}
                           >
-                            {s.ctaText}
+                            {ctaText}
                           </p>
                           
                           {/* ── LA FAMOSA FLECHITA ── */}
@@ -196,7 +200,7 @@ export function HeroCarousel() {
                   )}
 
                   {/* TEXTO GIGANTE */}
-                  {s.titleText && (
+                  {titleText && (
                     <h1 
                       className="text-white font-black tracking-tight uppercase"
                       style={{ 
@@ -211,13 +215,14 @@ export function HeroCarousel() {
                         whiteSpace: s.titleBelowProducts ? 'nowrap' : 'pre-line',
                       }}
                     >
-                      {s.titleText}
+                      {titleText}
                     </h1>
                   )}
                 </div>
               )}
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 
@@ -237,7 +242,7 @@ export function HeroCarousel() {
           <button
             key={i}
             onClick={() => emblaApi?.scrollTo(i)}
-            aria-label={`Ir a la diapositiva ${i + 1}`}
+            aria-label={t('goToSlide', { number: i + 1 })}
             aria-current={i === selectedIndex}
             style={{
               width: i === selectedIndex ? '24px' : '8px',

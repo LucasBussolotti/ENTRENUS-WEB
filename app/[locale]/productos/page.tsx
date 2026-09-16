@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
@@ -16,6 +16,16 @@ const CATEGORY_MAP: Record<string, string> = {
   "BARRITAS PROTEICAS": "Barritas proteicas",
   "PUFFS PROTEICOS": "Puffs proteicos",
   "PANCAKES PROTEICOS": "Pancakes proteicos",
+};
+
+const CATEGORY_LABEL_KEYS: Record<string, string> = {
+  "PASTAS DE MANÍ": "peanutButters",
+  "ACEITES DE COCO": "coconutOils",
+  "MIEL": "honey",
+  "GHEE": "ghee",
+  "BARRITAS PROTEICAS": "proteinBars",
+  "PUFFS PROTEICOS": "proteinPuffs",
+  "PANCAKES PROTEICOS": "proteinPancakes",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -48,7 +58,8 @@ const UI_CATEGORIES = Object.keys(CATEGORY_MAP);
 
 export function ProductDetail() {
   const lang = useLocale();
-  
+  const t = useTranslations('productsPage');
+
   // ── ESTADOS Y REFS ──
   const [activeCategory, setActiveCategory] = useState("PASTAS DE MANÍ");
   const [selectedProductIndex, setSelectedProductIndex] = useState(0); 
@@ -98,6 +109,10 @@ export function ProductDetail() {
   const productName = currentProduct ? (isEs ? currentProduct.nameEs : currentProduct.nameEn) : '';
   const productVariant = currentProduct ? (isEs ? currentProduct.variantEs : currentProduct.variantEn) : undefined;
   const productDesc = currentProduct ? (isEs ? currentProduct.descEs : currentProduct.descEn) : '';
+  const productBenefits = currentProduct ? (isEs ? currentProduct.benefits : currentProduct.benefitsEn) : undefined;
+  const productIdealFor = currentProduct ? (isEs ? currentProduct.idealFor : currentProduct.idealForEn) : undefined;
+  const productWhyChoose = currentProduct ? (isEs ? currentProduct.whyChoose : currentProduct.whyChooseEn) : undefined;
+  const productSizes = currentProduct ? (isEs ? currentProduct.sizes : currentProduct.sizesEn ?? currentProduct.sizes) : undefined;
   const activeColor = CATEGORY_COLORS[activeCategory];
 
   return (
@@ -121,7 +136,7 @@ export function ProductDetail() {
                   }`}
                   style={isActive ? { color: CATEGORY_COLORS[cat] } : {}}
                 >
-                  {cat}
+                  {t(`categories.${CATEGORY_LABEL_KEYS[cat]}`)}
                 </button>
                 {index < UI_CATEGORIES.length - 1 && (
                   <span className="text-gray-300 text-2xl md:text-4xl lg:text-5xl font-black hidden sm:inline">|</span>
@@ -148,7 +163,7 @@ export function ProductDetail() {
                 {productImages.length > 1 && (
                   <button
                     onClick={handlePrevImage}
-                    aria-label={isEs ? 'Imagen anterior' : 'Previous image'}
+                    aria-label={t('prevImage')}
                     className="absolute left-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
                   >
                     <ChevronLeft size={24} className="text-gray-600" />
@@ -158,7 +173,10 @@ export function ProductDetail() {
                 <div key={`img-${selectedProductIndex}-${currentImageIndex}`} className="relative w-full h-[260px] md:h-[380px] lg:h-[420px] animate-fade-in">
                   <ImageWithFallback
                     src={`/${productImages[currentImageIndex]}`} 
-                    alt={`${productName} ${productVariant || ''} - Vista ${currentImageIndex + 1}`}
+                    alt={t('imageAlt', {
+                      product: productVariant ? `${productName} ${productVariant}` : productName,
+                      number: currentImageIndex + 1,
+                    })}
                     style={{ objectFit: 'contain', width: '100%', height: '100%' }}
                     className="transition-transform duration-500 ease-in-out hover:scale-105"
                   />
@@ -167,7 +185,7 @@ export function ProductDetail() {
                 {productImages.length > 1 && (
                   <button
                     onClick={handleNextImage}
-                    aria-label={isEs ? 'Imagen siguiente' : 'Next image'}
+                    aria-label={t('nextImage')}
                     className="absolute right-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
                   >
                     <ChevronRight size={24} className="text-gray-600" />
@@ -183,7 +201,7 @@ export function ProductDetail() {
                     {/* Flecha Izquierda (Más separada) */}
                     <button
                       onClick={() => scrollThumbs('left')}
-                      aria-label={isEs ? 'Desplazar miniaturas a la izquierda' : 'Scroll thumbnails left'}
+                      aria-label={t('scrollThumbsLeft')}
                       className="absolute left-[-30px] md:left-[-45px] z-10 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow hover:scale-105 transition-all text-gray-500 hover:text-gray-800"
                     >
                       <ChevronLeft size={20} />
@@ -211,7 +229,7 @@ export function ProductDetail() {
                           >
                             <ImageWithFallback
                               src={`/${thumbImage}`}
-                              alt={p.variantEs || p.nameEs}
+                              alt={(isEs ? p.variantEs : p.variantEn) || (isEs ? p.nameEs : p.nameEn)}
                               style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }}
                             />
                           </button>
@@ -222,7 +240,7 @@ export function ProductDetail() {
                     {/* Flecha Derecha (Más separada) */}
                     <button
                       onClick={() => scrollThumbs('right')}
-                      aria-label={isEs ? 'Desplazar miniaturas a la derecha' : 'Scroll thumbnails right'}
+                      aria-label={t('scrollThumbsRight')}
                       className="absolute right-[-30px] md:right-[-45px] z-10 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow hover:scale-105 transition-all text-gray-500 hover:text-gray-800"
                     >
                       <ChevronRight size={20} />
@@ -266,11 +284,11 @@ export function ProductDetail() {
 
               {/* Se redujo el mb-10 a mb-5 para que la línea y el botón suban */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-5 text-sm md:text-base">
-                {currentProduct.benefits && currentProduct.benefits.length > 0 && (
+                {productBenefits && productBenefits.length > 0 && (
                   <div>
-                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? 'Beneficios' : 'Benefits'}</h3>
+                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{t('benefits')}</h3>
                     <ul className="space-y-1.5 text-gray-700">
-                      {currentProduct.benefits.map((ben: string, i: number) => (
+                      {productBenefits.map((ben: string, i: number) => (
                         <li key={i} className="flex gap-2">
                           <span style={{ color: activeColor }}>•</span> {ben}
                         </li>
@@ -279,11 +297,11 @@ export function ProductDetail() {
                   </div>
                 )}
 
-                {currentProduct.idealFor && currentProduct.idealFor.length > 0 && (
+                {productIdealFor && productIdealFor.length > 0 && (
                   <div>
-                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? 'Ideal para:' : 'Ideal for:'}</h3>
+                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{t('idealFor')}</h3>
                     <ul className="space-y-1.5 text-gray-700">
-                      {currentProduct.idealFor.map((ideal: string, i: number) => (
+                      {productIdealFor.map((ideal: string, i: number) => (
                         <li key={i} className="flex gap-2">
                           <span style={{ color: activeColor }}>•</span> {ideal}
                         </li>
@@ -292,11 +310,11 @@ export function ProductDetail() {
                   </div>
                 )}
 
-                {currentProduct.whyChoose && currentProduct.whyChoose.length > 0 && (
+                {productWhyChoose && productWhyChoose.length > 0 && (
                   <div>
-                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? '¿Por qué elegirla?' : 'Why choose it?'}</h3>
+                    <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{t('whyChoose')}</h3>
                     <ul className="space-y-1.5 text-gray-700">
-                      {currentProduct.whyChoose.map((why: string, i: number) => (
+                      {productWhyChoose.map((why: string, i: number) => (
                         <li key={i} className="flex gap-2">
                           <span style={{ color: activeColor }}>•</span> {why}
                         </li>
@@ -306,11 +324,11 @@ export function ProductDetail() {
                 )}
 
                 <div>
-                  <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{isEs ? 'Info. del producto' : 'Product Info'}</h3>
+                  <h3 className="font-bold mb-2 uppercase tracking-wide" style={{ color: activeColor }}>{t('productInfo')}</h3>
                   <ul className="space-y-1.5 text-gray-700">
-                    {productVariant && <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> {isEs ? 'Sabor:' : 'Flavor:'} {productVariant}</li>}
-                    {currentProduct.sizes && <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> {isEs ? 'Peso:' : 'Weight:'} {currentProduct.sizes[1] || currentProduct.sizes[0]}</li>}
-                    <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> {isEs ? 'Conservar en lugar fresco.' : 'Store in a cool place.'}</li>
+                    {productVariant && <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> {t('flavor', { value: productVariant })}</li>}
+                    {productSizes && <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> {t('weight', { value: productSizes[1] || productSizes[0] })}</li>}
+                    <li className="flex gap-2"><span style={{ color: activeColor }}>•</span> {t('storage')}</li>
                   </ul>
                 </div>
               </div>
@@ -336,7 +354,7 @@ export function ProductDetail() {
                     className="relative z-10 text-white font-black uppercase tracking-[0.05em] text-lg transition-all duration-300 group-hover:opacity-0 group-hover:scale-75"
                     style={{ fontFamily: 'var(--font-body)', marginTop: '2px', marginLeft: '6px' }}
                   >
-                    {isEs ? 'Comprar' : 'Buy'}
+                    {t('buy')}
                   </span>
                   <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 scale-50 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100 pointer-events-none">
                     <div className="relative w-14 h-14 flex items-center justify-center">
@@ -360,12 +378,10 @@ export function ProductDetail() {
               className="text-3xl md:text-5xl font-black uppercase mb-4 leading-none"
               style={{ fontFamily: 'var(--font-display)', color: activeColor }}
             >
-              {isEs ? 'Muy pronto' : 'Coming soon'}
+              {t('comingSoonTitle')}
             </h2>
             <p className="text-base md:text-lg font-medium text-gray-600 max-w-md">
-              {isEs
-                ? 'Estamos preparando esta línea de productos. Volvé pronto para conocerla.'
-                : 'We are getting this product line ready. Check back soon.'}
+              {t('comingSoonText')}
             </p>
           </div>
         )}

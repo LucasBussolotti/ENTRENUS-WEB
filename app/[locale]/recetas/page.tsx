@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Download, Play, X } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback'; 
 
@@ -22,7 +22,6 @@ const RECIPES = [
 ];
 
 export default function RecipesPage() {
-  const lang = useLocale();
   const t = useTranslations('recipes'); 
 
   const [playingId, setPlayingId] = useState<number | null>(null);
@@ -85,7 +84,7 @@ export default function RecipesPage() {
                           e.stopPropagation();
                           setPlayingId(null);
                         }}
-                        aria-label={lang === 'es' ? 'Cerrar video' : 'Close video'}
+                        aria-label={t('closeVideo')}
                         className="absolute top-3 right-3 bg-black/60 backdrop-blur-md p-1.5 rounded-full hover:bg-black/80 transition-colors z-50"
                       >
                         <X size={16} color="white" />
@@ -96,7 +95,7 @@ export default function RecipesPage() {
                       {/* Imagen con tus textos ya diseñados */}
                       <ImageWithFallback
                         src={recipe.coverImage}
-                        alt={recipe.title}
+                        alt={t('recipeAlt', { number: recipe.id })}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         className="transition-transform duration-700 group-hover:scale-105"
                       />

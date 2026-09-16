@@ -115,11 +115,11 @@ export function Navbar() {
                 cursor: 'pointer', transition: 'background 0.2s', height: '34px',
               }}
               className="hover:bg-black/10"
-              title="Cambiar idioma"
+              title={t('changeLanguage')}
             >
               <img
                 src={lang === 'es' ? 'https://flagcdn.com/w40/ar.png' : 'https://flagcdn.com/w40/us.png'}
-                alt={lang === 'es' ? 'Español' : 'English'}
+                alt={t('currentLanguage')}
                 style={{ width: '20px', height: 'auto', borderRadius: '2px', display: 'block' }}
               />
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', fontWeight: 600, color: '#222222', letterSpacing: '0.04em', lineHeight: 1, paddingTop: '2px' }}>
@@ -137,7 +137,7 @@ export function Navbar() {
               }}
               className="transition-all duration-300 ease-out hover:scale-[1.08] hover:shadow-md"
             >
-              {lang === 'es' ? 'DISTRIBUIDORES' : 'DISTRIBUTORS'}
+              {t('distribuidores')}
             </Link>
           </div>
 
@@ -151,7 +151,7 @@ export function Navbar() {
             </button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label={mobileOpen ? (lang === 'es' ? 'Cerrar menú' : 'Close menu') : (lang === 'es' ? 'Abrir menú' : 'Open menu')}
+              aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
               aria-expanded={mobileOpen}
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#111' }}
             >
@@ -198,7 +198,7 @@ export function Navbar() {
                 fontFamily: 'var(--font-display)', textTransform: 'uppercase',
               }}
             >
-              {lang === 'es' ? 'DISTRIBUIDORES' : 'DISTRIBUTORS'}
+              {t('distribuidores')}
             </Link>
           </div>
         )}

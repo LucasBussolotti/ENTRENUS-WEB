@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
@@ -10,60 +10,52 @@ import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 const CATEGORIES = [
   { 
     id: 1, 
-    titleEs: 'Pasta de Maní', 
-    titleEn: 'Peanut Butter',
+    labelKey: 'peanutButter',
     image: '/images/PASTAS/PNATURAL/PNATURAL-mosaico.webp',
     // La pasta es ancha, la agrandamos un poquito
     scaleClass: 'scale-110 group-hover:scale-125', 
   },
   { 
     id: 2, 
-    titleEs: 'Aceite de Coco', 
-    titleEn: 'Coconut Oil',
+    labelKey: 'coconutOil',
     image: '/images/PASTAS/ACV/ACV-mosaico.webp',
     scaleClass: 'scale-105 group-hover:scale-110',
   },
   { 
     id: 3, 
-    titleEs: 'Aceite MCT', 
-    titleEn: 'MCT Oil',
+    labelKey: 'mctOil',
     image: '/images/PNG_ACMCT250.webp',
     // La botella es muy alta, la achicamos para que no tape el texto
     scaleClass: 'scale-[0.85] group-hover:scale-95', 
   },
   { 
     id: 4, 
-    titleEs: 'Barritas proteicas', 
-    titleEn: 'Protein Bars',
+    labelKey: 'proteinBars',
     image: '/images/BARRITA NARANCHOC.webp',
     scaleClass: 'scale-100 group-hover:scale-105',
   },
   { 
     id: 5, 
-    titleEs: 'Ghee', 
-    titleEn: 'Ghee',
+    labelKey: 'ghee',
     image: '/images/PASTAS/GHEE/GHEE-mosaico.webp',
     scaleClass: 'scale-110 group-hover:scale-125',
   },
   { 
     id: 6, 
-    titleEs: 'Miel', 
-    titleEn: 'Honey',
+    labelKey: 'honey',
     image: '/images/MIEL.webp',
     scaleClass: 'scale-100 group-hover:scale-110',
   },
   { 
     id: 7, 
-    titleEs: 'Puffs proteicos', 
-    titleEn: 'Protein Puffs',
+    labelKey: 'proteinPuffs',
     image: '/images/PUFFS/QUESO/QUESO1_2.webp',
     // El lienzo es cuadrado y el envase ocupa poca parte: se agranda para igualar la altura del resto
     scaleClass: 'scale-[1.1] group-hover:scale-[1.18]',
   },
   { 
     id: 8, 
-    titleEs: 'Pancakes proteicos', 
-    titleEn: 'Protein Pancakes',
+    labelKey: 'proteinPancakes',
     image: '/images/PANCAKES/PANCAKES-mosaico.webp',
     scaleClass: 'scale-[0.75] group-hover:scale-[0.8]',
   },
@@ -71,7 +63,7 @@ const CATEGORIES = [
 
 // ── COMPONENTE PRINCIPAL ──
 export function ProductMosaic2() {
-  const lang = useLocale();
+  const t = useTranslations();
   
   const [emblaRef] = useEmblaCarousel(
     { loop: true, align: 'start', dragFree: true },
@@ -96,7 +88,7 @@ export function ProductMosaic2() {
               lineHeight: 1,
             }}
           >
-            {lang === 'es' ? 'Nuestros Productos' : 'Our Products'}
+            {t('products.sectionTitle')}
           </h2>
         </div>
 
@@ -114,7 +106,7 @@ export function ProductMosaic2() {
                 <div className="absolute top-0 left-0 right-0 bottom-[4.5rem] p-4 flex items-center justify-center">
                   <ImageWithFallback 
                     src={cat.image} 
-                    alt={lang === 'es' ? cat.titleEs : cat.titleEn} 
+                    alt={t(`categories.${cat.labelKey}`)} 
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     // Acá le inyectamos la escala personalizada que definimos arriba
                     className={`transition-transform duration-700 drop-shadow-md ${cat.scaleClass}`}
@@ -127,7 +119,7 @@ export function ProductMosaic2() {
                     className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#111111] text-center"
                     style={{ fontFamily: 'var(--font-body)' }}
                   >
-                    {lang === 'es' ? cat.titleEs : cat.titleEn}
+                    {t(`categories.${cat.labelKey}`)}
                   </h3>
                 </div>
 

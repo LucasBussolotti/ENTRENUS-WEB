@@ -19,46 +19,46 @@ interface Step {
 
 const nutiFlowData: Record<FlowStep, Step> = {
   inicio: {
-    messageKey: '¡Hola! Soy Nuti 💛. ¿En qué te puedo ayudar hoy?',
+    messageKey: 'welcomeMessage',
     options: [
-      { key: 'Sobre EntreNuts', next: 'empresa', icon: Info },
-      { key: 'Nuestros Productos', next: 'productos', icon: ShoppingBag },
-      { key: 'Envíos y Pagos', next: 'envios', icon: Truck },
-      { key: 'Devoluciones', next: 'devoluciones', icon: Undo2 },
-      { key: 'Valoraciones', next: 'valoraciones', icon: Star }
+      { key: 'optionCompany', next: 'empresa', icon: Info },
+      { key: 'optionProducts', next: 'productos', icon: ShoppingBag },
+      { key: 'optionShipping', next: 'envios', icon: Truck },
+      { key: 'optionReturns', next: 'devoluciones', icon: Undo2 },
+      { key: 'optionRatings', next: 'valoraciones', icon: Star }
     ]
   },
   empresa: {
-    messageKey: 'EntreNuts nació en 2020 en Colón, Entre Ríos. Nuestra misión es ofrecer alimentos saludables, naturales y de alta calidad.',
-    options: [ { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw } ]
+    messageKey: 'companyMessage',
+    options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   productos: {
-    messageKey: '¡Tenemos de todo! ¿Qué categoría te interesa?',
+    messageKey: 'productsMessage',
     options: [
-      { key: 'Pastas de Maní', next: 'pastas', icon: ShoppingBag },
-      { key: 'Miel y Ghee', next: 'miel', icon: ShoppingBag }, 
-      { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw }
+      { key: 'optionPastas', next: 'pastas', icon: ShoppingBag },
+      { key: 'optionHoneyGhee', next: 'miel', icon: ShoppingBag }, 
+      { key: 'optionBack', next: 'inicio', icon: RotateCcw }
     ]
   },
   pastas: {
-    messageKey: 'Tenemos 6 sabores: Clásica, Crocante, Cacao, Coco, Stevia y Proteica (¡esta última tiene 14g de proteína cada 20g!). Son Sin TACC y aptas veganas.',
-    options: [ { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw } ]
+    messageKey: 'pastasMessage',
+    options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   envios: {
-    messageKey: 'Hacemos envíos a todo el país. Podés comprar directamente desde nuestra tienda oficial en Mercado Libre.',
-    options: [ { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw } ]
+    messageKey: 'shippingMessage',
+    options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   miel: {
-    messageKey: 'Nuestra Miel y Ghee son productos premium, ideales para darle un toque especial a tus desayunos y comidas.', 
-    options: [ { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw } ]
+    messageKey: 'honeyGheeMessage', 
+    options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   devoluciones: {
-    messageKey: 'Si tu producto llegó dañado, contactanos por WhatsApp y te enviamos uno nuevo sin cargo.', 
-    options: [ { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw } ]
+    messageKey: 'returnsMessage', 
+    options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   valoraciones: {
-    messageKey: '¡Nuestros clientes nos aman! Tenemos 4.9 estrellas en Mercado Libre.', 
-    options: [ { key: 'Volver al inicio', next: 'inicio', icon: RotateCcw } ]
+    messageKey: 'ratingsMessage', 
+    options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   }
 };
 
@@ -149,7 +149,7 @@ export function NutiBot() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
                   <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ADE80' }} />
                   <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.9)', fontWeight: 500, margin: 0 }}>
-                    En línea
+                    {t('online')}
                   </p>
                 </div>
               </div>
@@ -157,10 +157,10 @@ export function NutiBot() {
 
             {/* Botones de acción */}
             <div style={{ display: 'flex', gap: '0.2rem', zIndex: 1 }}>
-              <button onClick={resetBot} aria-label="Reiniciar conversación" style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
+              <button onClick={resetBot} aria-label={t('resetChat')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
                 <RotateCcw size={18} />
               </button>
-              <button onClick={closeBot} aria-label="Cerrar chat" style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
+              <button onClick={closeBot} aria-label={t('closeChat')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
                 <X size={22} />
               </button>
             </div>
@@ -223,7 +223,7 @@ export function NutiBot() {
                   color: '#333333',
                   lineHeight: '1.5'
               }}>
-                {activeFlow.messageKey}
+                {t(activeFlow.messageKey)}
               </div>
             </div>
             <div style={{ fontSize: '0.7rem', color: '#A0A0A0', marginLeft: '3.5rem', marginTop: '0.5rem' }}>
@@ -271,7 +271,7 @@ export function NutiBot() {
                   <span style={{ 
                       fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 500, color: '#111111', flex: 1, textAlign: 'left'
                   }}>
-                    {option.key}
+                    {t(option.key)}
                   </span>
                   
                   <ChevronRight size={18} color="#E46A17" />
@@ -311,7 +311,7 @@ export function NutiBot() {
         {open ? (
           <X size={26} color="#ffffff" style={{ transform: 'rotate(-90deg)' }} /> 
         ) : (
-          <img src="/images/LogoNuti.webp" alt="Abrir chat" style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+          <img src="/images/LogoNuti.webp" alt={t('openChat')} style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
         )}
       </button>
     </>
