@@ -19,7 +19,7 @@
     "closeMenu": "Cerrar menú"
   },
   "hero": {
-    "slide1Title": "Nuevos lanzamientos",
+    "slide1Title": "1er snack proteico salado",
     "slide1Cta": "Conocé más",
     "slide2Title": "Democratizando lo saludable",
     "slide2Cta": "Conocenos",
@@ -71,8 +71,8 @@
     "reel4Title": "Bizcochos con aceite de coco"
   },
   "community": {
-    "title": "COME Y VIVÍ MÁS SALUDABLE",
-    "sub": "Súmate a nuestra comunidad. Compartimos recetas, tips y novedades todos los días.",
+    "title": "COMÉ Y VIVÍ MÁS SALUDABLE",
+    "sub": "Sumate a nuestra comunidad. Compartimos recetas, tips y novedades todos los días.",
     "cta": "Seguinos en Instagram",
     "ctaLine1": "Encontrá estas recetas y más",
     "ctaLine2": "en @entrenuts"
@@ -149,7 +149,10 @@
     "creatorTitle": "¿Sos creador de contenido y te interesa sumarte a la familia Entrenuts?",
     "creatorSubtitle": "¡Envianos tu propuesta por mensaje privado en Instagram!",
     "recipeAlt": "Receta {number}",
-    "closeVideo": "Cerrar video"
+    "closeVideo": "Cerrar video",
+    "watchReel": "Ver receta {number} en Instagram",
+    "reelTitle": "Reel de Instagram: receta {number}",
+    "viewOnInstagram": "Ver en Instagram"
   },
   "about": {
     "titleLine1": "SOBRE",

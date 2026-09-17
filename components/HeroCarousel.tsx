@@ -14,6 +14,8 @@ const SLIDES = [
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
     titleKey: 'slide1Title',
+    // En desktop el título entra en una línea; en mobile puede partirse para no desbordar
+    singleLineTitle: true,
     ctaKey: 'slide1Cta',
     ctaHref: '/productos',
   },
@@ -26,7 +28,7 @@ const SLIDES = [
     ctaHref: '/acerca_de',
   },
   {
-    image: '/images/RICOSALUDABLE5.webp',
+    image: '/images/PRODSHERO3.jpeg',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
     titleKey: 'slide3Title',
@@ -116,7 +118,7 @@ export function HeroCarousel() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
-                  opacity: 0.75, 
+                  opacity: 0.9, 
                 }}
               />
               
@@ -131,7 +133,7 @@ export function HeroCarousel() {
                     justifyContent: 'flex-end', 
                     alignItems: 'flex-start',
                     padding: '0 clamp(1.5rem, 5vw, 6rem)', 
-                    paddingBottom: s.titleBelowProducts ? '5rem' : '6rem',
+                    paddingBottom: '5rem',
                     pointerEvents: 'none',
                     zIndex: 10
                   }}
@@ -202,17 +204,17 @@ export function HeroCarousel() {
                   {/* TEXTO GIGANTE */}
                   {titleText && (
                     <h1 
-                      className="text-white font-black tracking-tight uppercase"
+                      className={`text-white font-black tracking-tight uppercase ${s.singleLineTitle ? 'md:whitespace-nowrap' : ''}`}
                       style={{ 
                         fontFamily: 'var(--font-display)', 
                         fontSize: 'clamp(1.1rem, min(5.8vw, 8svh), 4.5rem)',
                         lineHeight: 0.95,
-                        maxWidth: s.titleBelowProducts ? 'none' : '850px',
+                        maxWidth: s.titleBelowProducts || s.singleLineTitle ? 'none' : '850px',
                         textAlign: 'left',
                         textShadow: '0 4px 15px rgba(0,0,0,0.5)', 
                         animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both' : 'none',
                         margin: 0,
-                        whiteSpace: s.titleBelowProducts ? 'nowrap' : 'pre-line',
+                        whiteSpace: s.titleBelowProducts ? 'nowrap' : s.singleLineTitle ? undefined : 'pre-line',
                       }}
                     >
                       {titleText}

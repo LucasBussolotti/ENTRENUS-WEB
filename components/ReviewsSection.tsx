@@ -237,7 +237,7 @@ export function ReviewsSection() {
                 <div style={{ display: 'flex', gap: '2px' }}>
                   {Array.from({ length: r.rating }).map((_, s) => (
                     // Usamos el azul clásico de ML para las estrellas (o podés volver a tu naranja)
-                    <Star key={s} size={16} fill="#3483FA" color="#3483FA" />
+                    <Star key={s} size={16} fill="#ef7f17" color="#ef7f17" />
                   ))}
                 </div>
                 <span style={{ fontSize: '0.7rem', color: '#999', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>

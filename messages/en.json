@@ -149,7 +149,10 @@
     "creatorTitle": "Are you a content creator and want to join the Entrenuts family?",
     "creatorSubtitle": "Send us your proposal via direct message on Instagram!",
     "recipeAlt": "Recipe {number}",
-    "closeVideo": "Close video"
+    "closeVideo": "Close video",
+    "watchReel": "Watch recipe {number} on Instagram",
+    "reelTitle": "Instagram reel: recipe {number}",
+    "viewOnInstagram": "View on Instagram"
   },
   "about": {
     "titleLine1": "ABOUT",
