@@ -19,7 +19,7 @@
     "closeMenu": "Close menu"
   },
   "hero": {
-    "slide1Title": "New releases",
+    "slide1Title": "1st savoury protein snack",
     "slide1Cta": "Learn more",
     "slide2Title": "Democratizing healthy food",
     "slide2Cta": "Meet us",
@@ -68,7 +68,8 @@
     "reel1Title": "Toast with peanut butter",
     "reel2Title": "Cookies with protein peanut butter",
     "reel3Title": "Pancakes with crunchy peanut butter",
-    "reel4Title": "Sponge cakes with coconut oil"
+    "reel4Title": "Sponge cakes with coconut oil",
+    "ratingAria": "Rating: {count} out of 5 stars"
   },
   "community": {
     "title": "EAT AND LIVE HEALTHIER",
@@ -118,6 +119,7 @@
     "nutritionTitle": "Nutrition Facts",
     "filterLabel": "Filter by:",
     "mlLink": "Buy on Mercado Libre",
+    "categoriesLabel": "Product categories",
     "categories": {
       "peanutButters": "Peanut butters",
       "coconutOils": "Coconut oils",
@@ -214,19 +216,12 @@
   "distributorPage": {
     "publicTitle": "Become a Distributor",
     "publicSub": "Add Entrenuts to your catalog. We work with distributors across the country.",
-    "privateTitle": "Exclusive Area",
-    "privateSub": "Access for active Entrenuts distributors.",
     "formName": "Full name",
     "formEmail": "Email",
     "formPhone": "Phone",
     "formCity": "City / Province",
     "formMessage": "Tell us about your business",
     "formSend": "Send inquiry",
-    "loginPassword": "Password",
-    "loginEnter": "Log in",
-    "loginWrong": "Wrong password. Contact your representative.",
-    "privateArea": "Distributor Area",
-    "privateWelcome": "Welcome to the exclusive area. Here you will find catalogs, materials and news.",
     "leadTitle": "BECOME A DISTRIBUTOR",
     "leadSub": "Leave us your details and our sales team will get in touch to present our commercial proposal.",
     "namePlaceholder": "Enter your full name",
@@ -241,10 +236,11 @@
     "success": "Thank you! Our sales team will get in touch soon.",
     "error": "There was an error sending the form. Please try again.",
     "alreadyTitle": "Already a distributor?",
-    "alreadySub": "Log in to our portal to stay up to date<br></br>with all the news!",
-    "username": "Username",
-    "comingSoon": "Coming soon",
+    "alreadySub": "Sign in to the portal to check prices, stock and place your orders.",
     "catalogLabel": "2026 CATALOG",
-    "downloadCatalog": "Download catalog"
+    "downloadCatalog": "Download catalog",
+    "portalCta": "Go to the portal",
+    "portalBanner": "Distributor portal",
+    "portalUnavailable": "The portal is unavailable right now."
   }
 }

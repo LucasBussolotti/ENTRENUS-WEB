@@ -36,11 +36,11 @@ export function CommunityCTA() {
         />
 
         <h2
-          className="absolute inset-x-0 top-[5%] sm:top-[9%] md:top-[7%] px-4 text-center text-balance md:whitespace-nowrap uppercase text-white"
+          className="absolute inset-x-0 top-[5%] sm:top-[9%] md:top-[7%] px-4 text-center text-balance lg:whitespace-nowrap uppercase text-white"
           style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 900,
-            fontSize: 'clamp(2.25rem, 5vw, 7rem)',
+            fontSize: 'clamp(1.75rem, 5.5vw, 7rem)',
             lineHeight: 0.95,
             letterSpacing: '-0.01em',
             textShadow: '0 2px 12px rgba(0, 0, 0, 0.12)',
@@ -50,9 +50,9 @@ export function CommunityCTA() {
         </h2>
       </div>
 
-      <div className="relative flex flex-col items-center gap-6 px-6 pt-4 pb-14 md:pb-16 text-center">
+      <div className="relative flex flex-col items-center gap-5 px-5 pt-4 pb-12 sm:gap-6 sm:px-6 md:pb-16 text-center">
         <p
-          className="text-lg md:text-xl text-white/90 text-balance md:whitespace-nowrap"
+          className="text-base sm:text-lg md:text-xl text-white/90 text-balance lg:whitespace-nowrap"
           style={{ fontFamily: 'var(--font-body)', lineHeight: 1.4 }}
         >
           {t('sub')}
@@ -62,7 +62,7 @@ export function CommunityCTA() {
           href="https://www.instagram.com/entrenuts/"
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center justify-center rounded-full bg-white px-9 py-4 text-[var(--text-dark)] no-underline shadow-[0_10px_24px_-12px_rgba(0,0,0,0.6)] transition-all duration-300 ease-out motion-safe:hover:scale-[1.06] hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.7)] active:scale-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--cta-community-blue)]"
+          className="group inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 py-4 sm:px-9 text-[var(--text-dark)] no-underline shadow-[0_10px_24px_-12px_rgba(0,0,0,0.6)] transition-all duration-300 ease-out motion-safe:hover:scale-[1.06] hover:shadow-[0_16px_32px_-12px_rgba(0,0,0,0.7)] active:scale-100 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--cta-community-blue)]"
         >
           <span className="relative flex items-center gap-2">
             {/* paddingTop compensa que Founders Grotesk se asienta alto dentro de su caja de línea */}

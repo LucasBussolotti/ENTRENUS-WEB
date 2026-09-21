@@ -68,7 +68,8 @@
     "reel1Title": "Tostada con pasta de maní",
     "reel2Title": "Galletas con pasta proteica",
     "reel3Title": "Pancakes con pasta de maní crocante",
-    "reel4Title": "Bizcochos con aceite de coco"
+    "reel4Title": "Bizcochos con aceite de coco",
+    "ratingAria": "Calificación: {count} de 5 estrellas"
   },
   "community": {
     "title": "COMÉ Y VIVÍ MÁS SALUDABLE",
@@ -118,6 +119,7 @@
     "nutritionTitle": "Información Nutricional",
     "filterLabel": "Filtrar por:",
     "mlLink": "Comprar en Mercado Libre",
+    "categoriesLabel": "Categorías de producto",
     "categories": {
       "peanutButters": "Pastas de maní",
       "coconutOils": "Aceites de coco",
@@ -214,19 +216,12 @@
   "distributorPage": {
     "publicTitle": "Quiero Ser Distribuidor",
     "publicSub": "Sumá Entrenuts a tu catálogo. Trabajamos con distribuidores en todo el país.",
-    "privateTitle": "Área Exclusiva",
-    "privateSub": "Acceso para distribuidores activos de Entrenuts.",
     "formName": "Nombre completo",
     "formEmail": "Email",
     "formPhone": "Teléfono",
     "formCity": "Ciudad / Provincia",
     "formMessage": "Contanos sobre tu negocio",
     "formSend": "Enviar consulta",
-    "loginPassword": "Contraseña",
-    "loginEnter": "Ingresar",
-    "loginWrong": "Contraseña incorrecta. Contactá a tu representante.",
-    "privateArea": "Área de Distribuidores",
-    "privateWelcome": "Bienvenido al área exclusiva. Aquí encontrarás catálogos, materiales y novedades.",
     "leadTitle": "SER DISTRIBUIDOR",
     "leadSub": "Dejanos tus datos para que nuestro equipo de ventas se ponga en contacto y te presente nuestra propuesta comercial.",
     "namePlaceholder": "Ingrese su nombre completo",
@@ -241,10 +236,11 @@
     "success": "¡Gracias! Nuestro equipo de ventas se pondrá en contacto pronto.",
     "error": "Hubo un error al enviar el formulario. Por favor, intentá de nuevo.",
     "alreadyTitle": "¿Ya sos distribuidor?",
-    "alreadySub": "¡Accedé a nuestro portal para enterarte<br></br>de todas las novedades!",
-    "username": "Usuario",
-    "comingSoon": "Próximamente",
+    "alreadySub": "Accedé al portal para ver precios, stock y hacer tus pedidos.",
     "catalogLabel": "CATÁLOGO 2026",
-    "downloadCatalog": "Descargar catálogo"
+    "downloadCatalog": "Descargar catálogo",
+    "portalCta": "Entrar al portal",
+    "portalBanner": "Portal de distribuidores",
+    "portalUnavailable": "El portal no está disponible en este momento."
   }
 }

@@ -1,21 +1,30 @@
 "use client"
 
-import { useState, useEffect } from 'react'
-import { X, ChevronRight, RotateCcw, Info, ShoppingBag, Truck, Undo2, Star, Leaf } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { X, ChevronRight, RotateCcw, Info, ShoppingBag, Truck, Undo2, Star } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 type FlowStep = 'inicio' | 'empresa' | 'productos' | 'pastas' | 'envios' | 'miel' | 'devoluciones' | 'valoraciones';
 
 interface Option {
-  key: string; 
-  next: FlowStep; 
-  icon?: any; 
+  key: string;
+  next: FlowStep;
+  icon?: LucideIcon;
 }
 
 interface Step {
-  messageKey: string; 
+  messageKey: string;
   options: Option[];
 }
+
+const PANEL_ID = 'nutibot-panel'
+
+const WAVE_PATH =
+  'M0,15 C100,15 150,90 200,90 C250,90 300,15 400,15 C480,15 500,60 550,60 ' +
+  'C600,60 620,15 700,15 C780,15 820,110 880,110 C940,110 980,15 1080,15 ' +
+  'C1180,15 1220,80 1280,80 C1340,80 1380,15 1440,15 L1440,120 L0,120 Z'
 
 const nutiFlowData: Record<FlowStep, Step> = {
   inicio: {
@@ -36,7 +45,7 @@ const nutiFlowData: Record<FlowStep, Step> = {
     messageKey: 'productsMessage',
     options: [
       { key: 'optionPastas', next: 'pastas', icon: ShoppingBag },
-      { key: 'optionHoneyGhee', next: 'miel', icon: ShoppingBag }, 
+      { key: 'optionHoneyGhee', next: 'miel', icon: ShoppingBag },
       { key: 'optionBack', next: 'inicio', icon: RotateCcw }
     ]
   },
@@ -49,232 +58,164 @@ const nutiFlowData: Record<FlowStep, Step> = {
     options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   miel: {
-    messageKey: 'honeyGheeMessage', 
+    messageKey: 'honeyGheeMessage',
     options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   devoluciones: {
-    messageKey: 'returnsMessage', 
+    messageKey: 'returnsMessage',
     options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   },
   valoraciones: {
-    messageKey: 'ratingsMessage', 
+    messageKey: 'ratingsMessage',
     options: [ { key: 'optionBack', next: 'inicio', icon: RotateCcw } ]
   }
 };
 
+// La hora se calcula en los handlers y no al renderizar: el servidor no puede
+// conocerla y cualquier valor inicial distinto de '' rompería la hidratación.
+function nowLabel() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
 export function NutiBot() {
   const t = useTranslations('bot');
-  
-  const [isMounted, setIsMounted] = useState(false);
+
   const [open, setOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<FlowStep>('inicio');
-  const [currentTime, setCurrentTime] = useState('00:00');
+  const [currentTime, setCurrentTime] = useState('');
 
-  useEffect(() => {
-    setIsMounted(true);
-    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    setCurrentTime(time);
-  }, [currentStep, open]);
+  const goToStep = (step: FlowStep) => {
+    setCurrentStep(step);
+    setCurrentTime(nowLabel());
+  };
 
-  const resetBot = () => {
-    setCurrentStep('inicio');
+  const openBot = () => {
+    setOpen(true);
+    setCurrentTime(nowLabel());
   };
 
   const closeBot = () => {
     setOpen(false);
-    setTimeout(resetBot, 300); 
+    setTimeout(() => setCurrentStep('inicio'), 300);
   };
 
-  if (!isMounted) return null;
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeBot()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [open])
 
   const activeFlow = nutiFlowData[currentStep];
 
   return (
     <>
-      {/* VENTANA DEL CHAT */}
+      {/* Ventana del chat.
+          El alto se recorta contra el viewport (svh, no vh, por la barra de Safari iOS):
+          con 600px fijos la cabecera quedaba fuera de pantalla en móviles cortos.
+          `inert` la saca del orden de tabulación y del árbol de accesibilidad al cerrarse;
+          `pointer-events-none` por sí solo no la ocultaba de los lectores de pantalla. */}
       <div
-        style={{
-          position: 'fixed',
-          bottom: '5.5rem',
-          right: '1.5rem',
-          width: 'min(380px, calc(100vw - 2rem))',
-          height: '600px', 
-          background: '#FAF7F2', 
-          borderRadius: '24px',
-          zIndex: 9999,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transform: open ? 'scale(1) translateY(0)' : 'scale(0.8) translateY(40px)',
-          transformOrigin: 'bottom right',
-          boxShadow: open ? '0 20px 40px rgba(0,0,0,0.15)' : '0 0 0 rgba(0,0,0,0)',
-          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        }}
+        id={PANEL_ID}
+        role="dialog"
+        aria-modal="false"
+        aria-label={t('chatbotLabel')}
+        inert={!open}
+        className={`fixed right-4 bottom-22 z-9999 flex h-[min(600px,calc(100svh-7.5rem))] w-[min(380px,calc(100vw-2rem))] origin-bottom-right flex-col overflow-hidden rounded-3xl bg-[#FAF7F2] sm:right-6 sm:w-[min(380px,calc(100vw-3rem))] motion-safe:transition-all motion-safe:duration-[400ms] motion-safe:ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${
+          open
+            ? 'scale-100 opacity-100 shadow-[0_20px_40px_rgba(0,0,0,0.15)]'
+            : 'pointer-events-none translate-y-10 scale-90 opacity-0 shadow-none'
+        }`}
       >
-        {/* ENCABEZADO UNIFICADO (Color plano, sin reflejos, comprimido) */}
-        <div
-          style={{
-            background: 'var(--color-naranja)',
-            position: 'relative',
-            padding: '1rem 1rem 2rem 1rem', // Comprimido arriba, con espacio abajo para la onda
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.8rem', // Espacio reducido entre el título y el "Atención 24/7"
-          }}
-        >
-          {/* Fila Superior: Info y Botones */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 1 }}>
-            
-            {/* Avatar y Estado */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div
-                style={{
-                  width: '40px', // Un poco más chico para comprimir el alto
-                  height: '40px',
-                  borderRadius: '14px',
-                  background: 'rgba(255,255,255,0.2)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <img src="/images/LogoNuti.webp" alt="Nuti" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
-              </div>
-              <div>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.1rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.5px', margin: 0, lineHeight: 1.2 }}>
+        {/* Cabecera */}
+        <div className="relative flex shrink-0 flex-col gap-3 bg-[var(--color-naranja)] px-4 pt-4 pb-8">
+          <div className="z-1 flex items-center justify-between gap-2">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-[14px] bg-white/20">
+                <Image src="/images/LogoNuti.webp" alt="" width={406} height={297} className="h-4/5 w-4/5 object-contain" />
+              </span>
+              <div className="min-w-0">
+                <p className="m-0 text-[1.1rem] leading-tight font-extrabold tracking-[-0.5px] text-white">
                   Nuti
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ADE80' }} />
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.9)', fontWeight: 500, margin: 0 }}>
-                    {t('online')}
-                  </p>
-                </div>
+                <span className="mt-0.5 flex items-center gap-1.5">
+                  <span aria-hidden="true" className="size-2 rounded-full bg-[#4ADE80]" />
+                  <span className="text-[0.8rem] font-medium text-white/90">{t('online')}</span>
+                </span>
               </div>
             </div>
 
-            {/* Botones de acción */}
-            <div style={{ display: 'flex', gap: '0.2rem', zIndex: 1 }}>
-              <button onClick={resetBot} aria-label={t('resetChat')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
-                <RotateCcw size={18} />
+            <div className="z-1 flex shrink-0 items-center">
+              <button
+                type="button"
+                onClick={() => goToStep('inicio')}
+                aria-label={t('resetChat')}
+                className="flex size-11 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <RotateCcw size={18} aria-hidden="true" />
               </button>
-              <button onClick={closeBot} aria-label={t('closeChat')} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', padding: '4px' }}>
-                <X size={22} />
+              <button
+                type="button"
+                onClick={closeBot}
+                aria-label={t('closeChat')}
+                aria-controls={PANEL_ID}
+                className="flex size-11 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <X size={22} aria-hidden="true" />
               </button>
             </div>
           </div>
 
-          {/* Overlay de Onda inferior */}
           <div
-            style={{
-              position: 'absolute',
-              bottom: '-1px', 
-              left: 0,
-              right: 0,
-              height: '22px', 
-              zIndex: 10,
-              pointerEvents: 'none',
-              lineHeight: 0,
-              overflow: 'hidden',
-            }}
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 -bottom-px z-10 h-[22px] overflow-hidden leading-none"
           >
-            <svg
-              viewBox="0 0 1440 120"
-              preserveAspectRatio="none"
-              style={{ width: '100%', height: '100%', display: 'block' }}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0,15 
-                   C100,15 150,90 200,90 
-                   C250,90 300,15 400,15 
-                   C480,15 500,60 550,60 
-                   C600,60 620,15 700,15 
-                   C780,15 820,110 880,110 
-                   C940,110 980,15 1080,15 
-                   C1180,15 1220,80 1280,80 
-                   C1340,80 1380,15 1440,15 
-                   L1440,120 L0,120 Z"
-                fill="#FAF7F2" 
-              />
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none" className="block size-full" xmlns="http://www.w3.org/2000/svg">
+              <path d={WAVE_PATH} fill="#FAF7F2" />
             </svg>
           </div>
         </div>
 
-        {/* ÁREA DE CHAT Y OPCIONES */}
-        <div style={{ flex: 1, padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', overflowY: 'auto' }}>
-          
+        {/* Conversación. El scroll vive acá dentro y no se propaga a la página. */}
+        <div className="flex flex-1 flex-col gap-6 overflow-y-auto overscroll-contain p-5 sm:p-6">
           <div>
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#E46A17', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <img src="/images/LogoNuti.webp" alt="Nuti" style={{ width: '70%', height: '70%', objectFit: 'contain' }} />
-              </div>
-              
-              <div style={{ 
-                  background: '#ffffff', 
-                  padding: '1rem',
-                  borderRadius: '20px',
-                  borderTopLeftRadius: '4px',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.9rem',
-                  color: '#333333',
-                  lineHeight: '1.5'
-              }}>
+            <div className="flex items-start gap-3">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#E46A17]">
+                <Image src="/images/LogoNuti.webp" alt="" width={406} height={297} className="h-[70%] w-[70%] object-contain" />
+              </span>
+              <p
+                aria-live="polite"
+                className="m-0 rounded-[20px] rounded-tl-sm bg-white p-4 text-[0.9rem] leading-relaxed text-[#333333] shadow-[0_2px_10px_rgba(0,0,0,0.03)]"
+              >
                 {t(activeFlow.messageKey)}
-              </div>
+              </p>
             </div>
-            <div style={{ fontSize: '0.7rem', color: '#A0A0A0', marginLeft: '3.5rem', marginTop: '0.5rem' }}>
-              {currentTime}
-            </div>
+            {currentTime && (
+              <p className="mt-2 ml-12 text-[0.7rem] text-[#8A8A8A]">{currentTime}</p>
+            )}
           </div>
 
-          <div style={{ height: '1px', background: 'rgba(0,0,0,0.05)', margin: '0 -1.5rem' }} />
+          <hr className="-mx-5 border-0 border-t border-black/5 sm:-mx-6" />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-            {activeFlow.options.map((option, index) => {
+          <div className="flex flex-col gap-3.5">
+            {activeFlow.options.map((option) => {
               const Icon = option.icon;
               return (
                 <button
-                  key={index}
-                  onClick={() => setCurrentStep(option.next)}
-                  style={{
-                    background: '#ffffff',
-                    border: '1px solid #F1DABF', 
-                    padding: '0.6rem 1rem',
-                    borderRadius: '99px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    boxShadow: '0 2px 5px rgba(0,0,0,0.02)',
-                    transition: 'all 0.2s',
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(228,106,23,0.1)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.02)';
-                  }}
+                  key={option.key}
+                  type="button"
+                  onClick={() => goToStep(option.next)}
+                  className="flex min-h-11 items-center gap-4 rounded-full border border-[#F1DABF] bg-white px-4 py-2.5 text-left shadow-[0_2px_5px_rgba(0,0,0,0.02)] hover:border-[#E46A17]/40 hover:shadow-[0_4px_12px_rgba(228,106,23,0.1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E46A17] motion-safe:transition-all motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
                 >
-                  <span style={{ 
-                      width: '32px', height: '32px', borderRadius: '50%', 
-                      background: '#FDF1E5', display: 'flex', alignItems: 'center', justifyContent: 'center' 
-                  }}>
-                    {Icon && <Icon size={16} color="#E46A17" />}
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#FDF1E5]">
+                    {Icon && <Icon size={16} color="#E46A17" aria-hidden="true" />}
                   </span>
-                  
-                  <span style={{ 
-                      fontFamily: 'var(--font-body)', fontSize: '0.9rem', fontWeight: 500, color: '#111111', flex: 1, textAlign: 'left'
-                  }}>
+                  <span className="flex-1 text-[0.9rem] font-medium text-[#111111]">
                     {t(option.key)}
                   </span>
-                  
-                  <ChevronRight size={18} color="#E46A17" />
+                  <ChevronRight size={18} color="#E46A17" aria-hidden="true" className="shrink-0" />
                 </button>
               )
             })}
@@ -282,36 +223,29 @@ export function NutiBot() {
         </div>
       </div>
 
-      {/* BOTÓN FLOTANTE (FAB) */}
+      {/* Botón flotante */}
       <button
-        onClick={() => {
-            if (open) closeBot();
-            else setOpen(true);
-        }}
-        title={t('chatbotLabel')} 
-        style={{
-          position: 'fixed',
-          bottom: '1.5rem',
-          right: '1.5rem',
-          width: '70px',  
-          height: '70px', 
-          borderRadius: '50%',
-          background: open ? '#111111' : '#E46A17',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: open ? '0 4px 15px rgba(0,0,0,0.3)' : '0 4px 20px rgba(228,106,23,0.45)',
-          zIndex: 10000,
-          transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-          transform: open ? 'rotate(90deg) scale(0.9)' : 'rotate(0deg) scale(1)',
-        }}
+        type="button"
+        onClick={() => (open ? closeBot() : openBot())}
+        aria-label={open ? t('closeChat') : t('openChat')}
+        aria-expanded={open}
+        aria-controls={PANEL_ID}
+        className={`fixed right-4 bottom-4 z-10000 flex size-15 items-center justify-center rounded-full sm:right-6 sm:bottom-6 sm:size-[70px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E46A17] motion-safe:transition-all motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.175,0.885,0.32,1.275)] ${
+          open
+            ? 'rotate-90 scale-90 bg-[#111111] shadow-[0_4px_15px_rgba(0,0,0,0.3)]'
+            : 'bg-[#E46A17] shadow-[0_4px_20px_rgba(228,106,23,0.45)]'
+        }`}
       >
         {open ? (
-          <X size={26} color="#ffffff" style={{ transform: 'rotate(-90deg)' }} /> 
+          <X size={26} color="#ffffff" aria-hidden="true" className="-rotate-90" />
         ) : (
-          <img src="/images/LogoNuti.webp" alt={t('openChat')} style={{ width: '60px', height: '60px', objectFit: 'contain' }} />
+          <Image
+            src="/images/LogoNuti.webp"
+            alt=""
+            width={406}
+            height={297}
+            className="size-[85%] object-contain"
+          />
         )}
       </button>
     </>

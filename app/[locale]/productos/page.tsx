@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
@@ -68,14 +68,18 @@ export function ProductDetail() {
   // Referencias
   const thumbsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // Los resets van en los handlers y no en efectos: así la selección se recalcula
+  // en el mismo render del click, sin el re-render en cascada que provocaban.
+  const selectCategory = (cat: string) => {
+    setActiveCategory(cat);
     setSelectedProductIndex(0);
     setCurrentImageIndex(0);
-  }, [activeCategory]);
+  };
 
-  useEffect(() => {
+  const selectProduct = (idx: number) => {
+    setSelectedProductIndex(idx);
     setCurrentImageIndex(0);
-  }, [selectedProductIndex]);
+  };
 
   const filteredProducts = products.filter(
     (p) => p.nameEs === CATEGORY_MAP[activeCategory]
@@ -121,25 +125,32 @@ export function ProductDetail() {
       <div className="max-w-[1200px] mx-auto relative">
         
         {/* ── 1. NAVEGACIÓN DE CATEGORÍAS ── */}
-        <div 
-          className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 md:gap-x-6 mb-8 md:mb-12 text-center"
-          style={{ fontFamily: 'var(--font-display)' }}
+        {/* En móvil son 7 etiquetas: envueltas ocupaban ~8 renglones antes de mostrar
+            un solo producto. Debajo de md pasan a una tira de scroll horizontal de una
+            línea; desde md vuelve el bloque centrado con separadores. */}
+        <div
+          role="tablist"
+          aria-label={t('categoriesLabel')}
+          className="font-display -mx-4 mb-8 flex snap-x snap-mandatory items-center gap-x-4 overflow-x-auto scroll-smooth scrollbar-hide px-4 md:mx-0 md:mb-12 md:flex-wrap md:justify-center md:gap-x-6 md:gap-y-2 md:overflow-x-visible md:px-0 md:text-center"
         >
           {UI_CATEGORIES.map((cat, index) => {
             const isActive = activeCategory === cat;
             return (
               <React.Fragment key={cat}>
                 <button
-                  onClick={() => setActiveCategory(cat)}
-                  className={`text-2xl md:text-4xl lg:text-5xl font-black uppercase transition-colors tracking-tight ${
-                    isActive ? '' : 'text-gray-300 hover:text-gray-400'
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => selectCategory(cat)}
+                  className={`shrink-0 snap-start rounded-sm text-xl font-black tracking-tight whitespace-nowrap uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current md:text-2xl md:whitespace-normal lg:text-4xl xl:text-5xl ${
+                    isActive ? '' : 'text-[#7A7266] hover:text-[#4A443B]'
                   }`}
                   style={isActive ? { color: CATEGORY_COLORS[cat] } : {}}
                 >
                   {t(`categories.${CATEGORY_LABEL_KEYS[cat]}`)}
                 </button>
                 {index < UI_CATEGORIES.length - 1 && (
-                  <span className="text-gray-300 text-2xl md:text-4xl lg:text-5xl font-black hidden sm:inline">|</span>
+                  <span aria-hidden="true" className="hidden text-2xl font-black text-[#C9C2B6] md:inline lg:text-4xl xl:text-5xl">|</span>
                 )}
               </React.Fragment>
             );
@@ -155,22 +166,22 @@ export function ProductDetail() {
             {/* COLUMNA IZQUIERDA */}
             <div className="w-full lg:w-5/12 flex flex-col items-center justify-start h-full">
               
-              {/* Contenedor de la Imagen 2D */}
-              <div 
-                className="relative w-full flex items-center justify-center"
-                style={{ height: '420px' }}
-              >
+              {/* Contenedor de la Imagen 2D.
+                  Tenía 420px fijos mientras la imagen medía 260px en móvil: eran 160px
+                  de hueco muerto. Ahora el alto acompaña al del hijo en cada breakpoint. */}
+              <div className="relative flex h-[260px] w-full items-center justify-center md:h-[380px] lg:h-[420px]">
                 {productImages.length > 1 && (
                   <button
+                    type="button"
                     onClick={handlePrevImage}
                     aria-label={t('prevImage')}
-                    className="absolute left-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
+                    className="absolute left-0 z-10 flex size-11 items-center justify-center rounded-md bg-gray-200/60 backdrop-blur-sm transition-colors hover:bg-gray-300/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
                   >
-                    <ChevronLeft size={24} className="text-gray-600" />
+                    <ChevronLeft size={24} aria-hidden="true" className="text-gray-700" />
                   </button>
                 )}
 
-                <div key={`img-${selectedProductIndex}-${currentImageIndex}`} className="relative w-full h-[260px] md:h-[380px] lg:h-[420px] animate-fade-in">
+                <div key={`img-${selectedProductIndex}-${currentImageIndex}`} className="relative h-full w-full animate-fade-in">
                   <ImageWithFallback
                     src={`/${productImages[currentImageIndex]}`} 
                     alt={t('imageAlt', {
@@ -184,27 +195,29 @@ export function ProductDetail() {
 
                 {productImages.length > 1 && (
                   <button
+                    type="button"
                     onClick={handleNextImage}
                     aria-label={t('nextImage')}
-                    className="absolute right-0 z-10 p-2 bg-gray-200/60 hover:bg-gray-300/80 rounded-md transition-colors backdrop-blur-sm"
+                    className="absolute right-0 z-10 flex size-11 items-center justify-center rounded-md bg-gray-200/60 backdrop-blur-sm transition-colors hover:bg-gray-300/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
                   >
-                    <ChevronRight size={24} className="text-gray-600" />
+                    <ChevronRight size={24} aria-hidden="true" className="text-gray-700" />
                   </button>
                 )}
               </div>
 
               {/* 3. GALERÍA DE MINIATURAS (Flechas separadas) */}
               {filteredProducts.length > 1 && (
-                <div className="mt-8 md:mt-auto pt-6 w-full flex justify-center relative px-8"> 
+                <div className="mt-8 md:mt-auto pt-6 w-full flex justify-center relative px-0 md:px-8"> 
                   <div className="relative w-full max-w-[340px] md:max-w-[420px] flex items-center justify-center">
                     
                     {/* Flecha Izquierda (Más separada) */}
                     <button
+                      type="button"
                       onClick={() => scrollThumbs('left')}
                       aria-label={t('scrollThumbsLeft')}
-                      className="absolute left-[-30px] md:left-[-45px] z-10 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow hover:scale-105 transition-all text-gray-500 hover:text-gray-800"
+                      className="absolute left-[-45px] z-10 hidden size-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all hover:text-gray-900 hover:shadow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current motion-safe:hover:scale-105 md:flex"
                     >
-                      <ChevronLeft size={20} />
+                      <ChevronLeft size={20} aria-hidden="true" />
                     </button>
 
                     {/* Contenedor deslizable */}
@@ -214,13 +227,15 @@ export function ProductDetail() {
                     >
                       {filteredProducts.map((p, idx) => {
                         const isSelected = selectedProductIndex === idx;
-                        const thumbImage = (p as any).images?.length > 0 ? (p as any).images[0] : p.image;
+                        const thumbImage = p.images?.length ? p.images[0] : p.image;
                         
                         return (
                           <button
                             key={p.id || idx}
-                            onClick={() => setSelectedProductIndex(idx)}
-                            className="relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl bg-white border-2 transition-all duration-200 overflow-hidden shadow-sm hover:scale-105"
+                            type="button"
+                            onClick={() => selectProduct(idx)}
+                            aria-pressed={isSelected}
+                            className="relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-xl bg-white border-2 overflow-hidden shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current motion-safe:transition-all motion-safe:duration-200 motion-safe:hover:scale-105"
                             style={{
                               borderColor: isSelected ? activeColor : 'transparent',
                               opacity: isSelected ? 1 : 0.6
@@ -239,11 +254,12 @@ export function ProductDetail() {
 
                     {/* Flecha Derecha (Más separada) */}
                     <button
+                      type="button"
                       onClick={() => scrollThumbs('right')}
                       aria-label={t('scrollThumbsRight')}
-                      className="absolute right-[-30px] md:right-[-45px] z-10 p-1.5 bg-white border border-gray-200 rounded-full shadow-sm hover:shadow hover:scale-105 transition-all text-gray-500 hover:text-gray-800"
+                      className="absolute right-[-45px] z-10 hidden size-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all hover:text-gray-900 hover:shadow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current motion-safe:hover:scale-105 md:flex"
                     >
-                      <ChevronRight size={20} />
+                      <ChevronRight size={20} aria-hidden="true" />
                     </button>
                     
                   </div>
@@ -338,7 +354,7 @@ export function ProductDetail() {
               <div className="mt-auto pt-4 border-t border-gray-200">
                 {/* Se agregó sm:ml-8 lg:ml-12 a la etiqueta <a> para empujar el botón a la derecha */}
                 <a 
-                  href={(currentProduct as any).mlUrl} 
+                  href={currentProduct.mlUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="group relative inline-flex w-full sm:w-[260px] h-[60px] items-center justify-center rounded-full overflow-hidden shadow-[0_8px_20px_rgb(0,0,0,0.15)] hover:shadow-[0_12px_25px_rgba(255,230,0,0.4)] transition-all duration-300 hover:-translate-y-1 border-2 border-transparent hover:border-[#090080] sm:ml-8 lg:ml-12"
@@ -373,10 +389,10 @@ export function ProductDetail() {
         </div>
         ) : (
           /* Categoría sin productos cargados todavía: mantiene visible la navegación */
-          <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-10 md:p-16 flex flex-col items-center justify-center text-center min-h-[420px]">
+          <div className="bg-[#fcfbf9] rounded-[2rem] shadow-sm p-6 sm:p-10 md:p-16 flex flex-col items-center justify-center text-center min-h-[280px] md:min-h-[420px]">
             <h2
-              className="text-3xl md:text-5xl font-black uppercase mb-4 leading-none"
-              style={{ fontFamily: 'var(--font-display)', color: activeColor }}
+              className="font-display text-2xl sm:text-3xl md:text-5xl font-black uppercase mb-4 leading-none text-balance"
+              style={{ color: activeColor }}
             >
               {t('comingSoonTitle')}
             </h2>
@@ -395,7 +411,11 @@ export function ProductDetail() {
         .animate-fade-in {
           animation: fadeIn 0.35s ease-out forwards;
         }
-        
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-fade-in { animation: none; }
+        }
+
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }

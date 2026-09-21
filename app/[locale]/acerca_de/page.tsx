@@ -1,8 +1,7 @@
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback'; 
 
 export default function AboutPage() {
-  const lang = useLocale();
   const t = useTranslations('about');
 
   // Arreglo con tus 4 pilares traducidos
@@ -17,7 +16,7 @@ export default function AboutPage() {
     <main style={{ background: 'var(--color-footpage)', minHeight: '100vh' }}>
       
       {/* ── 1. HERO IMAGE (Fundadores en el depósito) ── */}
-      <section className="relative w-full h-[50vh] md:h-[75vh] min-h-[400px]">
+      <section className="relative w-full h-[50svh] md:h-[75svh] min-h-[320px] md:min-h-[400px]">
         <ImageWithFallback
           src="/images/CEOS.webp"
           alt={t('foundersAlt')}
@@ -40,9 +39,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── 2. SECCIÓN DE TEXTO (Historia) ── */}
-      <section className="max-w-4xl mx-auto px-6 md:px-12 pt-12 md:pt-20 pb-12">
+      <section className="max-w-4xl mx-auto px-5 sm:px-6 md:px-12 pt-12 md:pt-20 pb-12">
         <h1 
-          className="text-5xl md:text-7xl font-black mb-6 md:mb-8 leading-[0.9]"
+          className="text-[clamp(2.5rem,11vw,5.5rem)] md:text-7xl font-black mb-6 md:mb-8 leading-[0.9]"
           style={{ color: 'var(--color-naranja)', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}
         >
           {t('titleLine1')} <br />
@@ -66,7 +65,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 3. GRILLA DE 3 FOTOS (Equipo y Fábrica) ── */}
-      <section className="max-w-5xl mx-auto px-6 md:px-12 py-8">
+      <section className="max-w-5xl mx-auto px-5 sm:px-6 md:px-12 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <div className="aspect-[4/3] md:aspect-auto md:h-56 relative rounded-sm overflow-hidden shadow-sm">
             <ImageWithFallback src="/images/TODOSAFU.webp" alt={t('teamAlt')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -84,9 +83,9 @@ export default function AboutPage() {
       <section className="w-full py-12 md:py-16 overflow-hidden">
         
         {/* Títulos de Misión (Centrados o alineados según prefieras, acá los dejé dentro del max-w) */}
-        <div className="max-w-5xl mx-auto px-6 md:px-12 mb-10">
+        <div className="max-w-5xl mx-auto px-5 sm:px-6 md:px-12 mb-10">
           <h2 
-            className="text-3xl md:text-5xl font-black mb-1 leading-[0.95]"
+            className="text-[clamp(1.75rem,7vw,3rem)] md:text-5xl font-black mb-1 leading-[0.95]"
             style={{ color: 'var(--color-naranja)', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}
           >
             {t('missionTitleLine1')} <br />
@@ -103,7 +102,7 @@ export default function AboutPage() {
         {/* ── LA CINTA INFINITA (MARQUEE) ── */}
         <div className="relative w-full border-y border-[rgba(0,0,0,0.05)] py-6 md:py-8 bg-[rgba(255,255,255,0.2)]">
           <div 
-            className="flex w-max"
+            className="pillars-ticker flex w-max"
             style={{ animation: 'scroll-ticker 30s linear infinite' }}
           >
             {/* Multiplicamos el array por 4 para asegurar que cubra monitores ultrawide sin romperse */}
@@ -126,6 +125,9 @@ export default function AboutPage() {
           </div>
 
           <style>{`
+            @media (prefers-reduced-motion: reduce) {
+              .pillars-ticker { animation: none !important; }
+            }
             @keyframes scroll-ticker {
               0% { transform: translateX(0); }
               /* Como duplicamos el bloque 4 veces, para que sea un loop perfecto 
@@ -137,7 +139,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── 5. IMAGEN INFERIOR FULL-WIDTH (Línea de producción) ── */}
-      <section className="relative w-full h-[35vh] md:h-[60vh] min-h-[300px]">
+      <section className="relative w-full h-[35svh] md:h-[60svh] min-h-[220px] md:min-h-[300px]">
         <div 
           className="h-[35px] md:h-[50px]"
           style={{ position: 'absolute', top: '-1px', left: 0, right: 0, zIndex: 10, pointerEvents: 'none', overflow: 'hidden' }}

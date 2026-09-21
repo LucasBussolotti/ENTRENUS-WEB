@@ -39,7 +39,15 @@ export class OdooError extends Error {}
 // ── Serialización XML-RPC ──
 
 function escapeXml(value: string): string {
-  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  return (
+    value
+      // XML 1.0 no admite estos caracteres ni siquiera escapados: si llegan desde
+      // un campo del formulario, Odoo rechaza el documento entero.
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+  )
 }
 
 function encodeValue(value: XmlRpcValue): string {
@@ -223,9 +231,20 @@ export async function getServerVersion(): Promise<Record<string, unknown>> {
 }
 
 let cachedUid: number | null = null
+let cachedUidAt = 0
+
+// Sin vencimiento, una rotación de credenciales en Odoo no se nota hasta el
+// próximo deploy. Una hora alcanza para no re-autenticar en cada request.
+const UID_TTL_MS = 60 * 60 * 1000
+
+/** Fuerza volver a autenticar en la próxima llamada. */
+export function resetOdooAuthCache() {
+  cachedUid = null
+  cachedUidAt = 0
+}
 
 async function authenticate(): Promise<number> {
-  if (cachedUid !== null) return cachedUid
+  if (cachedUid !== null && Date.now() - cachedUidAt < UID_TTL_MS) return cachedUid
 
   const config = getOdooConfig()
   if (!config) throw new OdooError('Faltan las variables de entorno de Odoo.')
@@ -236,6 +255,7 @@ async function authenticate(): Promise<number> {
   }
 
   cachedUid = uid
+  cachedUidAt = Date.now()
   return uid
 }
 

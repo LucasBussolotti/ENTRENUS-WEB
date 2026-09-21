@@ -27,8 +27,18 @@ type FieldDefinition = { type?: string }
 
 type ResolvedJob = { id: number; departmentId: number | null; companyId: number | null }
 
+// Los caches de esquema tampoco vencían: si renombrás el puesto o actualizás la
+// versión de Odoo, el proceso seguía usando lo resuelto la primera vez.
+const SCHEMA_TTL_MS = 60 * 60 * 1000
+
 let cachedJob: ResolvedJob | null = null
+let cachedJobAt = 0
 let cachedFields: Record<string, FieldDefinition> | null = null
+let cachedFieldsAt = 0
+
+function isFresh(timestamp: number): boolean {
+  return Date.now() - timestamp < SCHEMA_TTL_MS
+}
 
 function jobName(): string {
   return process.env.ODOO_JOB_NAME?.trim() || DEFAULT_JOB_NAME
@@ -45,7 +55,7 @@ function many2oneId(value: unknown): number | null {
 }
 
 async function resolveJob(): Promise<ResolvedJob> {
-  if (cachedJob) return cachedJob
+  if (cachedJob && isFresh(cachedJobAt)) return cachedJob
 
   const forcedId = Number(process.env.ODOO_JOB_ID?.trim())
   const domain = Number.isInteger(forcedId) && forcedId > 0
@@ -66,6 +76,7 @@ async function resolveJob(): Promise<ResolvedJob> {
     )
   }
 
+  cachedJobAt = Date.now()
   cachedJob = {
     id: job.id,
     departmentId: many2oneId(job.department_id),
@@ -75,7 +86,7 @@ async function resolveJob(): Promise<ResolvedJob> {
 }
 
 async function getApplicantFields(): Promise<Record<string, FieldDefinition>> {
-  if (cachedFields) return cachedFields
+  if (cachedFields && isFresh(cachedFieldsAt)) return cachedFields
 
   // Los nombres cambian entre versiones: Odoo 18 usa applicant_notes y ya no tiene
   // el campo name; hasta la 17 eran description y name. Se piden todos y se usa el que exista.
@@ -94,6 +105,7 @@ async function getApplicantFields(): Promise<Record<string, FieldDefinition>> {
   ]
   const result = await executeKw('hr.applicant', 'fields_get', [candidates, ['type']])
 
+  cachedFieldsAt = Date.now()
   cachedFields = result && typeof result === 'object' ? (result as Record<string, FieldDefinition>) : {}
   return cachedFields
 }

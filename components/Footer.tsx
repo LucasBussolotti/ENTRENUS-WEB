@@ -1,73 +1,96 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
+
+const CONTACT_LINES = [
+  { text: 'Pte. Illia 124, Colón Entre Ríos', href: null },
+  { text: 'contacto@entrenuts.com.ar', href: 'mailto:contacto@entrenuts.com.ar' },
+  { text: 'venta@entrenuts.com.ar', href: 'mailto:venta@entrenuts.com.ar' },
+  { text: '(3447) 469008', href: 'tel:+543447469008' },
+]
+
+const SOCIAL_LINKS = [
+  { label: 'Instagram', href: 'https://www.instagram.com/entrenuts/' },
+  { label: 'Tiktok', href: 'https://www.tiktok.com/@entrenuts' },
+  { label: 'Facebook', href: 'https://www.facebook.com/Entrenuts/?locale=es_LA' },
+]
+
+const linkClass =
+  'inline-block rounded-sm py-1 text-base text-[#111111] no-underline hover:text-naranja hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-naranja'
 
 export function Footer() {
   const t = useTranslations('footer')
   const locale = useLocale()
 
+  const companyLinks = [
+    { to: '/acerca_de', label: t('quienesSomos') },
+    { to: '/productos', label: t('productos') },
+    { to: '/distribuidor', label: t('distribuidores') },
+    { to: '/empleos', label: t('trabajaConNosotros') },
+  ]
+
   return (
-    <footer style={{ background: '#e8ddca', color: '#111111', fontFamily: 'var(--font-body)', padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)' }}>
-      <div
-        style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '3rem',
-        }}
-      >
-        {/* Brand */}
+    <footer className="bg-footpage px-[clamp(1.25rem,5vw,4rem)] py-[clamp(3rem,6vw,5rem)] text-[#111111]">
+      {/* auto-fit + minmax ya resolvía bien el colapso; el mínimo baja de 200px a
+          180px para que a 320px la columna no fuerce ancho extra. */}
+      <div className="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-8 md:gap-12">
         <div>
-          <div style={{ marginBottom: '1rem', marginLeft: '-1.60rem' }}>
-            <img 
-              src="/images/LOGO.webp"
-              alt={t('logoAlt')}
-              style={{ height: '75px', width: 'auto', display: 'block' }}
-            />
-          </div>
-          <p style={{ fontSize: '1.25rem', fontWeight: 600, color: '#111111', lineHeight: 1.5 }}>
+          <Image
+            src="/images/LOGO.webp"
+            alt={t('logoAlt')}
+            width={1446}
+            height={542}
+            sizes="192px"
+            className="mb-4 block h-12 w-auto sm:h-14 md:h-[4.5rem]"
+          />
+          <p className="text-lg leading-relaxed font-semibold text-balance sm:text-xl">
             {t('tagline')}
           </p>
         </div>
 
-        {/* Empresa */}
-        <div>
-          <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#111111', marginBottom: '1rem' }}>{t('empresa')}</h4>
-          {[
-            { to: '/acerca_de', label: t('quienesSomos') },
-            { to: '/productos', label: t('productos') },
-            { to: '/distribuidor', label: t('distribuidores') },
-            { to: '/empleos', label: t('trabajaConNosotros') },
-          ].map(({ to, label }) => (
-            <Link key={to} href={`/${locale}${to}`} style={{ display: 'block', fontSize: '1rem', color: '#111111', textDecoration: 'none', marginBottom: '0.4rem' }}>
-              {label}
-            </Link>
-          ))}
-        </div>
+        <nav aria-labelledby="footer-empresa">
+          <h2 id="footer-empresa" className="mb-3 text-xl font-bold">{t('empresa')}</h2>
+          <ul className="list-none p-0">
+            {companyLinks.map(({ to, label }) => (
+              <li key={to}>
+                <Link href={`/${locale}${to}`} className={linkClass}>
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-        {/* Contacto */}
-        <div>
-          <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#111111', marginBottom: '1rem' }}>{t('contacto')}</h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '1rem' }}>
-            <span>Pte. Illia 124, Colón Entre Ríos</span>
-            <span>contacto@entrenuts.com.ar</span>
-            <span>venta@entrenuts.com.ar</span>
-            <span>(3447) 469008</span>
-          </div>
-        </div>
+        <section aria-labelledby="footer-contacto">
+          <h2 id="footer-contacto" className="mb-3 text-xl font-bold">{t('contacto')}</h2>
+          <ul className="list-none p-0">
+            {CONTACT_LINES.map(({ text, href }) => (
+              <li key={text} className="break-words">
+                {href ? (
+                  <a href={href} className={linkClass}>{text}</a>
+                ) : (
+                  <span className="inline-block py-1 text-base">{text}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
 
-        {/* Redes */}
-        <div>
-          <h4 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#111111', marginBottom: '1rem' }}>{t('redes')}</h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '1rem' }}>
-            <a href="https://www.instagram.com/entrenuts/" target="_blank" rel="noopener noreferrer" style={{ color: '#111111', textDecoration: 'none' }}>Instagram</a>
-            <a href="https://www.tiktok.com/@entrenuts" target="_blank" rel="noopener noreferrer" style={{ color: '#111111', textDecoration: 'none' }}>Tiktok</a>
-            <a href="https://www.facebook.com/Entrenuts/?locale=es_LA" target="_blank" rel="noopener noreferrer" style={{ color: '#111111', textDecoration: 'none' }}>Facebook</a>
-          </div>
-        </div>
+        <section aria-labelledby="footer-redes">
+          <h2 id="footer-redes" className="mb-3 text-xl font-bold">{t('redes')}</h2>
+          <ul className="list-none p-0">
+            {SOCIAL_LINKS.map(({ label, href }) => (
+              <li key={label}>
+                <a href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
 
-      <div style={{ maxWidth: '1200px', margin: '0.1rem auto 0', fontSize: '0.8rem', color: '#111111' }}>
+      <div className="mx-auto mt-10 max-w-[1200px] text-sm">
         <p>{t('rights')}</p>
       </div>
     </footer>

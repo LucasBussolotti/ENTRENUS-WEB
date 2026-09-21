@@ -7,7 +7,7 @@ import { WaveDivider } from '@/components/WaveDivider'
 
 export default function HomePage() {
   return (
-    <main className="relative w-full flex flex-col overflow-x-hidden">
+    <div className="relative w-full flex flex-col overflow-x-clip">
       <HeroCarousel />
       
       <ProductMosaic2 />
@@ -23,6 +23,6 @@ export default function HomePage() {
       {/* ── 3. Finalmente la comunidad ── */}
       <WaveDivider fromColor="#111111" toColor="#1A1207" height={40} />
       <CommunityCTA />
-    </main>
+    </div>
   )
 }

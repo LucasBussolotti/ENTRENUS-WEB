@@ -66,7 +66,9 @@ export function HeroCarousel() {
   // ── AUTOPLAY SIN ERRORES EN TYPESCRIPT ──
   useEffect(() => {
     if (!emblaApi) return
-    
+    // WCAG 2.2.2: quien pidió menos movimiento no recibe un carrusel que rota solo.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     let intervalId: NodeJS.Timeout
 
     const startAutoplay = () => {
@@ -93,7 +95,21 @@ export function HeroCarousel() {
   }, [emblaApi])
 
   return (
-    <section style={{ position: 'relative', height: '100svh', minHeight: '560px', overflow: 'hidden' }}>
+    /* Las tres fotos del hero son apaisadas 16:9. Con la caja a 100svh en un
+       celular, `cover` recorta hasta dejar visible sólo el 26% del ancho de la
+       foto: del lineup de cuatro Puffs se veía uno y medio.
+
+       El tope de 175vw limita cuán vertical puede ponerse la caja, así que el
+       recorte deja de depender de lo alta que sea la pantalla: en mobile el hero
+       ocupa ~80% del alto en vez del 100% y se ve ~32% de la foto en vez del 26%.
+       En desktop gana svh y el hero sigue a pantalla completa, que es donde la
+       foto apaisada entra bien.
+
+       Es una solución de compromiso a propósito: con fotos apaisadas no hay
+       forma de ganar altura sin perder encuadre. Cuando lleguen las versiones
+       verticales, este tope deja de hacer falta para esas fotos y el hero puede
+       volver a 100svh en mobile. */
+    <section className="relative h-[min(100svh,175vw)] min-h-[440px] overflow-hidden">
       <div ref={emblaRef} style={{ height: '100%', overflow: 'hidden' }}>
         <div style={{ display: 'flex', height: '100%' }}>
           {SLIDES.map((s, i) => {
@@ -109,9 +125,18 @@ export function HeroCarousel() {
                 background: s.bgColor,
               }}
             >
+              {/* El primer slide es el elemento LCP de la home: sin priority
+                  entraba en lazy-load y retrasaba la métrica.
+
+                  `sizes` no puede ser 100vw: la foto es 16:9 y la caja es casi
+                  vertical, así que `cover` la escala por el alto y termina
+                  necesitando mas ancho que el del viewport. Con 100vw el navegador
+                  bajaba la variante de 390px y la ampliaba: se veía blanda. */}
               <ImageWithFallback
                 src={s.image}
                 alt=""
+                priority={i === 0}
+                sizes="(max-width: 768px) 330vw, (max-width: 1280px) 120vw, 100vw"
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -133,7 +158,7 @@ export function HeroCarousel() {
                     justifyContent: 'flex-end', 
                     alignItems: 'flex-start',
                     padding: '0 clamp(1.5rem, 5vw, 6rem)', 
-                    paddingBottom: '5rem',
+                    paddingBottom: 'clamp(6rem, 12vh, 8rem)',
                     pointerEvents: 'none',
                     zIndex: 10
                   }}
@@ -204,7 +229,7 @@ export function HeroCarousel() {
                   {/* TEXTO GIGANTE */}
                   {titleText && (
                     <h1 
-                      className={`text-white font-black tracking-tight uppercase ${s.singleLineTitle ? 'md:whitespace-nowrap' : ''}`}
+                      className={`text-white font-black tracking-tight uppercase ${s.singleLineTitle || s.titleBelowProducts ? 'md:whitespace-nowrap' : ''}`}
                       style={{ 
                         fontFamily: 'var(--font-display)', 
                         fontSize: 'clamp(1.1rem, min(5.8vw, 8svh), 4.5rem)',
@@ -214,7 +239,7 @@ export function HeroCarousel() {
                         textShadow: '0 4px 15px rgba(0,0,0,0.5)', 
                         animation: selectedIndex === i ? 'fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both' : 'none',
                         margin: 0,
-                        whiteSpace: s.titleBelowProducts ? 'nowrap' : s.singleLineTitle ? undefined : 'pre-line',
+                        whiteSpace: s.singleLineTitle ? undefined : 'pre-line',
                       }}
                     >
                       {titleText}
@@ -232,31 +257,31 @@ export function HeroCarousel() {
       <div
         style={{
           position: 'absolute',
-          bottom: '4rem',
+          bottom: '2.875rem',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
-          gap: '8px',
+          gap: '0px',
           zIndex: 20 
         }}
       >
+        {/* El punto medía 8px: el área táctil ahora son 44px y el punto solo se dibuja. */}
         {SLIDES.map((_, i) => (
           <button
             key={i}
+            type="button"
             onClick={() => emblaApi?.scrollTo(i)}
             aria-label={t('goToSlide', { number: i + 1 })}
             aria-current={i === selectedIndex}
-            style={{
-              width: i === selectedIndex ? '24px' : '8px',
-              height: '8px',
-              borderRadius: '4px',
-              background: i === selectedIndex ? '#ef7f17' : 'rgba(255,255,255,0.4)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'width 0.4s ease, background 0.4s ease',
-              padding: 0,
-            }}
-          />
+            className="flex size-11 cursor-pointer items-center justify-center border-none bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <span
+              aria-hidden="true"
+              className={`block h-2 rounded-sm motion-safe:transition-all motion-safe:duration-[400ms] ${
+                i === selectedIndex ? 'w-6 bg-[#ef7f17]' : 'w-2 bg-white/40'
+              }`}
+            />
+          </button>
         ))}
       </div>
 
@@ -300,6 +325,12 @@ export function HeroCarousel() {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          @keyframes fadeUp {
+            from { opacity: 1; transform: none; }
+            to { opacity: 1; transform: none; }
+          }
         }
       `}</style>
     </section>

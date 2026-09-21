@@ -51,7 +51,7 @@ export default function RecipesPage() {
   const cardClassName = "group relative block w-full aspect-[4/5] rounded-xl overflow-hidden shadow-sm hover:shadow-lg focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-naranja)] transition-all duration-300 bg-black cursor-pointer";
 
   return (
-    <main style={{ background: 'var(--color-footpage)', minHeight: '100vh', paddingBottom: '4rem' }}>
+    <main className="bg-footpage min-h-svh pb-16">
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
 
@@ -60,7 +60,7 @@ export default function RecipesPage() {
           className="text-center w-full"
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(4rem, 14vw, 11rem)',
+            fontSize: 'clamp(2.75rem, 14vw, 11rem)',
             color: 'var(--color-naranja)',
             fontWeight: 900,
             lineHeight: 0.85,
@@ -82,7 +82,7 @@ export default function RecipesPage() {
           }}
         >
           {/* ── GRILLA DE RECETAS (Sin textos dinámicos, full imagen) ── */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
             {RECIPES.map((recipe) => {
               const cardContent = (
                 <>
@@ -90,6 +90,7 @@ export default function RecipesPage() {
                   <ImageWithFallback
                     src={recipe.coverImage}
                     alt={t('recipeAlt', { number: recipe.id })}
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     className="transition-transform duration-700 group-hover:scale-105"
                   />
@@ -181,7 +182,7 @@ export default function RecipesPage() {
         onClick={(e) => {
           if (e.target === e.currentTarget) dialogRef.current?.close();
         }}
-        className="m-auto w-[calc(100%-2rem)] max-w-[400px] overflow-visible bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+        className="m-auto w-[calc(100%-1.5rem)] max-w-[400px] overflow-visible bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
       >
         {activeRecipe && activeEmbedUrl && (
           <div className="relative">
@@ -189,7 +190,7 @@ export default function RecipesPage() {
               type="button"
               onClick={() => dialogRef.current?.close()}
               aria-label={t('closeVideo')}
-              className="absolute -top-3 -right-3 z-10 rounded-full bg-black/80 p-2 transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="absolute -top-3 -right-3 z-10 flex size-11 items-center justify-center rounded-full bg-black/80 transition-colors hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <X size={18} color="white" aria-hidden="true" />
             </button>
@@ -198,7 +199,7 @@ export default function RecipesPage() {
               <iframe
                 src={activeEmbedUrl}
                 title={t('reelTitle', { number: activeRecipe.id })}
-                className="block h-[min(80vh,720px)] w-full border-0"
+                className="block h-[min(78svh,720px)] w-full border-0"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                 allowFullScreen
               />

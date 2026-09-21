@@ -65,9 +65,14 @@ const CATEGORIES = [
 export function ProductMosaic2() {
   const t = useTranslations();
   
+  // El auto-scroll no arranca si el sistema pide menos movimiento (WCAG 2.2.2).
+  const prefersReducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const [emblaRef] = useEmblaCarousel(
     { loop: true, align: 'start', dragFree: true },
-    [AutoScroll({ playOnInit: true, stopOnInteraction: false, speed: 1.5 })]
+    [AutoScroll({ playOnInit: !prefersReducedMotion, stopOnInteraction: false, speed: 1.5 })]
   );
 
   return (
@@ -99,7 +104,7 @@ export function ProductMosaic2() {
               <div 
                 key={cat.id} 
                 // Usamos relative y block para poder usar posiciones absolutas adentro
-                className="flex-[0_0_auto] w-[240px] md:w-[320px] h-[350px] md:h-[450px] mr-4 md:mr-6 rounded-[2rem] bg-[#fcfbf9] overflow-hidden group shadow-sm hover:shadow-md transition-shadow duration-300 relative block"
+                className="flex-[0_0_auto] w-[200px] sm:w-[240px] md:w-[320px] h-[300px] sm:h-[350px] md:h-[450px] mr-3 sm:mr-4 md:mr-6 rounded-[2rem] bg-[#fcfbf9] overflow-hidden group shadow-sm hover:shadow-md transition-shadow duration-300 relative block"
               >
                 
                 {/* 1. Área de la Imagen (Ocupa de arriba hasta un poco antes del texto) */}
@@ -107,6 +112,8 @@ export function ProductMosaic2() {
                   <ImageWithFallback 
                     src={cat.image} 
                     alt={t(`categories.${cat.labelKey}`)} 
+                    sizes="(max-width: 640px) 200px, (max-width: 768px) 240px, 320px"
+                    
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                     // Acá le inyectamos la escala personalizada que definimos arriba
                     className={`transition-transform duration-700 drop-shadow-md ${cat.scaleClass}`}
@@ -114,9 +121,9 @@ export function ProductMosaic2() {
                 </div>
                 
                 {/* 2. Área del Texto (Anclado rígidamente abajo) */}
-                <div className="absolute bottom-0 left-0 right-0 h-[4.5rem] flex items-center justify-center px-6">
+                <div className="absolute bottom-0 left-0 right-0 h-[4.5rem] flex items-center justify-center px-3 sm:px-6">
                   <h3 
-                    className="text-xl md:text-2xl font-black uppercase tracking-tight text-[#111111] text-center"
+                    className="text-base sm:text-xl md:text-2xl font-black uppercase tracking-tight text-[#111111] text-center text-balance"
                     style={{ fontFamily: 'var(--font-body)' }}
                   >
                     {t(`categories.${cat.labelKey}`)}

@@ -35,17 +35,40 @@
   --prod-bar-lemon-pie: #ffe100;
 }
 
+/* `inline` es obligatorio acá: los valores viven en :root (o los inyecta next/font
+   sobre el body), así que Tailwind tiene que emitir var(...) en la utilidad en vez
+   de copiar el valor en tiempo de build. */
 @theme inline {
   --color-background: var(--color-navbar);
   --color-foreground: var(--text-dark);
+
+  --color-navbar: var(--color-navbar);
+  --color-footpage: var(--color-footpage);
+  --color-naranja: var(--color-naranja);
+  --color-text-dark: var(--text-dark);
+  --color-cta-community-blue: var(--cta-community-blue);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
-/* Unificamos el body en uno solo. 
+/* Unificamos el body en uno solo.
   Por defecto, le damos el color crema del Excel (--color-navbar)
 */
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--color-navbar); 
+  background-color: var(--color-navbar);
   color: var(--text-dark);
+}
+
+/* Red de seguridad contra el scroll horizontal en móvil: clip (y no hidden) no
+   convierte al body en bloque contenedor, así que el header fixed sigue anclado
+   al viewport. El eje vertical queda en `visible` para no romper el scroll. */
+html {
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: clip;
 }

@@ -1,14 +1,18 @@
 import { NextResponse } from 'next/server'
-import { getResend, CONTACT_EMAIL } from '@/lib/email'
+import { getResend, CONTACT_EMAIL, MAIL_FROM } from '@/lib/email'
 import { getOdooConfig } from '@/lib/odoo'
 import { createApplicant } from '@/lib/odoo-recruitment'
-
-const ALLOWED_CV_TYPES = [
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-]
-const MAX_CV_SIZE = 5 * 1024 * 1024
+import {
+  ABUSE_LIMIT,
+  ABUSE_WINDOW_MS,
+  clientKey,
+  detectCvMime,
+  MAX_CV_SIZE,
+  rateLimit,
+  safeFilename,
+  tooManyRequests,
+  validateFields,
+} from '@/lib/form-guard'
 
 const AREA_LABELS: Record<string, string> = {
   produccion: 'Producción',
@@ -18,42 +22,86 @@ const AREA_LABELS: Record<string, string> = {
   logistica: 'Logística',
 }
 
+const SUBMIT_LIMIT = 3
+const SUBMIT_WINDOW_MS = 15 * 60 * 1000
+// El CV son 5MB; el resto del formulario es texto. 6MB deja margen sin permitir abuso.
+const MAX_BODY_BYTES = 6 * 1024 * 1024
+
+const CV_EXTENSIONS: Record<string, string> = {
+  'application/pdf': '.pdf',
+  'application/msword': '.doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+}
+
 export async function POST(request: Request) {
-  const formData = await request.formData()
+  const who = clientKey(request)
 
-  const nombre = formData.get('nombre')
-  const dni = formData.get('dni')
-  const telefono = formData.get('telefono')
-  const localidad = formData.get('localidad')
-  const email = formData.get('email')
-  const area = formData.get('area')
-  const cv = formData.get('cv')
-
-  if (
-    typeof nombre !== 'string' || !nombre ||
-    typeof dni !== 'string' || !dni ||
-    typeof telefono !== 'string' || !telefono ||
-    typeof localidad !== 'string' || !localidad ||
-    typeof email !== 'string' || !email ||
-    typeof area !== 'string' || !area
-  ) {
-    return NextResponse.json({ error: 'Faltan campos obligatorios.' }, { status: 400 })
+  // Techo antiflooding: cuenta todo, incluso lo que ni llega a validar.
+  if (!(await rateLimit(`empleos:abuse:${who}`, ABUSE_LIMIT, ABUSE_WINDOW_MS))) {
+    return tooManyRequests(ABUSE_WINDOW_MS / 1000)
   }
 
-  const areaLabel = AREA_LABELS[area] ?? area
+  const declaredLength = Number(request.headers.get('content-length') ?? 0)
+  if (declaredLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'El archivo supera el tamaño permitido.' }, { status: 413 })
+  }
 
+  let formData: FormData
+  try {
+    formData = await request.formData()
+  } catch {
+    return NextResponse.json({ error: 'No se pudo leer el formulario.' }, { status: 400 })
+  }
+
+  const validation = validateFields([
+    { name: 'nombre', value: formData.get('nombre') },
+    { name: 'dni', value: formData.get('dni') },
+    { name: 'telefono', value: formData.get('telefono') },
+    { name: 'localidad', value: formData.get('localidad') },
+    { name: 'email', value: formData.get('email'), isEmail: true },
+  ])
+
+  if (!validation.ok) {
+    return NextResponse.json({ error: validation.error }, { status: 400 })
+  }
+
+  const { nombre, dni, telefono, localidad, email } = validation.values
+
+  // El área tiene que ser una de las opciones del select, no texto libre.
+  const area = formData.get('area')
+  if (typeof area !== 'string' || !(area in AREA_LABELS)) {
+    return NextResponse.json({ error: 'El área seleccionada no es válida.' }, { status: 400 })
+  }
+  const areaLabel = AREA_LABELS[area]
+
+  const cv = formData.get('cv')
   const attachments: { filename: string; content: Buffer }[] = []
   let cvFile: { filename: string; content: Buffer; mimetype: string } | null = null
+
   if (cv instanceof File && cv.size > 0) {
-    if (!ALLOWED_CV_TYPES.includes(cv.type)) {
-      return NextResponse.json({ error: 'Formato de CV no válido.' }, { status: 400 })
-    }
     if (cv.size > MAX_CV_SIZE) {
       return NextResponse.json({ error: 'El CV supera los 5MB permitidos.' }, { status: 400 })
     }
+
     const content = Buffer.from(await cv.arrayBuffer())
-    attachments.push({ filename: cv.name, content })
-    cvFile = { filename: cv.name, content, mimetype: cv.type }
+
+    // El tipo declarado por el navegador no se usa: manda la firma binaria real.
+    const realMime = detectCvMime(content)
+    if (!realMime) {
+      return NextResponse.json(
+        { error: 'El CV tiene que ser un PDF o un documento de Word.' },
+        { status: 400 },
+      )
+    }
+
+    const filename = safeFilename(cv.name, `cv-${Date.now()}${CV_EXTENSIONS[realMime]}`)
+    attachments.push({ filename, content })
+    cvFile = { filename, content, mimetype: realMime }
+  }
+
+  // Envío válido: recién acá se consume la cuota cara (mail + escritura en Odoo).
+  if (!(await rateLimit(`empleos:submit:${who}`, SUBMIT_LIMIT, SUBMIT_WINDOW_MS))) {
+    return tooManyRequests(SUBMIT_WINDOW_MS / 1000)
   }
 
   // ── Reclutamiento de Odoo: la postulación entra en la columna "Nuevo" del kanban ──
@@ -80,7 +128,7 @@ export async function POST(request: Request) {
   let emailSent = false
   try {
     const { error } = await getResend().emails.send({
-      from: 'Entrenuts Web <onboarding@resend.dev>',
+      from: MAIL_FROM,
       to: CONTACT_EMAIL,
       replyTo: email,
       subject: `Nueva postulación laboral: ${nombre}`,

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { FormStatus, type FormStatusState } from '@/components/FormStatus';
 
 export default function EmploymentPage() {
   const t = useTranslations('employmentPage');
@@ -20,6 +21,7 @@ export default function EmploymentPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<FormStatusState>(null);
 
   // ── FUNCIÓN DE VALIDACIÓN DE SEGURIDAD Y PESO ──
   const validarArchivo = (file: File): boolean => {
@@ -34,12 +36,12 @@ export default function EmploymentPage() {
     const pesoMaximo = 5 * 1024 * 1024; 
 
     if (!tiposPermitidos.includes(file.type)) {
-      alert(t('invalidFormat'));
+      setStatus({ kind: 'error', message: t('invalidFormat') });
       return false;
     }
 
     if (file.size > pesoMaximo) {
-      alert(t('fileTooLarge'));
+      setStatus({ kind: 'error', message: t('fileTooLarge') });
       return false;
     }
 
@@ -91,6 +93,7 @@ export default function EmploymentPage() {
     e.preventDefault();
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setStatus(null);
 
     const payload = new FormData();
     payload.append('nombre', formData.nombre);
@@ -103,12 +106,20 @@ export default function EmploymentPage() {
 
     try {
       const res = await fetch('/api/empleos', { method: 'POST', body: payload });
-      if (!res.ok) throw new Error('request failed');
-      alert(t('success'));
+
+      if (!res.ok) {
+        // El endpoint dice el motivo concreto (CV que no es PDF/Word, cuota
+        // agotada, email mal formado); repetirlo evita un "algo salió mal".
+        const body = await res.json().catch(() => null);
+        setStatus({ kind: 'error', message: body?.error || t('error') });
+        return;
+      }
+
+      setStatus({ kind: 'success', message: t('success') });
       setFormData({ nombre: '', dni: '', telefono: '', localidad: '', email: '', area: '', cv: null });
       setFileName('');
     } catch {
-      alert(t('error'));
+      setStatus({ kind: 'error', message: t('error') });
     } finally {
       setIsSubmitting(false);
     }
@@ -118,7 +129,7 @@ export default function EmploymentPage() {
     <div className="w-full min-h-screen bg-[#EBE5D9]">
       
       {/* ── HERO SECTION (Imagen + Onda) ── */}
-      <div className="relative w-full h-[40vh] md:h-[55vh] min-h-[350px]">
+      <div className="relative w-full h-[40svh] md:h-[55svh] min-h-[350px]">
         {/* Imagen de fondo */}
         <div 
           className="absolute inset-0 w-full h-full bg-cover bg-center"
@@ -143,26 +154,18 @@ export default function EmploymentPage() {
         </div>
       </div>
 
-      <div className="max-w-[1100px] mx-auto px-6 py-12 md:py-16">
-        
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-6 py-12 md:py-16">
+
         {/* ── TÍTULO PRINCIPAL ── */}
-        <h1 
-          className="flex flex-col items-center justify-center text-center font-black uppercase text-[var(--color-naranja)] mb-16 md:mb-24"
-          style={{ 
-            fontFamily: 'var(--font-display)', 
-            letterSpacing: '-0.02em'
-          }}
+        {/* Los mínimos del clamp bajan de 4.5rem/2.1rem: a 72px "TRABAJÁ" mide ~312px
+            y desbordaba la pantalla en cualquier móvil de 360px o menos. */}
+        <h1
+          className="flex flex-col items-center justify-center text-center font-display font-black uppercase tracking-[-0.02em] text-naranja mb-16 md:mb-24"
         >
-          <span 
-            className="leading-[0.85]" 
-            style={{ fontSize: 'clamp(4.5rem, 14vw, 10.5rem)' }}
-          >
+          <span className="leading-[0.85] text-[clamp(2.75rem,14vw,10.5rem)]">
             {t('titleLine1')}
           </span>
-          <span 
-            className="leading-[0.9] mt-1 md:mt-2" 
-            style={{ fontSize: 'clamp(2.1rem, 6.5vw, 4.8rem)' }}
-          >
+          <span className="leading-[0.9] mt-1 md:mt-2 text-[clamp(1.35rem,6.5vw,4.8rem)]">
             {t('titleLine2')}
           </span>
         </h1>
@@ -180,7 +183,7 @@ export default function EmploymentPage() {
               <input 
                 type="text"
                 placeholder={t('namePlaceholder')}
-                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
                 value={formData.nombre}
                 onChange={(e) => setFormData({...formData, nombre: e.target.value})}
                 required
@@ -195,7 +198,7 @@ export default function EmploymentPage() {
               <input 
                 type="text"
                 placeholder={t('dniPlaceholder')}
-                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
                 value={formData.dni}
                 onChange={(e) => setFormData({...formData, dni: e.target.value})}
                 required
@@ -210,7 +213,7 @@ export default function EmploymentPage() {
               <input 
                 type="tel"
                 placeholder={t('phonePlaceholder')}
-                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
                 value={formData.telefono}
                 onChange={(e) => setFormData({...formData, telefono: e.target.value})}
                 required
@@ -225,7 +228,7 @@ export default function EmploymentPage() {
               <input 
                 type="text"
                 placeholder={t('locationPlaceholder')}
-                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
                 value={formData.localidad}
                 onChange={(e) => setFormData({...formData, localidad: e.target.value})}
                 required
@@ -243,7 +246,7 @@ export default function EmploymentPage() {
               <input 
                 type="email"
                 placeholder={t('emailPlaceholder')}
-                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#888888] focus:outline-none pb-2 text-lg font-body"
+                className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
                 required
@@ -256,7 +259,7 @@ export default function EmploymentPage() {
                 {t('areaLabel')}
               </label>
               <select 
-                className="w-full bg-transparent border-b-2 border-[#111111] text-[#888888] focus:outline-none pb-2 text-lg font-body appearance-none cursor-pointer"
+                className={`w-full bg-transparent border-b-2 border-[#111111] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body appearance-none cursor-pointer ${formData.area ? 'text-[#111111]' : 'text-[#6E6558]'}`}
                 required
                 value={formData.area}
                 onChange={(e) => setFormData({...formData, area: e.target.value})}
@@ -271,7 +274,7 @@ export default function EmploymentPage() {
               {/* Ícono de flechita personalizado para el Select */}
               <div className="absolute right-2 bottom-3 pointer-events-none">
                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 1L7 7L13 1" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M1 1L7 7L13 1" stroke="#6E6558" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
             </div>
@@ -291,13 +294,13 @@ export default function EmploymentPage() {
                     : 'bg-[#FCFBF9] border-solid border-transparent'
                 }`}
               >
-                <span className="text-center px-4 font-medium font-body text-lg">
+                <span className="min-w-0 w-full text-center px-4 font-medium font-body text-lg">
                   {fileName ? (
-                    <span className="text-[var(--color-naranja)] font-bold truncate block max-w-[250px] md:max-w-[350px]">
+                    <span className="text-[var(--color-naranja)] font-bold truncate block">
                       📄 {fileName}
                     </span>
                   ) : (
-                    <span className="text-[#A0A0A0]">
+                    <span className="text-[#6E6558]">
                       {t.rich('cvDropzone', {
                         u: (chunks) => <span className="underline decoration-dashed underline-offset-4">{chunks}</span>
                       })}
@@ -312,6 +315,8 @@ export default function EmploymentPage() {
                 />
               </label>
             </div>
+
+            <FormStatus status={status} />
 
             {/* Botón de Envío */}
             <button
