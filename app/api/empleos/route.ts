@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getResend, CONTACT_EMAIL, MAIL_FROM } from '@/lib/email'
+import { getMailAddresses, getResend } from '@/lib/email'
 import { getOdooConfig } from '@/lib/odoo'
 import { createApplicant } from '@/lib/odoo-recruitment'
 import {
@@ -126,19 +126,22 @@ export async function POST(request: Request) {
     : `NO se cargó en Odoo: ${odooError}`
 
   let emailSent = false
-  try {
-    const { error } = await getResend().emails.send({
-      from: MAIL_FROM,
-      to: CONTACT_EMAIL,
-      replyTo: email,
-      subject: `Nueva postulación laboral: ${nombre}`,
-      text: `Nombre: ${nombre}\nDNI: ${dni}\nTeléfono: ${telefono}\nLocalidad: ${localidad}\nEmail: ${email}\nÁrea: ${areaLabel}\n\n${odooStatus}`,
-      attachments,
-    })
-    emailSent = !error
-    if (error) console.error('[empleos] No se pudo enviar el mail de respaldo:', error)
-  } catch (error) {
-    console.error('[empleos] No se pudo enviar el mail de respaldo:', error)
+  const mail = getMailAddresses('contact')
+  if (mail) {
+    try {
+      const { error } = await getResend().emails.send({
+        from: mail.from,
+        to: mail.to,
+        replyTo: email,
+        subject: `Nueva postulación laboral: ${nombre}`,
+        text: `Nombre: ${nombre}\nDNI: ${dni}\nTeléfono: ${telefono}\nLocalidad: ${localidad}\nEmail: ${email}\nÁrea: ${areaLabel}\n\n${odooStatus}`,
+        attachments,
+      })
+      emailSent = !error
+      if (error) console.error('[empleos] No se pudo enviar el mail de respaldo:', error)
+    } catch (error) {
+      console.error('[empleos] No se pudo enviar el mail de respaldo:', error)
+    }
   }
 
   if (!odooApplicantId && !emailSent) {

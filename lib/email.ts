@@ -9,16 +9,25 @@ export function getResend() {
   return client
 }
 
-/**
- * Destino de los formularios. Antes era la constante 'tucorreo@entrenuts.com.ar',
- * un marcador de posición: todo lo que mandaba el sitio se iba a una casilla que
- * no existe, y como Resend acepta el request igual, el endpoint respondía ok.
- */
-export const CONTACT_EMAIL = process.env.CONTACT_EMAIL?.trim() || 'contacto@entrenuts.com.ar'
+const RECIPIENT_VARS = {
+  // Postulaciones laborales
+  contact: 'CONTACT_EMAIL',
+  // Leads de "Quiero ser distribuidor": los atiende el área comercial
+  distributor: 'DISTRIBUTOR_EMAIL',
+} as const
 
 /**
- * Remitente. 'onboarding@resend.dev' es el dominio de prueba de Resend y sólo
- * sirve para pruebas contra la casilla del titular de la cuenta; para entregar a
- * terceros hace falta un dominio propio verificado en Resend.
+ * Remitente y destino salen sólo del entorno (.env.local o el hosting), sin
+ * valores de respaldo a propósito: un default silencioso ya hizo que los
+ * formularios respondieran ok mientras los mails iban a una casilla inexistente.
  */
-export const MAIL_FROM = process.env.MAIL_FROM?.trim() || 'Entrenuts Web <onboarding@resend.dev>'
+export function getMailAddresses(recipient: keyof typeof RECIPIENT_VARS): { from: string; to: string } | null {
+  const from = process.env.MAIL_FROM?.trim()
+  const to = process.env[RECIPIENT_VARS[recipient]]?.trim()
+
+  if (!from || !to) {
+    console.error(`[email] Falta configurar MAIL_FROM o ${RECIPIENT_VARS[recipient]} en el entorno.`)
+    return null
+  }
+  return { from, to }
+}

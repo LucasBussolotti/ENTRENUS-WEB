@@ -64,6 +64,23 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── VIDEO COMERCIAL ── */}
+      {/* preload="none": son ~24MB y sólo se descargan si la persona le da play;
+          hasta entonces se ve el poster. */}
+      <section className="max-w-5xl mx-auto px-5 sm:px-6 md:px-12 py-8">
+        <video
+          controls
+          playsInline
+          preload="none"
+          poster="/images/REELS/COMERCIAL-poster.webp"
+          aria-label={t('videoLabel')}
+          className="block w-full aspect-video rounded-sm bg-black shadow-sm"
+        >
+          <source src="/images/REELS/COMERCIAL-web.mp4" type="video/mp4" />
+          {t('videoFallback')}
+        </video>
+      </section>
+
       {/* ── 3. GRILLA DE 3 FOTOS (Equipo y Fábrica) ── */}
       <section className="max-w-5xl mx-auto px-5 sm:px-6 md:px-12 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">

@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
+import { MobileCategoryPicker } from '@/components/MobileCategoryPicker';
 
 // 👇 IMPORTÁ TUS PRODUCTOS DESDE LA RUTA CORRECTA
 import { products } from '@/lib/data/products';
@@ -125,13 +126,20 @@ export function ProductDetail() {
       <div className="max-w-[1200px] mx-auto relative">
         
         {/* ── 1. NAVEGACIÓN DE CATEGORÍAS ── */}
-        {/* En móvil son 7 etiquetas: envueltas ocupaban ~8 renglones antes de mostrar
-            un solo producto. Debajo de md pasan a una tira de scroll horizontal de una
-            línea; desde md vuelve el bloque centrado con separadores. */}
+        {/* En móvil las 7 etiquetas ocupaban ~8 renglones (o una tira con scroll
+            lateral poco descubrible): ahí se muestra sólo la categoría activa y el
+            resto se elige en un menú a pantalla completa. Desde md, bloque centrado. */}
+        <MobileCategoryPicker
+          categories={UI_CATEGORIES.map((cat) => ({ id: cat, label: t(`categories.${CATEGORY_LABEL_KEYS[cat]}`) }))}
+          activeId={activeCategory}
+          onSelect={selectCategory}
+          className="mb-8 md:hidden"
+        />
+
         <div
           role="tablist"
           aria-label={t('categoriesLabel')}
-          className="font-display -mx-4 mb-8 flex snap-x snap-mandatory items-center gap-x-4 overflow-x-auto scroll-smooth scrollbar-hide px-4 md:mx-0 md:mb-12 md:flex-wrap md:justify-center md:gap-x-6 md:gap-y-2 md:overflow-x-visible md:px-0 md:text-center"
+          className="font-display mb-12 hidden flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center md:flex"
         >
           {UI_CATEGORIES.map((cat, index) => {
             const isActive = activeCategory === cat;
@@ -142,7 +150,7 @@ export function ProductDetail() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => selectCategory(cat)}
-                  className={`shrink-0 snap-start rounded-sm text-xl font-black tracking-tight whitespace-nowrap uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current md:text-2xl md:whitespace-normal lg:text-4xl xl:text-5xl ${
+                  className={`rounded-sm text-2xl font-black tracking-tight uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-current lg:text-4xl xl:text-5xl ${
                     isActive ? '' : 'text-[#7A7266] hover:text-[#4A443B]'
                   }`}
                   style={isActive ? { color: CATEGORY_COLORS[cat] } : {}}
@@ -150,7 +158,7 @@ export function ProductDetail() {
                   {t(`categories.${CATEGORY_LABEL_KEYS[cat]}`)}
                 </button>
                 {index < UI_CATEGORIES.length - 1 && (
-                  <span aria-hidden="true" className="hidden text-2xl font-black text-[#C9C2B6] md:inline lg:text-4xl xl:text-5xl">|</span>
+                  <span aria-hidden="true" className="text-2xl font-black text-[#C9C2B6] lg:text-4xl xl:text-5xl">|</span>
                 )}
               </React.Fragment>
             );

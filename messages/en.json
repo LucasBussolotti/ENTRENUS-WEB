@@ -120,6 +120,8 @@
     "filterLabel": "Filter by:",
     "mlLink": "Buy on Mercado Libre",
     "categoriesLabel": "Product categories",
+    "changeCategory": "Change category (current: {category})",
+    "closeCategories": "Close categories",
     "categories": {
       "peanutButters": "Peanut butters",
       "coconutOils": "Coconut oils",
@@ -175,7 +177,9 @@
     "teamAlt": "Entrenuts team",
     "machinesAlt": "Machines at the plant",
     "operatorAlt": "Operator at the plant",
-    "productionLineAlt": "Entrenuts production line"
+    "productionLineAlt": "Entrenuts production line",
+    "videoLabel": "Entrenuts commercial video",
+    "videoFallback": "Your browser cannot play this video."
   },
   "employmentPage": {
     "title": "Join Our Team",

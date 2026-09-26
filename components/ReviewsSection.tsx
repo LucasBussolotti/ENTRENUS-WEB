@@ -26,7 +26,7 @@ const reviews: Review[] = [
   { name: 'Lucía P.', dateKey: 'review3Date', rating: 5, textKey: 'review3Text' },
 ]
 
-const REELS_DIR = '/images/REELS/web'
+const REELS_DIR = '/images/REELS'
 
 const instagramReels: Reel[] = [
   {

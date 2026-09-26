@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# video original sin comprimir (176MB, supera el límite de GitHub); la web usa COMERCIAL-web.mp4
+/public/images/REELS/COMERCIAL.mp4
+
 # vercel
 .vercel
 .claude

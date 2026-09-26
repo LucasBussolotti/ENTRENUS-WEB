@@ -4,8 +4,7 @@ import { useLocale, useTranslations } from 'next-intl'
 
 const CONTACT_LINES = [
   { text: 'Pte. Illia 124, Colón Entre Ríos', href: null },
-  { text: 'contacto@entrenuts.com.ar', href: 'mailto:contacto@entrenuts.com.ar' },
-  { text: 'venta@entrenuts.com.ar', href: 'mailto:venta@entrenuts.com.ar' },
+  { text: 'consumidores@entrenuts.com.ar', href: 'mailto:consumidores@entrenuts.com.ar' },
   { text: '(3447) 469008', href: 'tel:+543447469008' },
 ]
 

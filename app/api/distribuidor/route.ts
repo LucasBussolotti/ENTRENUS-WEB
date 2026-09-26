@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getResend, CONTACT_EMAIL, MAIL_FROM } from '@/lib/email'
+import { getMailAddresses, getResend } from '@/lib/email'
 import {
   ABUSE_LIMIT,
   ABUSE_WINDOW_MS,
@@ -66,12 +66,17 @@ export async function POST(request: Request) {
     return tooManyRequests(SUBMIT_WINDOW_MS / 1000)
   }
 
+  const mail = getMailAddresses('distributor')
+  if (!mail) {
+    return NextResponse.json({ error: 'No se pudo enviar el formulario.' }, { status: 502 })
+  }
+
   // El SDK de Resend lanza (no devuelve error) si falta la API key o si se cae la
   // red. Sin este try el endpoint respondía 500 con stack en vez de un 502 limpio.
   try {
     const { error } = await getResend().emails.send({
-      from: MAIL_FROM,
-      to: CONTACT_EMAIL,
+      from: mail.from,
+      to: mail.to,
       replyTo: email,
       subject: `Nuevo interesado en ser distribuidor: ${nombre}`,
       text: `Nombre: ${nombre}\nUbicación: ${ubicacion}\nZona de cobertura: ${zona}\nTeléfono: ${telefono}\nEmail: ${email}`,

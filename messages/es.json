@@ -120,6 +120,8 @@
     "filterLabel": "Filtrar por:",
     "mlLink": "Comprar en Mercado Libre",
     "categoriesLabel": "Categorías de producto",
+    "changeCategory": "Cambiar categoría (actual: {category})",
+    "closeCategories": "Cerrar categorías",
     "categories": {
       "peanutButters": "Pastas de maní",
       "coconutOils": "Aceites de coco",
@@ -175,7 +177,9 @@
     "teamAlt": "Equipo de Entrenuts",
     "machinesAlt": "Máquinas de la planta",
     "operatorAlt": "Operario en la planta",
-    "productionLineAlt": "Línea de producción de Entrenuts"
+    "productionLineAlt": "Línea de producción de Entrenuts",
+    "videoLabel": "Video comercial de Entrenuts",
+    "videoFallback": "Tu navegador no puede reproducir este video."
   },
   "employmentPage": {
     "title": "Sumate al Equipo",
