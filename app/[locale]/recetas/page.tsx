@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Download, Play, X } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
 interface Recipe {
@@ -16,18 +16,18 @@ interface Recipe {
 const INSTAGRAM_PROFILE = 'https://www.instagram.com/reel/DbMDOxYR0ii/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==';
 
 const RECIPES: Recipe[] = [
-  { id: 1, coverImage: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 2, coverImage: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 3, coverImage: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 4, coverImage: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 5, coverImage: 'https://images.unsplash.com/photo-1529042410759-befb1204b468?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 6, coverImage: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 7, coverImage: 'https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 8, coverImage: 'https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 9, coverImage: 'https://images.unsplash.com/photo-1484723091791-001e37b139db?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 10, coverImage: 'https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 11, coverImage: 'https://images.unsplash.com/photo-1511690656952-34342bb7c2f2?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
-  { id: 12, coverImage: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=600&q=80', reelUrl: INSTAGRAM_PROFILE },
+  { id: 1, coverImage: '/images/RECETAS/RECETA1.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 2, coverImage: '/images/RECETAS/RECETA2.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 3, coverImage: '/images/RECETAS/RECETA3.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 4, coverImage: '/images/RECETAS/RECETA4.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 5, coverImage: '/images/RECETAS/RECETA5.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 6, coverImage: '/images/RECETAS/RECETA6.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 7, coverImage: '/images/RECETAS/RECETA7.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 8, coverImage: '/images/RECETAS/RECETA8.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 9, coverImage: '/images/RECETAS/RECETA9.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 10, coverImage: '/images/RECETAS/RECETA10.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 11, coverImage: '/images/RECETAS/RECETA11.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 12, coverImage: '/images/RECETAS/RECETA12.webp', reelUrl: INSTAGRAM_PROFILE },
 ];
 
 function getInstagramEmbedUrl(url: string): string | null {
@@ -95,9 +95,6 @@ export default function RecipesPage() {
                     className="transition-transform duration-700 group-hover:scale-105"
                   />
 
-                  <div className="absolute top-3 left-3 bg-black/20 backdrop-blur-md p-1.5 rounded-md">
-                    <Download size={14} color="white" aria-hidden="true" />
-                  </div>
                   <div className="absolute top-3 right-3 bg-black/20 backdrop-blur-md p-1.5 rounded-md group-hover:scale-110 transition-transform duration-300">
                     <Play size={14} color="white" fill="white" aria-hidden="true" />
                   </div>

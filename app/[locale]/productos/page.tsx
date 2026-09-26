@@ -284,9 +284,10 @@ export function ProductDetail() {
                 {productVariant && (
                   <span 
                     className="block mt-2 transition-colors duration-300"
-                    style={{ 
-                      // Busca el color en el diccionario, si no existe usa el default
-                      color: currentProduct.variantEs ? (VARIANT_COLORS[currentProduct.variantEs] || activeColor) : activeColor 
+                    style={{
+                      // VARIANT_COLORS pisa el color del producto (así se ven hoy las pastas);
+                      // el resto usa el color definido en products.ts.
+                      color: (currentProduct.variantEs && VARIANT_COLORS[currentProduct.variantEs]) || currentProduct.color || activeColor
                     }}
                   >
                     {productVariant}
