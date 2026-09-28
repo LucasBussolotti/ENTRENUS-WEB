@@ -16,18 +16,18 @@ interface Recipe {
 const INSTAGRAM_PROFILE = 'https://www.instagram.com/reel/DbMDOxYR0ii/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==';
 
 const RECIPES: Recipe[] = [
-  { id: 1, coverImage: '/images/RECETAS/RECETA1.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 2, coverImage: '/images/RECETAS/RECETA2.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 3, coverImage: '/images/RECETAS/RECETA3.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 4, coverImage: '/images/RECETAS/RECETA4.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 5, coverImage: '/images/RECETAS/RECETA5.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 6, coverImage: '/images/RECETAS/RECETA6.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 7, coverImage: '/images/RECETAS/RECETA7.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 8, coverImage: '/images/RECETAS/RECETA8.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 9, coverImage: '/images/RECETAS/RECETA9.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 10, coverImage: '/images/RECETAS/RECETA10.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 11, coverImage: '/images/RECETAS/RECETA11.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 12, coverImage: '/images/RECETAS/RECETA12.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 1, coverImage: '/images/RECETAS/RECETAA1.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 2, coverImage: '/images/RECETAS/RECETAA2.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 3, coverImage: '/images/RECETAS/RECETAA3.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 4, coverImage: '/images/RECETAS/RECETAA4.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 5, coverImage: '/images/RECETAS/RECETAA5.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 6, coverImage: '/images/RECETAS/RECETAA6.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 7, coverImage: '/images/RECETAS/RECETAA7.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 8, coverImage: '/images/RECETAS/RECETAA8.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 9, coverImage: '/images/RECETAS/RECETAA9.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 10, coverImage: '/images/RECETAS/RECETAA10.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 11, coverImage: '/images/RECETAS/RECETAA11.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 12, coverImage: '/images/RECETAS/RECETAA12.webp', reelUrl: INSTAGRAM_PROFILE },
 ];
 
 function getInstagramEmbedUrl(url: string): string | null {
@@ -37,7 +37,7 @@ function getInstagramEmbedUrl(url: string): string | null {
   return `https://www.instagram.com/${type}/${match[2]}/embed/`;
 }
 
-export default function RecipesPage() {
+export function RecipesClient() {
   const t = useTranslations('recipes');
 
   const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);

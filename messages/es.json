@@ -50,26 +50,20 @@
   },
   "quote": {
     "text": "\"Lo saludable debe dejar de ser inaccesible, caro o sin sabor. Por eso creamos alimentos reales, simples y ricos, al alcance de todos. Nuestro propósito es claro: democratizar lo saludable para que todos vivan mejor.\"",
-    "author": "EntreNuts",
+    "author": "Entrenuts",
     "tagline": "Hacemos rico lo saludable.",
     "sealsAlt": "Sellos de calidad"
   },
   "reviews": {
     "sectionTitle": "Lo que dice nuestra comunidad",
-    "sectionSub": "Recetas, reviews y momentos reales de quienes ya eligen Entrenuts.",
+    "sectionSub": "Opiniones de compradores en Mercado Libre y recetas de quienes ya eligen Entrenuts.",
+    "ratingAria": "{count} de 5 estrellas",
+    "listingLink": "ver la opinión en Mercado Libre (se abre en una pestaña nueva)",
     "recipesTitle": "Recetas con Entrenuts",
-    "verifiedPurchase": "Compra verificada",
-    "review1Date": "Hace 2 semanas",
-    "review1Text": "Súper recomendable!! Exquisito volveré a comprar sin dudas. Es imposible que no te guste, no conocía la marca!! riquísimo!!! 😋.",
-    "review2Date": "Hace 1 mes",
-    "review2Text": "Compré esta y con stevia, las dos me gustaron, pero en lo personal no hay con que darle a la natural.",
-    "review3Date": "Hace 2 meses",
-    "review3Text": "Rica, saludable, sin azúcar agregada, la recomiendo. Me llego ayer a casa, muy bien presentada.",
     "reel1Title": "Tostada con pasta de maní",
     "reel2Title": "Galletas con pasta proteica",
     "reel3Title": "Pancakes con pasta de maní crocante",
-    "reel4Title": "Bizcochos con aceite de coco",
-    "ratingAria": "Calificación: {count} de 5 estrellas"
+    "reel4Title": "Bizcochos con aceite de coco"
   },
   "community": {
     "title": "COMÉ Y VIVÍ MÁS SALUDABLE",
@@ -97,14 +91,14 @@
     "closeChat": "Cerrar chat",
     "openChat": "Abrir chat",
     "welcomeMessage": "¡Hola! Soy Nuti 💛. ¿En qué te puedo ayudar hoy?",
-    "companyMessage": "EntreNuts nació en 2020 en Colón, Entre Ríos. Nuestra misión es ofrecer alimentos saludables, naturales y de alta calidad.",
+    "companyMessage": "Entrenuts nació en 2020 en Colón, Entre Ríos. Nuestra misión: democratizar lo saludable.",
     "productsMessage": "¡Tenemos de todo! ¿Qué categoría te interesa?",
-    "pastasMessage": "Tenemos 6 sabores: Clásica, Crocante, Cacao, Coco, Stevia y Proteica (¡esta última tiene 14g de proteína cada 20g!). Son Sin TACC y aptas veganas.",
+    "pastasMessage": "Tenemos 5 sabores de pasta de maní: Natural, Crocante, Cacao, Coco y Stevia, sin azúcar agregada y sin gluten. También está el Untable de maní PROTEIN en Cookies & Cream y Salted Caramel.",
     "shippingMessage": "Hacemos envíos a todo el país. Podés comprar directamente desde nuestra tienda oficial en Mercado Libre.",
     "honeyGheeMessage": "Nuestra Miel y Ghee son productos premium, ideales para darle un toque especial a tus desayunos y comidas.",
     "returnsMessage": "Si tu producto llegó dañado, contactanos por WhatsApp y te enviamos uno nuevo sin cargo.",
     "ratingsMessage": "¡Nuestros clientes nos aman! Tenemos 4.9 estrellas en Mercado Libre.",
-    "optionCompany": "Sobre EntreNuts",
+    "optionCompany": "Sobre Entrenuts",
     "optionProducts": "Nuestros Productos",
     "optionShipping": "Envíos y Pagos",
     "optionReturns": "Devoluciones",
@@ -145,7 +139,13 @@
     "storage": "Conservar en lugar fresco.",
     "buy": "Comprar",
     "comingSoonTitle": "Muy pronto",
-    "comingSoonText": "Estamos preparando esta línea de productos. Volvé pronto para conocerla."
+    "comingSoonText": "Estamos preparando esta línea de productos. Volvé pronto para conocerla.",
+    "faqTitle": "Preguntas frecuentes",
+    "breadcrumbLabel": "Ubicación en el sitio",
+    "allProducts": "Todos los productos",
+    "productsIn": "Productos de {category}",
+    "glutenFree": "Sin gluten",
+    "sizes": "Presentaciones: {value}"
   },
   "recipes": {
     "title": "Recetas",
@@ -244,7 +244,146 @@
     "catalogLabel": "CATÁLOGO 2026",
     "downloadCatalog": "Descargar catálogo",
     "portalCta": "Entrar al portal",
-    "portalBanner": "Portal de distribuidores",
+    "portalComingSoon": "Próximamente",
     "portalUnavailable": "El portal no está disponible en este momento."
+  },
+  "seo": {
+    "siteDescription": "Alimentos argentinos de Entrenuts: pasta de maní, aceite de coco, miel, ghee, aceite MCT, barritas, puffs y pancakes proteicos. Hacemos rico lo saludable.",
+    "pages": {
+      "home": {
+        "title": "Entrenuts | Pasta de maní, aceite de coco, miel y línea Protein",
+        "description": "Entrenuts nació en Colón, Entre Ríos. Elaboramos pasta de maní, aceite de coco, miel, ghee, aceite MCT, barritas, puffs y pancakes proteicos. Hacemos rico lo saludable."
+      },
+      "productos": {
+        "title": "Productos: pasta de maní, aceite de coco, miel y línea Protein",
+        "description": "Conocé todos los productos Entrenuts: pasta de maní, Untable de maní Protein, barritas, puffs, pancakes, aceite de coco, aceite MCT, ghee y miel."
+      },
+      "recetas": {
+        "title": "Recetas con productos Entrenuts",
+        "description": "Ideas y recetas para usar la pasta de maní, el aceite de coco, la miel y la línea Protein de Entrenuts en tus comidas de todos los días."
+      },
+      "acercaDe": {
+        "title": "Quiénes somos",
+        "description": "Entrenuts es una empresa argentina de alimentos nacida en Colón, Entre Ríos, que empezó a producir en marzo de 2020. Nuestra misión: democratizar lo saludable."
+      },
+      "empleos": {
+        "title": "Trabajá con nosotros",
+        "description": "Conocé las búsquedas laborales abiertas en Entrenuts y postulate para sumarte al equipo."
+      },
+      "distribuidor": {
+        "title": "Distribuidores",
+        "description": "Sumate como distribuidor de Entrenuts: completá el formulario y te contactamos para vender nuestros productos en tu zona."
+      }
+    },
+    "catalog": {
+      "pastas-de-mani": {
+        "title": "Pasta de maní sin azúcar agregada",
+        "h1": "Pasta de maní",
+        "description": "Pasta de maní Entrenuts sin azúcar agregada: Natural, Crocante, Stevia, Cacao y Coco, además del Untable de maní Protein."
+      },
+      "protein": {
+        "title": "Snacks proteicos: línea Protein",
+        "h1": "Línea Protein",
+        "description": "Línea Protein de Entrenuts: Untable de maní proteico, barritas proteicas, Puffs horneados y premezcla para pancakes proteicos."
+      },
+      "barritas-proteicas": {
+        "title": "Barritas proteicas sin gluten",
+        "h1": "Barritas proteicas",
+        "description": "Barritas proteicas Entrenuts sin gluten: 45 g con 15 g de proteína vegetal. Sabores ChocoManí, NaranChoc, Frutilla Deli y Lemon Pie."
+      },
+      "aceite-de-coco": {
+        "title": "Aceite de coco neutro y virgen",
+        "h1": "Aceite de coco",
+        "description": "Aceite de coco Entrenuts: neutro, sin aroma ni sabor, y virgen, sin refinar y con todo el sabor a coco. También aceite MCT."
+      },
+      "miel": {
+        "title": "Miel entrerriana líquida y untable",
+        "h1": "Miel",
+        "description": "Miel Entrenuts del campo entrerriano, líquida para mezclar y endulzar, y untable, con textura cremosa que no chorrea."
+      },
+      "pasta-de-mani-natural": {
+        "title": "Pasta de maní natural sin azúcar agregada",
+        "description": "Pasta de maní Natural Entrenuts: maní seleccionado, sin azúcar agregada y sin aceites hidrogenados. Lisa y cremosa, en 370 g, 1 kg y 4 kg."
+      },
+      "pasta-de-mani-crocante": {
+        "title": "Pasta de maní crocante",
+        "description": "Pasta de maní Crocante Entrenuts: maní seleccionado con trozos de maní para una textura con mordida. Sin azúcar agregada, en 370 g."
+      },
+      "pasta-de-mani-stevia": {
+        "title": "Pasta de maní con stevia",
+        "description": "Pasta de maní Entrenuts con stevia y sin azúcar agregada, en frasco de 370 g."
+      },
+      "pasta-de-mani-cacao": {
+        "title": "Pasta de maní con cacao",
+        "description": "Pasta de maní Entrenuts con cacao y sin azúcar agregada, en frasco de 370 g."
+      },
+      "pasta-de-mani-coco": {
+        "title": "Pasta de maní con coco",
+        "description": "Pasta de maní Entrenuts con coco y sin azúcar agregada, en frasco de 370 g."
+      },
+      "untable-de-mani-proteico-cookies-and-cream": {
+        "title": "Untable de maní proteico Cookies & Cream",
+        "description": "Untable de maní Protein sabor Cookies & Cream: la pasta de maní proteica de Entrenuts, con proteína agregada."
+      },
+      "untable-de-mani-proteico-salted-caramel": {
+        "title": "Untable de maní proteico Salted Caramel",
+        "description": "Untable de maní Protein sabor Salted Caramel: la pasta de maní proteica de Entrenuts, con proteína agregada."
+      },
+      "barrita-proteica-choco-mani": {
+        "title": "Barrita proteica de chocolate y maní",
+        "description": "Barrita proteica ChocoManí Entrenuts: 45 g con 15 g de proteína vegetal y 8 g de fibra por porción."
+      },
+      "barrita-proteica-naranchoc": {
+        "title": "Barrita proteica de naranja y chocolate",
+        "description": "Barrita proteica NaranChoc Entrenuts: 45 g con 15 g de proteína vegetal y 9 g de fibra por porción."
+      },
+      "barrita-proteica-frutilla-deli": {
+        "title": "Barrita proteica de frutilla",
+        "description": "Barrita proteica Frutilla Deli Entrenuts: 45 g con 15 g de proteína vegetal y 8 g de fibra por porción."
+      },
+      "barrita-proteica-lemon-pie": {
+        "title": "Barrita proteica Lemon Pie",
+        "description": "Barrita proteica Lemon Pie Entrenuts: 45 g con 15 g de proteína vegetal y 7 g de fibra por porción."
+      },
+      "puffs-proteicos": {
+        "title": "Puffs proteicos: snack proteico horneado",
+        "description": "Puffs Protein Entrenuts: snack salado horneado, no frito, con más de 15 g de proteína por paquete de 50 g. Sabores Cebolla a la Crema, Queso, Mostaza y Miel, y Barbacoa."
+      },
+      "pancakes-proteicos": {
+        "title": "Premezcla para pancakes proteicos",
+        "description": "Premezcla Pancakes Protein de Entrenuts, en sabores Vainilla, Queso y Chocolate."
+      },
+      "aceite-de-coco-neutro": {
+        "title": "Aceite de coco neutro, sin aroma ni sabor",
+        "description": "Aceite de coco neutro Entrenuts, sin aroma ni sabor. Es una grasa naturalmente estable: ideal para salteados, frituras y para reemplazar otras grasas."
+      },
+      "aceite-de-coco-virgen": {
+        "title": "Aceite de coco virgen sin refinar",
+        "description": "Aceite de coco virgen Entrenuts: sin refinar, conserva todo el sabor a coco. Ideal para repostería, batidos y bowls."
+      },
+      "aceite-mct": {
+        "title": "Aceite MCT",
+        "description": "Aceite MCT Entrenuts: triglicéridos de cadena media, sin aroma ni sabor. Se usa en frío, en café, batidos o aderezos, y en recetas keto y low carb."
+      },
+      "ghee": {
+        "title": "Ghee: manteca clarificada",
+        "description": "Ghee Entrenuts: manteca clarificada con punto de humo alto y sabor intenso. No necesita refrigeración. En 150 g y 300 g."
+      },
+      "miel-untable": {
+        "title": "Miel cremosa untable",
+        "description": "Miel untable Entrenuts, del campo entrerriano: la misma miel con textura cremosa, que se unta y no chorrea."
+      },
+      "miel-liquida": {
+        "title": "Miel pura líquida",
+        "description": "Miel líquida Entrenuts, del campo entrerriano, para mezclar y endulzar."
+      }
+    }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "heading": "Esta página no existe",
+    "text": "Puede que el enlace esté mal escrito o que la página se haya movido.",
+    "home": "Ir al inicio",
+    "products": "Ver productos"
   }
 }

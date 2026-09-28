@@ -44,3 +44,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# reportes generados por el plugin claude-seo (/seo audit, /seo schema, etc.)
+/seo-reports/
+/FULL-AUDIT-REPORT.md
+/ACTION-PLAN.md
+/SCHEMA-REPORT.md
+/VALIDATION-REPORT.md
+/screenshots/

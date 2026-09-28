@@ -3,7 +3,7 @@
 - **Estado:** Aceptada
 - **Fecha:** 2026-09-17
 - **Ámbito:** `app/[locale]/`, `lib/seo/`, `lib/data/products.ts`, `messages/`
-- **Documentos relacionados:** [keyword-strategy.md](./keyword-strategy.md)
+- **Documentos relacionados:** planillas de marketing en [plantillas-marketing/](./plantillas-marketing/) (keywords, preguntas AEO y reglas), [revision-textos-reglas.md](./revision-textos-reglas.md)
 
 ## Contexto
 
@@ -99,6 +99,13 @@ Las keywords no se emiten en `<meta name="keywords">` porque Google no usa esa e
 - Las fichas de producto necesitan datos fiables. Hoy varios `mlUrl` apuntan a la home de Mercado Libre y no sirven como `offers` en el JSON-LD.
 
 ## Fases
+
+> **Estado (2026-09-27):** fases 1 y 2 implementadas y parte de la 3 (`Organization`, `WebSite`, `Product`/`ProductGroup`, `BreadcrumbList`, `FAQPage`). Falta `Recipe` y la validación con Rich Results Test en producción. La fuente de verdad de keywords son las planillas de `plantillas-marketing/` en lugar de `keyword-strategy.md`.
+>
+> Cambios respecto de la decisión original:
+> - Los slugs siguen la planilla 01 de marketing (`/productos/pasta-de-mani-natural`), no `Product.id`. El mapeo está en `lib/data/catalog.ts`.
+> - Hay páginas de categoría (`pastas-de-mani`, `protein`, `barritas-proteicas`, `aceite-de-coco`, `miel`) con grilla de productos, y fichas que agrupan sabores en una sola URL (`puffs-proteicos`, `pancakes-proteicos`).
+> - Las preguntas AEO viven en `lib/data/faqs.ts` (bilingües, como `products.ts`) y solo se publican las aprobadas.
 
 1. **Fundaciones (esta fase):** este ADR, la plantilla de la estrategia, `metadataBase` y valores por defecto en el layout, `sitemap.ts`, `robots.ts`, la separación server/client de las páginas y las rutas `/productos/[slug]`.
 2. **Contenido:** marketing completa `keyword-strategy.md`, se completa `lib/seo/keywords.ts` y los textos de `Metadata` en ambos idiomas.

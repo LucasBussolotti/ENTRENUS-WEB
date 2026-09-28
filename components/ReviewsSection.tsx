@@ -1,32 +1,9 @@
-"use client"
-
-import { useEffect, useRef } from 'react'
-import { Star, Play, BadgeCheck, ShoppingBag } from 'lucide-react'
-import { useTranslations } from 'next-intl'
-
-interface Review {
-  name: string
-  dateKey: string
-  rating: number
-  textKey: string
-}
-
-interface Reel {
-  titleKey: string
-  /** Sin extensión: se sirven /web/<slug>.mp4 y su portada /web/<slug>.webp. */
-  slug: string
-  views: string
-  link: string
-}
-
-// ─── REVIEWS SIMULANDO MERCADO LIBRE ───
-const reviews: Review[] = [
-  { name: 'Valentina M.', dateKey: 'review1Date', rating: 5, textKey: 'review1Text' },
-  { name: 'Martín R.', dateKey: 'review2Date', rating: 5, textKey: 'review2Text' },
-  { name: 'Lucía P.', dateKey: 'review3Date', rating: 5, textKey: 'review3Text' },
-]
-
-const REELS_DIR = '/images/REELS'
+import { ArrowUpRight, ShoppingBag, Star } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
+import { ReelCard, type Reel } from '@/components/ReelCard'
+import { productName, productVariant } from '@/lib/data/catalog'
+import { products } from '@/lib/data/products'
+import { reviews, type MarketplaceReview } from '@/lib/data/reviews'
 
 const instagramReels: Reel[] = [
   {
@@ -55,94 +32,55 @@ const instagramReels: Reel[] = [
   },
 ]
 
-/**
- * Los MP4 venían a 1080x1920 y ~10.000 kb/s: 126 MB entre los cuatro. Recomprimidos
- * a 720x1280 quedaron en ~2 MB cada uno, así que la vista previa en movimiento
- * vuelve a ser viable también en touch, que es donde el hover no existe.
- *
- * Aun así no se descarga nada de entrada: `preload="none"` más el poster hacen que
- * el estado inicial sean ~28 KB de imagen, y el video recién se pide cuando la
- * tarjeta entra en pantalla. Se respeta el modo ahorro de datos y las conexiones
- * lentas, donde la portada estática ya cuenta la historia.
- */
-function prefersStillImage() {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true
-  const connection = (
-    navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }
-  ).connection
-  if (connection?.saveData) return true
-  return connection?.effectiveType === 'slow-2g' || connection?.effectiveType === '2g'
-}
-
-function ReelCard({ reel }: { reel: Reel }) {
+function ReviewCard({ review }: { review: MarketplaceReview }) {
   const t = useTranslations('reviews')
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    if (prefersStillImage()) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {})
-        } else {
-          video.pause()
-          video.currentTime = 0
-        }
-      },
-      { threshold: 0.5 },
-    )
-
-    observer.observe(video)
-    return () => {
-      observer.disconnect()
-      video.pause()
-    }
-  }, [])
+  const lang = useLocale() === 'en' ? 'en' : 'es'
+  const product = products.find((p) => p.id === review.productId)
+  if (!product) throw new Error(`reviews.ts referencia un producto inexistente: ${review.productId}`)
+  const variant = productVariant(product, lang)
+  const name = variant ? `${productName(product, lang)} ${variant}` : productName(product, lang)
 
   return (
-    <a
-      href={reel.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group relative block aspect-9/16 min-w-0 overflow-hidden rounded-2xl bg-[#1A1207] no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-naranja)] md:min-w-[180px] md:flex-1 md:motion-safe:transition-[flex-grow] md:motion-safe:duration-500 md:hover:grow-[1.4]"
-    >
-      <video
-        ref={videoRef}
-        src={`${REELS_DIR}/${reel.slug}.mp4`}
-        poster={`${REELS_DIR}/${reel.slug}.webp`}
-        preload="none"
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-        tabIndex={-1}
-        className="size-full object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:ease-out motion-safe:group-hover:scale-105"
-      />
+    <article className="flex w-full flex-col rounded-2xl border border-[#ebebeb] bg-white p-5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] sm:p-7">
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <span className="flex gap-0.5" role="img" aria-label={t('ratingAria', { count: review.rating })}>
+          {Array.from({ length: 5 }).map((_, s) => (
+            <Star
+              key={s}
+              size={16}
+              aria-hidden="true"
+              fill={s < review.rating ? '#ef7f17' : 'none'}
+              color={s < review.rating ? '#ef7f17' : '#C9C2B6'}
+            />
+          ))}
+        </span>
+        <span className="flex shrink-0 items-center gap-1 text-[0.7rem] font-semibold text-[#6B6B6B]">
+          <ShoppingBag size={12} aria-hidden="true" /> Mercado Libre
+        </span>
+      </div>
 
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/85 to-transparent to-60%"
-      />
+      {/* Texto original del comprador: siempre en español */}
+      <p lang="es" className="mb-6 text-[0.95rem] leading-relaxed whitespace-pre-line text-[#333333]">
+        {review.text}
+      </p>
 
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 p-4 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-0"
+      <a
+        href={review.listingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group mt-auto inline-flex items-start gap-1 self-start rounded-sm text-[0.85rem] font-bold text-[#111111] no-underline hover:text-[var(--color-naranja)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-naranja)]"
       >
-        <Play size={24} fill="white" color="white" className="ml-1" />
-      </span>
-
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 block p-4 sm:p-5">
-        <span className="flex items-center gap-1 text-xs font-bold text-white/80">
-          <Play size={12} fill="currentColor" aria-hidden="true" /> {reel.views}
+        <span>
+          {name}
+          <span className="sr-only"> — {t('listingLink')}</span>
         </span>
-        <span className="mt-1 block text-sm leading-snug font-semibold text-white sm:text-base">
-          {t(reel.titleKey)}
-        </span>
-      </span>
-    </a>
+        <ArrowUpRight
+          size={16}
+          aria-hidden="true"
+          className="mt-px shrink-0 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5"
+        />
+      </a>
+    </article>
   )
 }
 
@@ -160,51 +98,19 @@ export function ReviewsSection() {
           <p className="text-base text-[#635B50]">{t('sectionSub')}</p>
         </header>
 
-        <div className="mb-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 md:mb-20">
-          {reviews.map((r) => (
-            <article
-              key={r.name}
-              className="rounded-2xl border border-[#ebebeb] bg-white p-5 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05)] sm:p-7"
-            >
-              <div className="mb-4 flex items-center justify-between gap-2">
-                <span className="flex gap-0.5" aria-label={t('ratingAria', { count: r.rating })}>
-                  {Array.from({ length: r.rating }).map((_, s) => (
-                    <Star key={s} size={16} fill="#ef7f17" color="#ef7f17" aria-hidden="true" />
-                  ))}
-                </span>
-                <span className="flex shrink-0 items-center gap-1 text-[0.7rem] font-semibold text-[#6B6B6B]">
-                  <ShoppingBag size={12} aria-hidden="true" /> Mercado Libre
-                </span>
-              </div>
-
-              <p className="mb-6 text-[0.95rem] leading-relaxed text-[#333333]">{t(r.textKey)}</p>
-
-              <footer className="flex items-center gap-3">
-                <span
-                  aria-hidden="true"
-                  className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#f0f0f0] text-[1.1rem] font-extrabold text-[#5C5C5C]"
-                >
-                  {r.name.charAt(0)}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[0.85rem] font-bold text-[#111111]">
-                    {r.name}
-                    <span className="ml-1 font-normal text-[#6B6B6B]">• {t(r.dateKey)}</span>
-                  </p>
-                  <p className="mt-0.5 flex items-center gap-1 text-[0.75rem] font-semibold text-[#00834A]">
-                    <BadgeCheck size={14} aria-hidden="true" /> {t('verifiedPurchase')}
-                  </p>
-                </div>
-              </footer>
-            </article>
+        <ul className="mb-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 md:mb-20">
+          {reviews.map((review) => (
+            <li key={review.id} className="flex">
+              <ReviewCard review={review} />
+            </li>
           ))}
-        </div>
+        </ul>
 
         {/* En móvil los reels van en grilla de 2: en fila apilada cada uno medía
             ~555px de alto y los cuatro sumaban más de 2000px de scroll. */}
         <div className="grid grid-cols-2 gap-3 md:flex md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-4">
           {instagramReels.map((reel) => (
-            <ReelCard key={reel.titleKey} reel={reel} />
+            <ReelCard key={reel.titleKey} reel={reel} title={t(reel.titleKey)} />
           ))}
         </div>
       </div>

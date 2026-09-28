@@ -88,7 +88,7 @@ La implementación que debe modificarse por defecto está en estas rutas:
 ## Contenido y assets
 
 - Mantener los datos estructurados de productos en `lib/data/products.ts` y evitar duplicarlos en páginas o componentes.
-- Buscar primero los assets existentes en `public/images/` y `public/catalogo/` antes de añadir nuevos archivos.
+- Buscar primero los assets existentes en `public/images/` y `public/CATALOGOD/` antes de añadir nuevos archivos.
 - Verificar mayúsculas, extensiones y rutas de assets: el despliegue puede distinguir entre nombres diferentes.
 - Los enlaces a Mercado Libre, Instagram u otros servicios externos deben abrir el destino correcto y usar `target`/`rel` apropiados cuando abran una pestaña nueva.
 - No inventar afirmaciones nutricionales, precios, direcciones, disponibilidad o información comercial. Mantener esos datos alineados con el contenido aprobado en el proyecto.

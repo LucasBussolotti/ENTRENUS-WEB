@@ -9,6 +9,7 @@ import {
   detectCvMime,
   MAX_CV_SIZE,
   rateLimit,
+  readBodyWithLimit,
   safeFilename,
   tooManyRequests,
   validateFields,
@@ -46,9 +47,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'El archivo supera el tamaño permitido.' }, { status: 413 })
   }
 
+  const bytes = await readBodyWithLimit(request, MAX_BODY_BYTES)
+  if (!bytes) {
+    return NextResponse.json({ error: 'El archivo supera el tamaño permitido.' }, { status: 413 })
+  }
+
   let formData: FormData
   try {
-    formData = await request.formData()
+    // Se parsea desde los bytes ya acotados, no desde el request original
+    formData = await new Response(bytes, {
+      headers: { 'content-type': request.headers.get('content-type') ?? '' },
+    }).formData()
   } catch {
     return NextResponse.json({ error: 'No se pudo leer el formulario.' }, { status: 400 })
   }

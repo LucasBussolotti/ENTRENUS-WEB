@@ -21,12 +21,45 @@ export const FIELD_LIMITS = {
 
 export type FieldName = keyof typeof FIELD_LIMITS
 
-// Los caracteres de control rompen tanto el XML que se le manda a Odoo como las
-// cabeceras del mail, así que se eliminan antes de cualquier otra cosa.
-const CONTROL_CHARS = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g
+// Todos los campos son de una línea. Los saltos y tabulaciones pasan a ser un
+// espacio (un \r\n en el nombre terminaba en el asunto del mail) y el resto de
+// los caracteres de control se elimina, porque rompen el XML que va a Odoo.
+const LINE_BREAKS = /[\t\n\v\f\r\u0085\u2028\u2029]+/g
+const CONTROL_CHARS = /[\u0000-\u001F\u007F]/g
 
 export function sanitizeText(value: string): string {
-  return value.replace(CONTROL_CHARS, '').trim()
+  return value.replace(LINE_BREAKS, ' ').replace(CONTROL_CHARS, '').trim()
+}
+
+/**
+ * Lee el cuerpo cortando apenas supera `maxBytes`. Mirar sólo `content-length` no
+ * alcanza: un envío "chunked" no lo declara y se leía entero en memoria antes de
+ * medirlo. Devuelve null si se pasa del límite.
+ */
+export async function readBodyWithLimit(request: Request, maxBytes: number): Promise<Uint8Array<ArrayBuffer> | null> {
+  if (!request.body) return new Uint8Array()
+
+  const reader = request.body.getReader()
+  const chunks: Uint8Array[] = []
+  let total = 0
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    total += value.byteLength
+    if (total > maxBytes) {
+      await reader.cancel()
+      return null
+    }
+    chunks.push(value)
+  }
+
+  const body = new Uint8Array(total)
+  let offset = 0
+  for (const chunk of chunks) {
+    body.set(chunk, offset)
+    offset += chunk.byteLength
+  }
+  return body
 }
 
 // Deliberadamente laxo: sólo descarta lo que con seguridad no es una dirección.
@@ -169,6 +202,8 @@ async function rateLimitShared(
   return count <= limit
 }
 
+let warnedMissingStore = false
+
 /**
  * Ventana fija. Si hay credenciales de Upstash el contador es global a todas las
  * instancias; si no, cae al contador en memoria, que es por réplica.
@@ -187,20 +222,32 @@ export async function rateLimit(key: string, limit: number, windowMs: number): P
     } catch (cause) {
       console.error('[rate-limit] Falló el store compartido, se usa el contador local:', cause)
     }
+  } else if (process.env.NODE_ENV === 'production' && !warnedMissingStore) {
+    warnedMissingStore = true
+    console.warn(
+      '[rate-limit] Sin UPSTASH_REDIS_REST_URL/TOKEN el límite de los formularios es por instancia: con varias réplicas se multiplica.',
+    )
   }
 
   return rateLimitInMemory(key, limit, windowMs)
 }
 
 /**
- * Sólo se confía en x-forwarded-for cuando lo pone el proxy de delante. Si no hay
- * cabecera, todo cae en el mismo bucket: prefiere frenar de más antes que dejar
- * el endpoint sin techo.
+ * IP del cliente para el rate limit. El primer valor de x-forwarded-for lo escribe
+ * el propio cliente, así que rotándolo se esquivaba el límite. Se usa, en orden:
+ *
+ *  1. x-real-ip, que el proxy (Vercel, nginx) pisa con la IP real de la conexión.
+ *  2. El último valor de x-forwarded-for: lo agrega el proxy más cercano y el
+ *     cliente no lo controla.
+ *
+ * Si no hay ninguna, todo cae en el mismo bucket: prefiere frenar de más antes
+ * que dejar el endpoint sin techo. Sin un proxy delante que ponga estas
+ * cabeceras no hay forma confiable de saber la IP.
  */
 export function clientKey(request: Request): string {
-  const forwarded = request.headers.get('x-forwarded-for')
-  const ip = forwarded?.split(',')[0]?.trim() || request.headers.get('x-real-ip')?.trim()
-  return ip || 'sin-ip'
+  const realIp = request.headers.get('x-real-ip')?.trim()
+  const forwarded = request.headers.get('x-forwarded-for')?.split(',').map((part) => part.trim()).filter(Boolean)
+  return realIp || forwarded?.at(-1) || 'sin-ip'
 }
 
 export function tooManyRequests(retryAfterSeconds: number): Response {

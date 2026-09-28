@@ -1,9 +1,12 @@
+import { hasLocale } from 'next-intl';
 import { getRequestConfig } from 'next-intl/server';
+import { LOCALES } from '@/lib/seo/site';
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  const locale = await requestLocale;
+  const requested = await requestLocale;
+  const locale = hasLocale(LOCALES, requested) ? requested : 'es';
   return {
-    locale: locale ?? 'es',
-    messages: (await import(`../messages/${locale ?? 'es'}.json`)).default
+    locale,
+    messages: (await import(`../messages/${locale}.json`)).default
   };
 });

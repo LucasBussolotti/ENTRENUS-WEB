@@ -11,14 +11,14 @@ import { ArrowUpRight } from 'lucide-react'
 const SLIDES = [
   {
     image: '/images/PUFFS_NUEVO.webp',
-    mobileImage: '/images/RESPONSIVE/SLIDER1.webp',
+    mobileImage: '/images/RESPONSIVE/SLIDER1_4.webp',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
     titleKey: 'slide1Title',
     // En desktop el título entra en una línea; en mobile puede partirse para no desbordar
     singleLineTitle: true,
     ctaKey: 'slide1Cta',
-    ctaHref: '/productos',
+    ctaHref: '/productos/puffs-proteicos',
   },
   {
     image: '/images/HERO_CEO.webp',
@@ -112,6 +112,8 @@ export function HeroCarousel() {
         <div style={{ display: 'flex', height: '100%' }}>
           {SLIDES.map((s, i) => {
             const titleText = t(s.titleKey)
+            // Un solo h1 por página: el del primer slide. Los demás son h2 con el mismo estilo.
+            const TitleTag = i === 0 ? 'h1' : 'h2'
             const ctaText = s.ctaKey ? t(s.ctaKey) : ''
             return (
             <div
@@ -212,7 +214,7 @@ export function HeroCarousel() {
 
                   {/* TEXTO GIGANTE */}
                   {titleText && (
-                    <h1 
+                    <TitleTag
                       className={`text-white font-black tracking-tight uppercase ${s.singleLineTitle || s.titleBelowProducts ? 'md:whitespace-nowrap' : ''}`}
                       style={{ 
                         fontFamily: 'var(--font-display)', 
@@ -227,7 +229,7 @@ export function HeroCarousel() {
                       }}
                     >
                       {titleText}
-                    </h1>
+                    </TitleTag>
                   )}
                 </div>
               )}

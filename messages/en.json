@@ -50,26 +50,20 @@
   },
   "quote": {
     "text": "\"Healthy food should no longer be inaccessible, expensive, or tasteless. That's why we create real, simple, and delicious food within everyone's reach. Our purpose is clear: to democratize healthy food so everyone can live better.\"",
-    "author": "EntreNuts",
+    "author": "Entrenuts",
     "tagline": "We make healthy delicious.",
     "sealsAlt": "Quality seals"
   },
   "reviews": {
     "sectionTitle": "What our community says",
-    "sectionSub": "Recipes, reviews and real moments from people who already choose Entrenuts.",
+    "sectionSub": "Reviews from Mercado Libre buyers (in Spanish) and recipes from people who already choose Entrenuts.",
+    "ratingAria": "{count} out of 5 stars",
+    "listingLink": "see the review on Mercado Libre (opens in a new tab)",
     "recipesTitle": "Recipes with Entrenuts",
-    "verifiedPurchase": "Verified purchase",
-    "review1Date": "2 weeks ago",
-    "review1Text": "Highly recommended!! Delicious, I'll definitely buy again. It's impossible not to like it, I didn't know the brand!! So tasty!!! 😋.",
-    "review2Date": "1 month ago",
-    "review2Text": "I bought this one and the stevia one, I liked both, but personally nothing beats the natural one.",
-    "review3Date": "2 months ago",
-    "review3Text": "Tasty, healthy, no added sugar, I recommend it. It arrived at my home yesterday, very well packaged.",
     "reel1Title": "Toast with peanut butter",
     "reel2Title": "Cookies with protein peanut butter",
     "reel3Title": "Pancakes with crunchy peanut butter",
-    "reel4Title": "Sponge cakes with coconut oil",
-    "ratingAria": "Rating: {count} out of 5 stars"
+    "reel4Title": "Sponge cakes with coconut oil"
   },
   "community": {
     "title": "EAT AND LIVE HEALTHIER",
@@ -97,14 +91,14 @@
     "closeChat": "Close chat",
     "openChat": "Open chat",
     "welcomeMessage": "Hi! I'm Nuti 💛. How can I help you today?",
-    "companyMessage": "EntreNuts was born in 2020 in Colón, Entre Ríos, Argentina. Our mission is to offer healthy, natural, high-quality food.",
+    "companyMessage": "Entrenuts was born in 2020 in Colón, Entre Ríos, Argentina. Our mission: making healthy eating accessible to everyone.",
     "productsMessage": "We have a bit of everything! Which category are you interested in?",
-    "pastasMessage": "We have 6 flavors: Classic, Crunchy, Cacao, Coconut, Stevia and Protein (the last one has 14g of protein per 20g!). They are gluten-free and vegan-friendly.",
+    "pastasMessage": "We have 5 peanut butter flavors: Natural, Crunchy, Cocoa, Coconut and Stevia, with no added sugar and gluten-free. There is also the PROTEIN peanut spread in Cookies & Cream and Salted Caramel.",
     "shippingMessage": "We ship all over Argentina. You can buy directly from our official store on Mercado Libre.",
     "honeyGheeMessage": "Our Honey and Ghee are premium products, perfect for adding a special touch to your breakfasts and meals.",
     "returnsMessage": "If your product arrived damaged, contact us on WhatsApp and we'll send you a new one free of charge.",
     "ratingsMessage": "Our customers love us! We have a 4.9-star rating on Mercado Libre.",
-    "optionCompany": "About EntreNuts",
+    "optionCompany": "About Entrenuts",
     "optionProducts": "Our Products",
     "optionShipping": "Shipping & Payments",
     "optionReturns": "Returns",
@@ -145,7 +139,13 @@
     "storage": "Store in a cool place.",
     "buy": "Buy",
     "comingSoonTitle": "Coming soon",
-    "comingSoonText": "We are getting this product line ready. Check back soon."
+    "comingSoonText": "We are getting this product line ready. Check back soon.",
+    "faqTitle": "Frequently asked questions",
+    "breadcrumbLabel": "Breadcrumb",
+    "allProducts": "All products",
+    "productsIn": "{category} products",
+    "glutenFree": "Gluten-free",
+    "sizes": "Sizes: {value}"
   },
   "recipes": {
     "title": "Recipes",
@@ -244,7 +244,146 @@
     "catalogLabel": "2026 CATALOG",
     "downloadCatalog": "Download catalog",
     "portalCta": "Go to the portal",
-    "portalBanner": "Distributor portal",
+    "portalComingSoon": "Coming soon",
     "portalUnavailable": "The portal is unavailable right now."
+  },
+  "seo": {
+    "siteDescription": "Argentine foods by Entrenuts: peanut butter, coconut oil, honey, ghee, MCT oil, protein bars, puffs and pancake mixes. We make healthy delicious.",
+    "pages": {
+      "home": {
+        "title": "Entrenuts | Peanut butter, coconut oil, honey and Protein line",
+        "description": "Entrenuts was born in Colón, Entre Ríos, Argentina. We make peanut butter, coconut oil, honey, ghee, MCT oil, protein bars, puffs and pancake mixes."
+      },
+      "productos": {
+        "title": "Products: peanut butter, coconut oil, honey and Protein line",
+        "description": "Discover every Entrenuts product: peanut butter, Protein peanut spread, protein bars, puffs, pancake mixes, coconut oil, MCT oil, ghee and honey."
+      },
+      "recetas": {
+        "title": "Recipes with Entrenuts products",
+        "description": "Ideas and recipes to use Entrenuts peanut butter, coconut oil, honey and Protein line in your everyday meals."
+      },
+      "acercaDe": {
+        "title": "About us",
+        "description": "Entrenuts is an Argentine food company from Colón, Entre Ríos, that started production in March 2020. Our mission: making healthy eating accessible to everyone."
+      },
+      "empleos": {
+        "title": "Work with us",
+        "description": "See the open positions at Entrenuts and apply to join the team."
+      },
+      "distribuidor": {
+        "title": "Distributors",
+        "description": "Become an Entrenuts distributor: fill in the form and we will contact you to sell our products in your area."
+      }
+    },
+    "catalog": {
+      "pastas-de-mani": {
+        "title": "Peanut butter with no added sugar",
+        "h1": "Peanut butter",
+        "description": "Entrenuts peanut butter with no added sugar: Natural, Crunchy, Stevia, Cocoa and Coconut, plus the Protein peanut spread."
+      },
+      "protein": {
+        "title": "Protein snacks: Protein line",
+        "h1": "Protein line",
+        "description": "Entrenuts Protein line: protein peanut spread, protein bars, baked Puffs and protein pancake mix."
+      },
+      "barritas-proteicas": {
+        "title": "Gluten-free protein bars",
+        "h1": "Protein bars",
+        "description": "Entrenuts gluten-free protein bars: 45 g with 15 g of plant protein. Flavors: ChocoManí, NaranChoc, Frutilla Deli and Lemon Pie."
+      },
+      "aceite-de-coco": {
+        "title": "Refined and virgin coconut oil",
+        "h1": "Coconut oil",
+        "description": "Entrenuts coconut oil: refined, with no aroma or flavor, and virgin, unrefined with the full coconut flavor. Also MCT oil."
+      },
+      "miel": {
+        "title": "Liquid and creamed honey from Entre Ríos",
+        "h1": "Honey",
+        "description": "Entrenuts honey from Entre Ríos, Argentina: liquid, for mixing and sweetening, and creamed, which spreads without dripping."
+      },
+      "pasta-de-mani-natural": {
+        "title": "Natural peanut butter with no added sugar",
+        "description": "Entrenuts Natural peanut butter: selected peanuts, no added sugar and no hydrogenated oils. Smooth and creamy, in 370 g, 1 kg and 4 kg."
+      },
+      "pasta-de-mani-crocante": {
+        "title": "Crunchy peanut butter",
+        "description": "Entrenuts Crunchy peanut butter: selected peanuts with peanut pieces for extra bite. No added sugar, in a 370 g jar."
+      },
+      "pasta-de-mani-stevia": {
+        "title": "Peanut butter with stevia",
+        "description": "Entrenuts peanut butter with stevia and no added sugar, in a 370 g jar."
+      },
+      "pasta-de-mani-cacao": {
+        "title": "Chocolate peanut butter",
+        "description": "Entrenuts peanut butter with cocoa and no added sugar, in a 370 g jar."
+      },
+      "pasta-de-mani-coco": {
+        "title": "Coconut peanut butter",
+        "description": "Entrenuts peanut butter with coconut and no added sugar, in a 370 g jar."
+      },
+      "untable-de-mani-proteico-cookies-and-cream": {
+        "title": "Cookies & Cream protein peanut spread",
+        "description": "Entrenuts Protein peanut spread, Cookies & Cream flavor: a protein peanut butter with added protein."
+      },
+      "untable-de-mani-proteico-salted-caramel": {
+        "title": "Salted Caramel protein peanut spread",
+        "description": "Entrenuts Protein peanut spread, Salted Caramel flavor: a protein peanut butter with added protein."
+      },
+      "barrita-proteica-choco-mani": {
+        "title": "Chocolate peanut protein bar",
+        "description": "Entrenuts ChocoManí protein bar: 45 g with 15 g of plant protein and 8 g of fiber per serving."
+      },
+      "barrita-proteica-naranchoc": {
+        "title": "Orange chocolate protein bar",
+        "description": "Entrenuts NaranChoc protein bar: 45 g with 15 g of plant protein and 9 g of fiber per serving."
+      },
+      "barrita-proteica-frutilla-deli": {
+        "title": "Strawberry protein bar",
+        "description": "Entrenuts Frutilla Deli protein bar: 45 g with 15 g of plant protein and 8 g of fiber per serving."
+      },
+      "barrita-proteica-lemon-pie": {
+        "title": "Lemon pie protein bar",
+        "description": "Entrenuts Lemon Pie protein bar: 45 g with 15 g of plant protein and 7 g of fiber per serving."
+      },
+      "puffs-proteicos": {
+        "title": "Protein puffs: baked protein snack",
+        "description": "Entrenuts Protein Puffs: a baked, not fried, savory snack with over 15 g of protein per 50 g bag. Sour Cream & Onion, Cheese, Honey Mustard and Barbecue."
+      },
+      "pancakes-proteicos": {
+        "title": "Protein pancake mix",
+        "description": "Entrenuts Protein Pancakes mix, in Vanilla, Cheese and Chocolate flavors."
+      },
+      "aceite-de-coco-neutro": {
+        "title": "Refined coconut oil, no aroma or flavor",
+        "description": "Entrenuts refined coconut oil, with no aroma or flavor. A naturally stable fat: ideal for sautéing, frying and replacing other fats."
+      },
+      "aceite-de-coco-virgen": {
+        "title": "Unrefined virgin coconut oil",
+        "description": "Entrenuts virgin coconut oil: unrefined, it keeps the full coconut flavor. Ideal for baking, smoothies and bowls."
+      },
+      "aceite-mct": {
+        "title": "MCT oil",
+        "description": "Entrenuts MCT oil: medium-chain triglycerides with no aroma or flavor. Use it cold in coffee, shakes or dressings, and in keto and low-carb recipes."
+      },
+      "ghee": {
+        "title": "Ghee: clarified butter",
+        "description": "Entrenuts ghee: clarified butter with a high smoke point and rich flavor. No refrigeration needed. In 150 g and 300 g."
+      },
+      "miel-untable": {
+        "title": "Creamed honey",
+        "description": "Entrenuts creamed honey from Entre Ríos, Argentina: the same honey with a creamy texture that spreads without dripping."
+      },
+      "miel-liquida": {
+        "title": "Pure liquid honey",
+        "description": "Entrenuts liquid honey from Entre Ríos, Argentina, for mixing and sweetening."
+      }
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "heading": "This page does not exist",
+    "text": "The link may be mistyped, or the page may have moved.",
+    "home": "Go to home",
+    "products": "See products"
   }
 }

@@ -11,10 +11,15 @@ const withNextIntl = createNextIntlPlugin();
  *  - 'unsafe-inline' en script-src: el runtime de App Router usa scripts inline
  *    para la hidratación. Para eliminarlo haría falta nonce por request desde
  *    el middleware, que obliga a renderizar todo dinámicamente.
+ *
+ * 'unsafe-eval' sólo en desarrollo: lo usa el recargado en caliente de Next y en
+ * producción no hace falta.
  */
+const isDev = process.env.NODE_ENV === 'development';
+
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://images.unsplash.com https://flagcdn.com",
   "media-src 'self'",

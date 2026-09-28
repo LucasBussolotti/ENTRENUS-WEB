@@ -5,6 +5,7 @@ import {
   ABUSE_WINDOW_MS,
   clientKey,
   rateLimit,
+  readBodyWithLimit,
   tooManyRequests,
   validateFields,
 } from '@/lib/form-guard'
@@ -28,10 +29,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'El formulario es demasiado grande.' }, { status: 413 })
   }
 
-  const raw = await request.text()
-  if (raw.length > MAX_BODY_BYTES) {
+  const bytes = await readBodyWithLimit(request, MAX_BODY_BYTES)
+  if (!bytes) {
     return NextResponse.json({ error: 'El formulario es demasiado grande.' }, { status: 413 })
   }
+  const raw = new TextDecoder().decode(bytes)
 
   let body: Record<string, unknown> | null = null
   try {

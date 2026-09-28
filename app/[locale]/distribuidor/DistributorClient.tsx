@@ -9,7 +9,7 @@ import { FormStatus, type FormStatusState } from '@/components/FormStatus';
 // proveedor y no tiene por qué vivir en el repositorio.
 const PORTAL_URL = process.env.NEXT_PUBLIC_DISTRIBUTOR_PORTAL_URL?.trim();
 
-export default function DistribuidoresPage() {
+export function DistributorClient() {
   const t = useTranslations('distributorPage');
 
   const [leadForm, setLeadForm] = useState({
@@ -153,10 +153,12 @@ export default function DistribuidoresPage() {
                 </svg>
 
                 {/* 2. El -mt-[1px] elimina la línea de corte visible en tu imagen */}
-                <div className="w-full bg-[#F97316] py-5 md:py-6 flex items-center justify-center -mt-[15px]">
-                  <span className="font-body text-white font-black text-xl sm:text-2xl md:text-3xl tracking-widest uppercase">
-                    {t('portalBanner')}
-                  </span>
+                <div className="w-full bg-[#F97316] py-5 md:py-6 min-h-[68px] md:min-h-[80px] flex items-center justify-center -mt-[15px]">
+                  {!PORTAL_URL && (
+                    <span className="font-body text-white font-black text-lg sm:text-xl md:text-2xl tracking-[0.2em] uppercase">
+                      {t('portalComingSoon')}
+                    </span>
+                  )}
                 </div>
 
               </div>
@@ -172,8 +174,8 @@ export default function DistribuidoresPage() {
             
             {/* Convertimos el contenedor de la imagen en un enlace descargable */}
             <a 
-              href="/catalogo/catalogo-entrenuts-2026.pdf"
-              download="Catalogo-Entrenuts-2026.pdf"
+              href="/catalogo/CATALOGOD.pdf"
+              download="CATALOGOD-Entrenuts-2026.pdf"
               className="w-full aspect-[16/9] bg-black rounded-xl overflow-hidden flex items-center justify-center cursor-pointer relative group block"
             >
               <div className="text-center transition-transform duration-300 group-hover:scale-105">
@@ -185,8 +187,8 @@ export default function DistribuidoresPage() {
             
             {/* Convertimos el botón en un enlace descargable */}
             <a 
-              href="/catalogo/catalogo-entrenuts-2026.pdf"
-              download="Catalogo-Entrenuts-2026.pdf"
+              href="/catalogo/CATALOGOD.pdf"
+              download="CATALOGOD-Entrenuts-2026.pdf"
               className="w-full text-center mt-6 font-black text-xl text-[#111111] hover:text-[var(--color-naranja)] transition-colors block cursor-pointer"
             >
               {t('downloadCatalog')}

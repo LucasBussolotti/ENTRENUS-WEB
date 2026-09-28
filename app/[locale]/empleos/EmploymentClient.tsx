@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { FormStatus, type FormStatusState } from '@/components/FormStatus';
 
-export default function EmploymentPage() {
+export function EmploymentClient() {
   const t = useTranslations('employmentPage');
   
   const [formData, setFormData] = useState({

@@ -1,8 +1,23 @@
+import { use } from 'react';
+import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback'; 
+import { FaqSection } from '@/components/FaqSection';
+import { getPublishedFaqs } from '@/lib/data/faqs';
+import { pageMetadata, toLocale } from '@/lib/seo/metadata';
 
-export default function AboutPage() {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const locale = toLocale((await params).locale);
+  const t = await getTranslations({ locale, namespace: 'seo.pages.acercaDe' });
+  return pageMetadata({ locale, path: '/acerca_de', title: t('title'), description: t('description'), image: '/images/HERO_CEO.webp' });
+}
+
+export default function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
+  const locale = toLocale(use(params).locale);
+  setRequestLocale(locale);
   const t = useTranslations('about');
+  const tProducts = useTranslations('productsPage');
 
   // Arreglo con tus 4 pilares traducidos
   const pillars = [
@@ -72,7 +87,7 @@ export default function AboutPage() {
           controls
           playsInline
           preload="none"
-          poster="/images/REELS/COMERCIAL-poster.webp"
+          poster="/images/PORTADAVIDEO.webp"
           aria-label={t('videoLabel')}
           className="block w-full aspect-video rounded-sm bg-black shadow-sm"
         >
@@ -154,6 +169,13 @@ export default function AboutPage() {
           `}</style>
         </div>
       </section>
+
+      <FaqSection
+        faqs={getPublishedFaqs('acerca_de')}
+        locale={locale}
+        title={tProducts('faqTitle')}
+        className="max-w-5xl mx-auto px-5 sm:px-6 md:px-12 pb-16 md:pb-20"
+      />
 
       {/* ── 5. IMAGEN INFERIOR FULL-WIDTH (Línea de producción) ── */}
       <section className="relative w-full h-[35svh] md:h-[60svh] min-h-[220px] md:min-h-[300px]">
