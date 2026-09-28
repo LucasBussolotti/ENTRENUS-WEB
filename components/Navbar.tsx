@@ -19,6 +19,25 @@ function subscribeToScroll(onStoreChange: () => void) {
   return () => window.removeEventListener('scroll', onStoreChange)
 }
 
+function LanguageFlag({ lang }: { lang: string }) {
+  return (
+    <>
+      {/* flagcdn es un CDN externo sin loader configurado en next.config */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={lang === 'es' ? 'https://flagcdn.com/w40/ar.png' : 'https://flagcdn.com/w40/us.png'}
+        alt=""
+        width={20}
+        height={14}
+        className="block h-auto w-5 rounded-[2px]"
+      />
+      <span className="pt-0.5 text-[0.85rem] leading-none font-semibold tracking-[0.04em] text-[#222222]">
+        {lang === 'es' ? 'AR' : 'US'}
+      </span>
+    </>
+  )
+}
+
 export function Navbar() {
   const t = useTranslations('nav')
   const lang = useLocale()
@@ -134,18 +153,7 @@ export function Navbar() {
               aria-label={t('changeLanguage')}
               className="flex h-11 items-center gap-2 rounded-md bg-black/6 px-3 transition-colors hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-naranja)]"
             >
-              {/* flagcdn es un CDN externo sin loader configurado en next.config */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={lang === 'es' ? 'https://flagcdn.com/w40/ar.png' : 'https://flagcdn.com/w40/us.png'}
-                alt=""
-                width={20}
-                height={14}
-                className="block h-auto w-5 rounded-[2px]"
-              />
-              <span className="pt-0.5 text-[0.85rem] leading-none font-semibold tracking-[0.04em] text-[#222222]">
-                {lang === 'es' ? 'AR' : 'US'}
-              </span>
+              <LanguageFlag lang={lang} />
             </button>
 
             <Link
@@ -162,9 +170,9 @@ export function Navbar() {
               type="button"
               onClick={toggleLang}
               aria-label={t('changeLanguage')}
-              className="flex size-11 items-center justify-center rounded-md text-[0.8rem] font-semibold tracking-[0.08em] text-[var(--text-dark)] transition-colors hover:bg-black/6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-naranja)]"
+              className="flex h-11 items-center gap-1.5 rounded-md bg-black/6 px-2.5 transition-colors hover:bg-black/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-naranja)]"
             >
-              {lang.toUpperCase()}
+              <LanguageFlag lang={lang} />
             </button>
             <button
               type="button"

@@ -3,31 +3,40 @@ interface WaveDividerProps {
   toColor?: string
   flip?: boolean
   height?: number
+  /** Solapa 1px con la sección siguiente. Desactivar cuando la onda es el
+      último hijo de un contenedor con overflow hidden: el px saldría del recorte. */
+  overlapNext?: boolean
 }
 
 export function WaveDivider({ 
   fromColor = 'var(--background)', 
   toColor = 'transparent', 
   flip = false, 
-  height = 80 // Reducimos el default a 80 para que no sea tan masivo
+  height = 80, // Reducimos el default a 80 para que no sea tan masivo
+  overlapNext = true,
 }: WaveDividerProps) {
   return (
     <div
       style={{
         width: '100%',
         height: `${height}px`,
-        background: toColor,
+        /* Con densidades de pantalla fraccionarias (DPR 2.75, zoom) los bordes
+           caen entre píxeles y aparecían líneas de 1px. Por eso la onda pinta el
+           color de abajo, el fondo es del color de cada vecino en su borde (el
+           último px queda siempre bajo la onda, que baja hasta 110/120) y se
+           solapa 1px con cada sección: en cada borde sólo se mezclan colores
+           iguales. */
+        background: `linear-gradient(to bottom, ${fromColor} calc(100% - 1px), ${toColor} calc(100% - 1px))`,
         lineHeight: 0,
         overflow: 'hidden',
         transform: flip ? 'scaleY(-1)' : 'none',
-        // Clave: Esto elimina esa pequeña línea recta indeseada en navegadores como Safari
-        marginTop: '-1px', 
+        marginTop: '-1px',
+        marginBottom: overlapNext ? '-1px' : 0,
       }}
     >
       <svg
         viewBox="0 0 1440 120"
         preserveAspectRatio="none"
-        // Clave: El SVG debe ser apenas más alto que su contenedor para evitar bordes rotos
         style={{ width: '100%', height: `calc(${height}px + 2px)`, display: 'block' }}
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -43,8 +52,8 @@ export function WaveDivider({
              C940,110 980,15 1080,15 
              C1180,15 1220,80 1280,80 
              C1340,80 1380,15 1440,15 
-             L1440,0 L0,0 Z"
-          fill={fromColor}
+             L1440,120 L0,120 Z"
+          fill={toColor}
         />
       </svg>
     </div>

@@ -3,14 +3,15 @@
 import { useState, useEffect, useCallback } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import Link from 'next/link'
+import { getImageProps } from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { ImageWithFallback } from './figma/ImageWithFallback'
 import { ArrowUpRight } from 'lucide-react'
 
 // ── AGREGAMOS ctaText y ctaHref ──
 const SLIDES = [
   {
     image: '/images/PUFFS_NUEVO.webp',
+    mobileImage: '/images/RESPONSIVE/SLIDER1.webp',
     bgColor: '#1A1207',
     accentColor: '#ef7f17',
     titleKey: 'slide1Title',
@@ -21,6 +22,7 @@ const SLIDES = [
   },
   {
     image: '/images/HERO_CEO.webp',
+    mobileImage: '/images/RESPONSIVE/SLIDER2.webp',
     bgColor: '#0D0906',
     accentColor: '#D4A843',
     titleKey: 'slide2Title',
@@ -29,6 +31,7 @@ const SLIDES = [
   },
   {
     image: '/images/PRODSHERO3.jpeg',
+    mobileImage: '/images/RESPONSIVE/SLIDER3.webp',
     bgColor: '#0B1209',
     accentColor: '#6B9E5E',
     titleKey: 'slide3Title',
@@ -95,21 +98,16 @@ export function HeroCarousel() {
   }, [emblaApi])
 
   return (
-    /* Las tres fotos del hero son apaisadas 16:9. Con la caja a 100svh en un
-       celular, `cover` recorta hasta dejar visible sólo el 26% del ancho de la
-       foto: del lineup de cuatro Puffs se veía uno y medio.
+    /* En pantallas verticales se usan las versiones 9:16 de cada foto. El tope
+       de 175vw deja la caja casi en 9:16 en un celular, así que `cover`
+       prácticamente no recorta la foto vertical; con 100svh se perdía ~9% por
+       lado y quedaban cortados los productos de los extremos. En desktop gana
+       svh y el hero sigue a pantalla completa con la foto apaisada.
 
-       El tope de 175vw limita cuán vertical puede ponerse la caja, así que el
-       recorte deja de depender de lo alta que sea la pantalla: en mobile el hero
-       ocupa ~80% del alto en vez del 100% y se ve ~32% de la foto en vez del 26%.
-       En desktop gana svh y el hero sigue a pantalla completa, que es donde la
-       foto apaisada entra bien.
-
-       Es una solución de compromiso a propósito: con fotos apaisadas no hay
-       forma de ganar altura sin perder encuadre. Cuando lleguen las versiones
-       verticales, este tope deja de hacer falta para esas fotos y el hero puede
-       volver a 100svh en mobile. */
-    <section className="relative h-[min(100svh,175vw)] min-h-[440px] overflow-hidden">
+       -mb-px: con DPR fraccionario el borde inferior cae entre píxeles y el
+       fondo oscuro del slide asomaba como una línea bajo la onda; la sección
+       siguiente se solapa 1px y la tapa. */
+    <section className="relative -mb-px h-[min(100svh,175vw)] min-h-[440px] overflow-hidden">
       <div ref={emblaRef} style={{ height: '100%', overflow: 'hidden' }}>
         <div style={{ display: 'flex', height: '100%' }}>
           {SLIDES.map((s, i) => {
@@ -125,26 +123,12 @@ export function HeroCarousel() {
                 background: s.bgColor,
               }}
             >
-              {/* El primer slide es el elemento LCP de la home: sin priority
-                  entraba en lazy-load y retrasaba la métrica.
-
-                  `sizes` no puede ser 100vw: la foto es 16:9 y la caja es casi
-                  vertical, así que `cover` la escala por el alto y termina
-                  necesitando mas ancho que el del viewport. Con 100vw el navegador
-                  bajaba la variante de 390px y la ampliaba: se veía blanda. */}
-              <ImageWithFallback
+              {/* El primer slide es el elemento LCP de la home: carga eager y
+                  con prioridad alta en vez de lazy-load. */}
+              <HeroImage
                 src={s.image}
-                alt=""
-                priority={i === 0}
-                sizes="(max-width: 768px) 330vw, (max-width: 1280px) 120vw, 100vw"
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  opacity: 0.9, 
-                }}
+                mobileSrc={s.mobileImage}
+                eager={i === 0}
               />
               
               {/* ── CONTENEDOR DE TEXTO + BOTÓN (Abajo a la izquierda) ── */}
@@ -334,5 +318,44 @@ export function HeroCarousel() {
         }
       `}</style>
     </section>
+  )
+}
+
+type HeroImageProps = {
+  src: string
+  mobileSrc: string
+  eager: boolean
+}
+
+/* Art direction con <picture>: el navegador descarga sólo la foto que
+   corresponde a la orientación, no las dos. */
+function HeroImage({ src, mobileSrc, eager }: HeroImageProps) {
+  const common = {
+    alt: '',
+    fill: true,
+    loading: eager ? 'eager' : 'lazy',
+    fetchPriority: eager ? 'high' : 'auto',
+    style: { objectFit: 'cover', opacity: 1 },
+  } as const
+
+  // La vertical llena la caja casi sin recorte, así que ocupa el ancho del viewport.
+  const {
+    props: { srcSet: mobileSrcSet, sizes: mobileSizes },
+  } = getImageProps({ ...common, src: mobileSrc, sizes: '100vw' })
+
+  /* La foto apaisada sólo se ve en pantallas horizontales, pero `cover` la
+     escala por el alto en ventanas angostas y necesita más ancho que el viewport:
+     con 100vw el navegador bajaba una variante chica y la ampliaba. */
+  const { props } = getImageProps({
+    ...common,
+    src,
+    sizes: '(max-width: 1280px) 120vw, 100vw',
+  })
+
+  return (
+    <picture>
+      <source media="(orientation: portrait)" srcSet={mobileSrcSet} sizes={mobileSizes} />
+      <img {...props} alt="" />
+    </picture>
   )
 }

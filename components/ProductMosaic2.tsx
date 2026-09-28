@@ -49,7 +49,7 @@ const CATEGORIES = [
   { 
     id: 7, 
     labelKey: 'proteinPuffs',
-    image: '/images/PUFFS/QUESO/QUESO1_2.webp',
+    image: '/images/PUFFS/QUESO/QUESO1.webp',
     // El lienzo es cuadrado y el envase ocupa poca parte: se agranda para igualar la altura del resto
     scaleClass: 'scale-[1.1] group-hover:scale-[1.18]',
   },

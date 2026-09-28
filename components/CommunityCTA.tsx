@@ -9,17 +9,28 @@ export function CommunityCTA() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ background: 'var(--cta-community-blue)', marginTop: '-2px' }}
+      /* Con DPR fraccionario los bordes de la sección caen entre píxeles y el
+         recorte de overflow mezclaba en esa fila la foto y el azul del fondo:
+         se veía una línea. En cada borde el fondo toma el color del vecino
+         (la onda de arriba y el footer) y la foto arranca 2px más abajo, bajo
+         el esfumado. */
+      style={{
+        background:
+          'linear-gradient(to bottom, #1A1207 4px, var(--cta-community-blue) 4px calc(100% - 1px), var(--color-footpage) calc(100% - 1px))',
+        marginTop: '-2px',
+      }}
     >
       {/* En desktop el alto se limita al viewport (menos el header fijo) para que la foto entre en una sola vista */}
       <div className="relative w-full aspect-[4/5] sm:aspect-[4/3] md:aspect-auto md:h-[min(56.25vw,calc(100svh-7rem))] md:min-h-[520px]">
-        <Image
-          src="/images/CTAFINAL2.webp"
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover object-center md:object-[center_75%]"
-        />
+        <div className="absolute inset-x-0 top-[2px] bottom-0">
+          <Image
+            src="/images/CTAFINAL2.webp"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center md:object-[center_75%]"
+          />
+        </div>
 
         {/* Esfumado superior para fundir la foto con la onda de arriba */}
         <div
@@ -85,7 +96,12 @@ export function CommunityCTA() {
         </a>
       </div>
 
-      <WaveDivider fromColor="var(--cta-community-blue)" toColor="var(--color-footpage)" height={40} />
+      <WaveDivider
+        fromColor="var(--cta-community-blue)"
+        toColor="var(--color-footpage)"
+        height={40}
+        overlapNext={false}
+      />
     </section>
   );
 }

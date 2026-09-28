@@ -189,16 +189,35 @@ export function ProductDetail() {
                   </button>
                 )}
 
-                <div key={`img-${selectedProductIndex}-${currentImageIndex}`} className="relative h-full w-full animate-fade-in">
-                  <ImageWithFallback
-                    src={`/${productImages[currentImageIndex]}`} 
-                    alt={t('imageAlt', {
-                      product: productVariant ? `${productName} ${productVariant}` : productName,
-                      number: currentImageIndex + 1,
-                    })}
-                    style={{ objectFit: 'contain', width: '100%', height: '100%' }}
-                    className="transition-transform duration-500 ease-in-out hover:scale-105"
-                  />
+                {/* Todas las fotos del producto quedan montadas y sólo cambia la
+                    visible: antes cada flecha montaba una imagen nueva y recién ahí
+                    empezaba a descargarla, así que el hueco en blanco se notaba. */}
+                <div key={`img-${selectedProductIndex}`} className="relative h-full w-full">
+                  {productImages.map((image, idx) => {
+                    const isCurrent = idx === currentImageIndex;
+                    return (
+                      <div
+                        key={image}
+                        aria-hidden={!isCurrent}
+                        className={`absolute inset-0 motion-safe:transition-opacity motion-safe:duration-300 ${
+                          isCurrent ? 'opacity-100' : 'pointer-events-none opacity-0'
+                        }`}
+                      >
+                        {/* La caja mide como mucho 440px de ancho en desktop: con el
+                            100vw por defecto se pedían variantes de hasta 3840px. */}
+                        <ImageWithFallback
+                          src={`/${image}`}
+                          alt={isCurrent ? t('imageAlt', {
+                            product: productVariant ? `${productName} ${productVariant}` : productName,
+                            number: idx + 1,
+                          }) : ''}
+                          sizes="(max-width: 1023px) 80vw, 440px"
+                          style={{ objectFit: 'contain', width: '100%', height: '100%' }}
+                          className="transition-transform duration-500 ease-in-out hover:scale-105"
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {productImages.length > 1 && (
@@ -253,6 +272,7 @@ export function ProductDetail() {
                             <ImageWithFallback
                               src={`/${thumbImage}`}
                               alt={(isEs ? p.variantEs : p.variantEn) || (isEs ? p.nameEs : p.nameEn)}
+                              sizes="96px"
                               style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }}
                             />
                           </button>
