@@ -6,28 +6,29 @@ import { Play, X } from 'lucide-react';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback';
 
 interface Recipe {
-  id: number
+  /** Clave en recipes.items: el nombre que muestra la portada */
+  id: string
   coverImage: string
-  // Link del reel o post, ej.: https://www.instagram.com/reel/ABC123/
-  reelUrl: string
+  /** Link del reel, ej.: https://www.instagram.com/reel/ABC123/. Sin reel todavía, la tarjeta abre el perfil. */
+  reelUrl?: string
 }
 
-// ── DATOS DE PRUEBA: reemplazar reelUrl por los links reales de cada reel ──
-const INSTAGRAM_PROFILE = 'https://www.instagram.com/reel/DbMDOxYR0ii/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==';
+const INSTAGRAM_PROFILE = 'https://www.instagram.com/entrenuts/';
 
+// Primero las que ya tienen reel (links de marketing, 24/09/2026)
 const RECIPES: Recipe[] = [
-  { id: 1, coverImage: '/images/RECETAS/RECETAA1.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 2, coverImage: '/images/RECETAS/RECETAA2.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 3, coverImage: '/images/RECETAS/RECETAA3.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 4, coverImage: '/images/RECETAS/RECETAA4.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 5, coverImage: '/images/RECETAS/RECETAA5.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 6, coverImage: '/images/RECETAS/RECETAA6.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 7, coverImage: '/images/RECETAS/RECETAA7.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 8, coverImage: '/images/RECETAS/RECETAA8.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 9, coverImage: '/images/RECETAS/RECETAA9.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 10, coverImage: '/images/RECETAS/RECETAA10.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 11, coverImage: '/images/RECETAS/RECETAA11.webp', reelUrl: INSTAGRAM_PROFILE },
-  { id: 12, coverImage: '/images/RECETAS/RECETAA12.webp', reelUrl: INSTAGRAM_PROFILE },
+  { id: 'proteinMousse', coverImage: '/images/RECETAS/RECETAA9.webp', reelUrl: 'https://www.instagram.com/reel/DWjgotjgFdr/' },
+  { id: 'saladDressing', coverImage: '/images/RECETAS/RECETAA10.webp', reelUrl: 'https://www.instagram.com/reel/DU--d-fgOZS/' },
+  { id: 'proteinCookies', coverImage: '/images/RECETAS/RECETAA11.webp', reelUrl: 'https://www.instagram.com/reel/DTtOEy4gBk5/' },
+  { id: 'healthyWrap', coverImage: '/images/RECETAS/RECETAA12.webp', reelUrl: 'https://www.instagram.com/reel/DT08goCgDxa/' },
+  { id: 'avocadoCookies', coverImage: '/images/RECETAS/RECETAA1.webp' },
+  { id: 'peanutButterToast', coverImage: '/images/RECETAS/RECETAA2.webp' },
+  { id: 'peanutButterPancakes', coverImage: '/images/RECETAS/RECETAA3.webp' },
+  { id: 'coconutOilBiscuits', coverImage: '/images/RECETAS/RECETAA4.webp' },
+  { id: 'healthyBreakfast', coverImage: '/images/RECETAS/RECETAA5.webp' },
+  { id: 'coconutOilUses', coverImage: '/images/RECETAS/RECETAA6.webp' },
+  { id: 'healthyShake', coverImage: '/images/RECETAS/RECETAA7.webp' },
+  { id: 'peanutButterChocolate', coverImage: '/images/RECETAS/RECETAA8.webp' },
 ];
 
 function getInstagramEmbedUrl(url: string): string | null {
@@ -42,7 +43,8 @@ export function RecipesClient() {
 
   const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const activeEmbedUrl = activeRecipe ? getInstagramEmbedUrl(activeRecipe.reelUrl) : null;
+  const activeEmbedUrl = activeRecipe?.reelUrl ? getInstagramEmbedUrl(activeRecipe.reelUrl) : null;
+  const activeTitle = activeRecipe ? t(`items.${activeRecipe.id}`) : '';
 
   useEffect(() => {
     if (activeRecipe && !dialogRef.current?.open) dialogRef.current?.showModal();
@@ -84,12 +86,13 @@ export function RecipesClient() {
           {/* ── GRILLA DE RECETAS (Sin textos dinámicos, full imagen) ── */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
             {RECIPES.map((recipe) => {
+              const title = t(`items.${recipe.id}`);
               const cardContent = (
                 <>
-                  {/* Imagen con tus textos ya diseñados */}
+                  {/* La portada ya trae el nombre de la receta: el alt lo repite */}
                   <ImageWithFallback
                     src={recipe.coverImage}
-                    alt={t('recipeAlt', { number: recipe.id })}
+                    alt={title}
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     className="transition-transform duration-700 group-hover:scale-105"
@@ -101,15 +104,15 @@ export function RecipesClient() {
                 </>
               );
 
-              // Si el link no es un reel/post embebible (ej. el perfil), se abre en Instagram
-              if (!getInstagramEmbedUrl(recipe.reelUrl)) {
+              // Sin reel embebible, la tarjeta lleva al perfil de Instagram en otra pestaña
+              if (!recipe.reelUrl || !getInstagramEmbedUrl(recipe.reelUrl)) {
                 return (
                   <a
                     key={recipe.id}
-                    href={recipe.reelUrl}
+                    href={recipe.reelUrl ?? INSTAGRAM_PROFILE}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={t('watchReel', { number: recipe.id })}
+                    aria-label={t('openProfile', { title })}
                     className={cardClassName}
                   >
                     {cardContent}
@@ -122,7 +125,7 @@ export function RecipesClient() {
                   key={recipe.id}
                   type="button"
                   onClick={() => setActiveRecipe(recipe)}
-                  aria-label={t('watchReel', { number: recipe.id })}
+                  aria-label={t('watchReel', { title })}
                   className={cardClassName}
                 >
                   {cardContent}
@@ -174,14 +177,14 @@ export function RecipesClient() {
       {/* El iframe se desmonta al cerrar para cortar la reproducción */}
       <dialog
         ref={dialogRef}
-        aria-label={activeRecipe ? t('reelTitle', { number: activeRecipe.id }) : undefined}
+        aria-label={activeRecipe ? t('reelTitle', { title: activeTitle }) : undefined}
         onClose={() => setActiveRecipe(null)}
         onClick={(e) => {
           if (e.target === e.currentTarget) dialogRef.current?.close();
         }}
         className="m-auto w-[calc(100%-1.5rem)] max-w-[400px] overflow-visible bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
       >
-        {activeRecipe && activeEmbedUrl && (
+        {activeRecipe?.reelUrl && activeEmbedUrl && (
           <div className="relative">
             <button
               type="button"
@@ -195,7 +198,7 @@ export function RecipesClient() {
             <div className="overflow-hidden rounded-xl bg-white">
               <iframe
                 src={activeEmbedUrl}
-                title={t('reelTitle', { number: activeRecipe.id })}
+                title={t('reelTitle', { title: activeTitle })}
                 className="block h-[min(78svh,720px)] w-full border-0"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                 allowFullScreen

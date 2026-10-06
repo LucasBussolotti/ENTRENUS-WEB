@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
+import { CONTACT } from '@/lib/data/contact'
 
 const CONTACT_LINES = [
-  { text: 'Pte. Illia 124, Colón Entre Ríos', href: null },
-  { text: 'consumidores@entrenuts.com.ar', href: 'mailto:consumidores@entrenuts.com.ar' },
-  { text: '(3447) 469008', href: 'tel:+543447469008' },
+  { text: CONTACT.address, href: null },
+  { text: CONTACT.email, href: `mailto:${CONTACT.email}` },
+  { text: CONTACT.phone.display, href: CONTACT.phone.href },
 ]
 
 const SOCIAL_LINKS = [
