@@ -62,8 +62,9 @@
     "recipesTitle": "Recipes with Entrenuts",
     "reel1Title": "Toast with peanut butter",
     "reel2Title": "Cookies with protein peanut butter",
-    "reel3Title": "Pancakes with crunchy peanut butter",
-    "reel4Title": "Sponge cakes with coconut oil"
+    "reel3Title": "Peanut butter shake",
+    "reel4Title": "Sponge cakes with coconut oil",
+    "playReel": "Play video: {title}"
   },
   "community": {
     "title": "EAT AND LIVE HEALTHIER",
@@ -94,7 +95,7 @@
     "youSaid": "You:",
     "optionsLabel": "Reply options",
     "newTab": "(opens in a new tab)",
-    "welcomeMessage": "Hi! I'm Nuti 💛. I can help with the most common questions about Entrenuts and our products. What would you like to know?",
+    "welcomeMessage": "Hi! I'm Nuti 💛. I can help with anything you want to know about Entrenuts and our products. Pick an option or type your question.",
     "productsMessage": "Which products would you like to know about?",
     "categoryMessage": "Here's what people ask us most about {category}:",
     "categoryEmptyMessage": "Everything about {category} is on its page:",
@@ -115,7 +116,15 @@
     "linkStore": "Mercado Libre store",
     "linkAbout": "Read our story",
     "linkDistributors": "Go to Distributors",
-    "linkJobs": "Apply"
+    "linkJobs": "Apply",
+    "chatInputLabel": "Type your question for Nuti",
+    "chatPlaceholder": "Type your question…",
+    "chatSend": "Send question",
+    "chatTyping": "Nuti is typing…",
+    "chatDisclaimer": "AI-generated answers may contain mistakes. Please don't share personal information.",
+    "chatError": "Sorry, I couldn't answer right now. Try again in a moment or pick one of the options.",
+    "chatRateLimited": "You've asked a lot of questions in a row. Please wait a few minutes and try again.",
+    "chatRefusal": "I can't help with that. Would you like to ask me something about our products?"
   },
   "productsPage": {
     "title": "Our Products",
@@ -142,7 +151,7 @@
     "imageAlt": "{product} - View {number}",
     "benefits": "Benefits",
     "idealFor": "Ideal for:",
-    "whyChoose": "Why choose it?",
+    "whyChoose": "Why choose this product?",
     "productInfo": "Product info",
     "flavor": "Flavor: {value}",
     "weight": "Weight: {value}",
@@ -324,6 +333,16 @@
         "title": "Liquid and creamed honey from Entre Ríos",
         "h1": "Honey",
         "description": "Entrenuts honey from Entre Ríos, Argentina: liquid, for mixing and sweetening, and creamed, which spreads without dripping."
+      },
+      "puffs-proteicos-sabores": {
+        "title": "Protein puffs flavors",
+        "h1": "Protein puffs",
+        "description": "Choose your Entrenuts Protein Puffs flavor, a baked, not fried, savory snack: Sour Cream & Onion, Cheese, Honey Mustard and Barbecue."
+      },
+      "pancakes-proteicos-sabores": {
+        "title": "Protein pancake mix flavors",
+        "h1": "Protein pancakes",
+        "description": "Choose your Entrenuts Protein Pancakes mix flavor: Vanilla, Cheese and Chocolate."
       },
       "pasta-de-mani-natural": {
         "title": "Natural peanut butter with no added sugar",

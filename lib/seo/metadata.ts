@@ -14,18 +14,21 @@ interface PageMetadataInput {
   image?: string
   /** El título ya incluye la marca: no se le agrega " | Entrenuts" */
   absoluteTitle?: boolean
+  /** Página sólo de navegación: noindex, pero sus enlaces se siguen */
+  noindex?: boolean
 }
 
 /*
  * Open Graph y Twitter se arman completos en cada página: Next reemplaza (no
  * fusiona) el objeto openGraph del layout cuando una página define el suyo.
  */
-export function pageMetadata({ locale, path, title, description, image, absoluteTitle }: PageMetadataInput): Metadata {
+export function pageMetadata({ locale, path, title, description, image, absoluteTitle, noindex }: PageMetadataInput): Metadata {
   const socialTitle = absoluteTitle ? title : `${title} | ${SITE_NAME}`
   const images = [{ url: image ?? DEFAULT_OG_IMAGE }]
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
+    ...(noindex && { robots: { index: false, follow: true } }),
     alternates: pageAlternates(locale, path),
     openGraph: {
       type: 'website',

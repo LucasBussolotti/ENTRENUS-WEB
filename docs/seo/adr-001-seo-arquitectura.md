@@ -104,7 +104,7 @@ Las keywords no se emiten en `<meta name="keywords">` porque Google no usa esa e
 >
 > Cambios respecto de la decisión original:
 > - Los slugs siguen la planilla 01 de marketing (`/productos/pasta-de-mani-natural`), no `Product.id`. El mapeo está en `lib/data/catalog.ts`.
-> - Hay páginas de categoría (`pastas-de-mani`, `protein`, `barritas-proteicas`, `aceite-de-coco`, `miel`) con grilla de productos, y fichas que agrupan sabores en una sola URL (`puffs-proteicos`, `pancakes-proteicos`).
+> - Hay páginas de categoría (`pastas-de-mani`, `protein`, `barritas-proteicas`, `aceite-de-coco`, `miel`) con grilla de productos, y fichas que agrupan sabores en una sola URL (`puffs-proteicos`, `pancakes-proteicos`). Sus pestañas llevan a una grilla para elegir sabor (`puffs-proteicos-sabores`, `pancakes-proteicos-sabores`), cuyas tarjetas abren la ficha con `?sabor=`. Esas grillas son `noindex, follow` y no van al sitemap, para no competir con la ficha por la misma búsqueda.
 > - Las preguntas AEO viven en `lib/data/faqs.ts` (bilingües, como `products.ts`) y solo se publican las aprobadas.
 
 1. **Fundaciones (esta fase):** este ADR, la plantilla de la estrategia, `metadataBase` y valores por defecto en el layout, `sitemap.ts`, `robots.ts`, la separación server/client de las páginas y las rutas `/productos/[slug]`.

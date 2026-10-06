@@ -94,7 +94,9 @@ export function productJsonLd({ name, description, path, products, locale }: Pro
     url: absoluteUrl(path),
     image: images,
     brand: { '@type': 'Brand', name: SITE_NAME },
-    manufacturer: { '@id': ORGANIZATION_ID },
+    // El nodo Organization completo vive sólo en la home y Google no resuelve
+    // @id entre páginas: sin nombre ni url la referencia quedaba vacía acá.
+    manufacturer: { '@type': 'Organization', '@id': ORGANIZATION_ID, name: SITE_NAME, url: SITE_URL },
     inLanguage: locale,
   }
 

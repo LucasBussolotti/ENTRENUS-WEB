@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
@@ -18,14 +18,17 @@ import {
   LayoutGrid,
   ExternalLink,
   MessageCircleQuestionMark,
+  SendHorizontal,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { CATALOG_TABS, type CatalogTabId } from '@/lib/data/catalog'
 import { CONTACT, ML_STORE_URL } from '@/lib/data/contact'
 import { BOT_PRODUCT_TOPICS, findFaq, topicFaqs, type BotTopic } from '@/lib/data/nutibot'
+import type { NutibotEvent } from '@/lib/nutibot-events'
+import { NutiBotMessage } from '@/components/NutiBotMessage'
 
 type NodeRef =
-  | { kind: 'home' | 'products' | 'buy' | 'contact' | 'distributors' | 'jobs' }
+  | { kind: 'home' | 'products' | 'buy' | 'contact' | 'distributors' | 'jobs' | 'chat' }
   | { kind: 'topic'; topic: BotTopic }
   | { kind: 'faq'; topic: BotTopic; faqId: string }
 
@@ -52,7 +55,13 @@ interface BotNode {
 interface Turn {
   from: 'user' | 'bot'
   text: string
+  /** Respuesta escrita por el modelo (no un texto fijo del árbol de opciones) */
+  ai?: boolean
 }
+
+// Coinciden con los topes de /api/nutibot
+const MAX_HISTORY = 16
+const MAX_QUESTION_CHARS = 500
 
 interface NutiBotPanelProps {
   id: string
@@ -79,6 +88,11 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
   const [current, setCurrent] = useState<NodeRef>(HOME)
   const [turns, setTurns] = useState<Turn[]>(() => [{ from: 'bot', text: t('welcomeMessage') }])
   const [entered, setEntered] = useState(false)
+  const [input, setInput] = useState('')
+  const [pending, setPending] = useState(false)
+  const [announcement, setAnnouncement] = useState('')
+  const inputId = useId()
+  const requestRef = useRef<AbortController | null>(null)
 
   const logRef = useRef<HTMLDivElement>(null)
   const lastBotRef = useRef<HTMLParagraphElement>(null)
@@ -192,6 +206,12 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
           links: [{ href: `/${locale}/empleos`, label: t('linkJobs'), type: 'internal' }],
           options: [backHome],
         }
+      case 'chat':
+        return {
+          message: '',
+          links: [],
+          options: [option('contact', t('optionContact'), { kind: 'contact' }, Mail), backHome],
+        }
     }
   }
 
@@ -204,9 +224,86 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
   }
 
   const reset = () => {
+    requestRef.current?.abort()
+    setPending(false)
+    setInput('')
     setTurns([{ from: 'bot', text: t('welcomeMessage') }])
     setCurrent(HOME)
   }
+
+  const ask = async (question: string) => {
+    if (pending || !question) return
+
+    // La API exige que la conversación empiece con el visitante: el saludo
+    // inicial y cualquier texto previo del bot quedan afuera.
+    const history = [...turns, { from: 'user' as const, text: question }]
+      .filter((turn) => turn.text)
+      .map((turn) => ({ role: turn.from === 'user' ? ('user' as const) : ('assistant' as const), content: turn.text }))
+      .slice(-MAX_HISTORY)
+    while (history[0]?.role === 'assistant') history.shift()
+
+    const controller = new AbortController()
+    requestRef.current = controller
+    let answer = ''
+    const show = (text: string) => {
+      if (controller.signal.aborted) return
+      answer = text
+      setTurns((prev) => [...prev.slice(0, -1), { from: 'bot', text, ai: true }])
+    }
+
+    setTurns((prev) => [...prev, { from: 'user', text: question }, { from: 'bot', text: '', ai: true }])
+    setCurrent({ kind: 'chat' })
+    setInput('')
+    setAnnouncement('')
+    setPending(true)
+
+    try {
+      const response = await fetch('/api/nutibot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locale, messages: history }),
+        signal: controller.signal,
+      })
+      if (!response.ok || !response.body) {
+        show(t(response.status === 429 ? 'chatRateLimited' : 'chatError'))
+        return
+      }
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+      for (;;) {
+        const { done, value } = await reader.read()
+        if (done) break
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop() ?? ''
+        for (const line of lines) {
+          if (!line) continue
+          const event = JSON.parse(line) as NutibotEvent
+          if (event.type === 'text') show(answer + event.text)
+          else if (event.type === 'reset') show('')
+          else if (event.type === 'refusal') show(t('chatRefusal'))
+          else show(t('chatError'))
+        }
+      }
+      if (!answer) show(t('chatError'))
+    } catch {
+      if (!controller.signal.aborted) show(t('chatError'))
+    } finally {
+      if (!controller.signal.aborted) {
+        setPending(false)
+        setAnnouncement(answer)
+      }
+    }
+  }
+
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    void ask(input.trim())
+  }
+
+  useEffect(() => () => requestRef.current?.abort(), [])
 
   // Dos frames para que el navegador pinte el estado cerrado y la entrada anime
   useEffect(() => {
@@ -231,14 +328,18 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
 
   // Cada respuesta nueva queda arriba del área visible (así se lee desde el
   // principio aunque sea larga) y recibe el foco para que el lector de
-  // pantalla la anuncie y el Tab siga por las opciones.
+  // pantalla la anuncie y el Tab siga por las opciones. Las respuestas escritas
+  // no le sacan el foco al campo de texto: se anuncian por la región aria-live
+  // cuando terminan de llegar.
+  const turnCount = turns.length
+  const lastTurnIsAi = turns.at(-1)?.ai === true
   useEffect(() => {
     if (!open) return
     const log = logRef.current
     const anchor = lastUserRef.current ?? lastBotRef.current
     if (log && anchor) log.scrollTo({ top: Math.max(anchor.offsetTop - 16, 0) })
-    lastBotRef.current?.focus({ preventScroll: true })
-  }, [turns, open])
+    if (!lastTurnIsAi) lastBotRef.current?.focus({ preventScroll: true })
+  }, [turnCount, lastTurnIsAi, open])
 
   const lastBotIndex = turns.findLastIndex((turn) => turn.from === 'bot')
   const lastUserIndex = turns.findLastIndex((turn) => turn.from === 'user')
@@ -312,6 +413,30 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
                 <Image src="/images/LogoNuti.webp" alt="" width={406} height={297} className="h-[70%] w-[70%] object-contain" />
               </span>
               <div className="min-w-0 flex-1">
+                {turn.ai ? (
+                  <div
+                    aria-busy={pending && index === turns.length - 1}
+                    className="rounded-[20px] rounded-tl-sm bg-white p-4 text-[0.9rem] leading-relaxed text-[#333333] shadow-[0_2px_10px_rgba(0,0,0,0.03)]"
+                  >
+                    <span className="sr-only">{t('botSaid')} </span>
+                    {turn.text ? (
+                      <NutiBotMessage text={turn.text} locale={locale} newTabLabel={t('newTab')} onNavigate={onClose} />
+                    ) : (
+                      <p className="m-0 flex items-center gap-2 text-[#6B6358]">
+                        <span aria-hidden="true" className="flex gap-1">
+                          {[0, 150, 300].map((delay) => (
+                            <span
+                              key={delay}
+                              className="size-1.5 rounded-full bg-[#E46A17] motion-safe:animate-bounce"
+                              style={{ animationDelay: `${delay}ms` }}
+                            />
+                          ))}
+                        </span>
+                        {t('chatTyping')}
+                      </p>
+                    )}
+                  </div>
+                ) : (
                 <p
                   ref={index === lastBotIndex ? lastBotRef : undefined}
                   tabIndex={index === lastBotIndex ? -1 : undefined}
@@ -320,7 +445,8 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
                   <span className="sr-only">{t('botSaid')} </span>
                   {turn.text}
                 </p>
-                {index === lastBotIndex && node.links.length > 0 && (
+                )}
+                {index === lastBotIndex && !turn.ai && node.links.length > 0 && (
                   <ul className="m-0 mt-2.5 flex list-none flex-wrap gap-2 p-0">
                     {node.links.map((link) => {
                       const Icon = link.icon
@@ -370,7 +496,8 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
                 key={item.id}
                 type="button"
                 onClick={() => choose(item)}
-                className="flex min-h-11 items-center gap-4 rounded-full border border-[#F1DABF] bg-white px-4 py-2.5 text-left shadow-[0_2px_5px_rgba(0,0,0,0.02)] hover:border-[#E46A17]/40 hover:shadow-[0_4px_12px_rgba(228,106,23,0.1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E46A17] motion-safe:transition-all motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
+                disabled={pending}
+                className="flex min-h-11 items-center gap-4 rounded-full border border-[#F1DABF] bg-white px-4 py-2.5 text-left shadow-[0_2px_5px_rgba(0,0,0,0.02)] disabled:cursor-not-allowed disabled:opacity-60 hover:border-[#E46A17]/40 hover:shadow-[0_4px_12px_rgba(228,106,23,0.1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E46A17] motion-safe:transition-all motion-safe:duration-200 motion-safe:hover:-translate-y-0.5"
               >
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#FDF1E5]">
                   <Icon size={16} color="#E46A17" aria-hidden="true" />
@@ -382,6 +509,38 @@ export default function NutiBotPanel({ id, open, onClose }: NutiBotPanelProps) {
           })}
         </div>
       </div>
+
+      <form onSubmit={submit} className="shrink-0 border-t border-black/5 px-4 pt-3 pb-3 sm:px-5">
+        <div className="flex items-center gap-2">
+          <label htmlFor={inputId} className="sr-only">
+            {t('chatInputLabel')}
+          </label>
+          <input
+            id={inputId}
+            type="text"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            maxLength={MAX_QUESTION_CHARS}
+            placeholder={t('chatPlaceholder')}
+            autoComplete="off"
+            enterKeyHint="send"
+            className="min-h-11 min-w-0 flex-1 rounded-full border border-[#F1DABF] bg-white px-4 text-base text-[#2A2218] placeholder:text-[#7A7266] focus-visible:border-[#E46A17] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E46A17] sm:text-[0.9rem]"
+          />
+          <button
+            type="submit"
+            disabled={pending || !input.trim()}
+            aria-label={t('chatSend')}
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#E46A17] text-white transition-colors hover:bg-[#C85A10] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E46A17] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#E46A17]"
+          >
+            <SendHorizontal size={18} aria-hidden="true" />
+          </button>
+        </div>
+        <p className="m-0 mt-2 text-center text-[0.72rem] leading-snug text-[#6B6358]">{t('chatDisclaimer')}</p>
+      </form>
+
+      <p aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
     </div>
   )
 }

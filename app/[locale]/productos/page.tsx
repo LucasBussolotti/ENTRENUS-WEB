@@ -4,6 +4,8 @@ import { ArrowUpRight } from 'lucide-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { ProductCard } from '@/components/catalog/ProductCard'
 import { Breadcrumbs } from '@/components/catalog/Breadcrumbs'
+import { FaqSection } from '@/components/FaqSection'
+import { getPublishedFaqs } from '@/lib/data/faqs'
 import {
   getCategoryPage,
   getProductPage,
@@ -36,7 +38,7 @@ export default async function ProductosPage({ params }: { params: Promise<{ loca
   const tNav = await getTranslations({ locale, namespace: 'nav' })
   const tTabs = await getTranslations({ locale, namespace: 'productsPage.categories' })
 
-  // Cada pestaña lleva a una categoría (grilla de fichas) o directo a una ficha (Puffs, Pancakes, Ghee)
+  // Cada pestaña lleva a una categoría (grilla de fichas) o directo a una ficha (Ghee)
   const sections: OverviewSection[] = OVERVIEW_TABS.map((id) => {
     const tab = getTab(id)
     const category = getCategoryPage(tab.slug)
@@ -92,6 +94,13 @@ export default async function ProductosPage({ params }: { params: Promise<{ loca
           </section>
         ))}
       </div>
+
+      <FaqSection
+        faqs={getPublishedFaqs('productos')}
+        locale={locale}
+        title={t('faqTitle')}
+        className="mt-16 max-w-3xl md:mt-20"
+      />
     </>
   )
 }

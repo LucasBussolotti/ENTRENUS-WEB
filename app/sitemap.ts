@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getAllCatalogSlugs } from '@/lib/data/catalog'
+import { getIndexableCatalogSlugs } from '@/lib/data/catalog'
 import { CATALOG_KEYWORDS, SITEMAP_PRIORITY } from '@/lib/seo/keywords'
 import { absoluteUrl, DEFAULT_LOCALE, LOCALES, localizedPath } from '@/lib/seo/site'
 
@@ -16,7 +16,7 @@ const STATIC_ROUTES: Array<{ path: string; priority: number }> = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     ...STATIC_ROUTES,
-    ...getAllCatalogSlugs().map((slug) => ({
+    ...getIndexableCatalogSlugs().map((slug) => ({
       path: `/productos/${slug}`,
       priority: SITEMAP_PRIORITY[CATALOG_KEYWORDS[slug]?.priority ?? 'low'],
     })),

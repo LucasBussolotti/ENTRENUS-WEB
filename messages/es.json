@@ -62,8 +62,9 @@
     "recipesTitle": "Recetas con Entrenuts",
     "reel1Title": "Tostada con pasta de maní",
     "reel2Title": "Galletas con pasta proteica",
-    "reel3Title": "Pancakes con pasta de maní crocante",
-    "reel4Title": "Bizcochos con aceite de coco"
+    "reel3Title": "Shake con pasta de maní",
+    "reel4Title": "Bizcochos con aceite de coco",
+    "playReel": "Reproducir video: {title}"
   },
   "community": {
     "title": "COMÉ Y VIVÍ MÁS SALUDABLE",
@@ -94,7 +95,7 @@
     "youSaid": "Vos:",
     "optionsLabel": "Opciones de respuesta",
     "newTab": "(se abre en una pestaña nueva)",
-    "welcomeMessage": "¡Hola! Soy Nuti 💛. Te ayudo con las preguntas más frecuentes sobre Entrenuts y nuestros productos. ¿Qué querés saber?",
+    "welcomeMessage": "¡Hola! Soy Nuti 💛. Te ayudo con lo que quieras saber sobre Entrenuts y nuestros productos. Elegí una opción o escribime tu pregunta.",
     "productsMessage": "¿Sobre qué productos querés saber?",
     "categoryMessage": "Esto es lo que más nos preguntan sobre {category}:",
     "categoryEmptyMessage": "Toda la información sobre {category} está en su página:",
@@ -115,7 +116,15 @@
     "linkStore": "Tienda en Mercado Libre",
     "linkAbout": "Conocé nuestra historia",
     "linkDistributors": "Ir a Distribuidores",
-    "linkJobs": "Postularme"
+    "linkJobs": "Postularme",
+    "chatInputLabel": "Escribile tu pregunta a Nuti",
+    "chatPlaceholder": "Escribí tu pregunta…",
+    "chatSend": "Enviar pregunta",
+    "chatTyping": "Nuti está escribiendo…",
+    "chatDisclaimer": "Respuestas generadas con IA: pueden tener errores. No compartas datos personales.",
+    "chatError": "Uy, no pude responderte ahora. Probá de nuevo en un rato o elegí una de las opciones.",
+    "chatRateLimited": "Me hiciste muchas preguntas seguidas. Esperá unos minutos y probá de nuevo.",
+    "chatRefusal": "Con eso no te puedo ayudar. ¿Querés consultarme algo sobre nuestros productos?"
   },
   "productsPage": {
     "title": "Nuestros Productos",
@@ -142,7 +151,7 @@
     "imageAlt": "{product} - Vista {number}",
     "benefits": "Beneficios",
     "idealFor": "Ideal para:",
-    "whyChoose": "¿Por qué elegirla?",
+    "whyChoose": "¿Por qué elegir este producto?",
     "productInfo": "Info. del producto",
     "flavor": "Sabor: {value}",
     "weight": "Peso: {value}",
@@ -324,6 +333,16 @@
         "title": "Miel entrerriana líquida y untable",
         "h1": "Miel",
         "description": "Miel Entrenuts del campo entrerriano, líquida para mezclar y endulzar, y untable, con textura cremosa que no chorrea."
+      },
+      "puffs-proteicos-sabores": {
+        "title": "Sabores de Puffs proteicos",
+        "h1": "Puffs proteicos",
+        "description": "Elegí tu sabor de Puffs Protein Entrenuts, snack salado horneado, no frito: Cebolla a la Crema, Queso, Mostaza y Miel, y Barbacoa."
+      },
+      "pancakes-proteicos-sabores": {
+        "title": "Sabores de premezcla para pancakes proteicos",
+        "h1": "Pancakes proteicos",
+        "description": "Elegí tu sabor de premezcla Pancakes Protein de Entrenuts: Vainilla, Queso y Chocolate."
       },
       "pasta-de-mani-natural": {
         "title": "Pasta de maní natural sin azúcar agregada",

@@ -177,10 +177,11 @@ export function EmploymentClient() {
           <div className="flex flex-col gap-10">
             {/* Input: Nombre */}
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-nombre" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('nameLabel')}
               </label>
               <input 
+                id="job-nombre"
                 type="text"
                 placeholder={t('namePlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
@@ -192,10 +193,11 @@ export function EmploymentClient() {
 
             {/* Input: DNI */}
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-dni" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('dniLabel')}
               </label>
               <input 
+                id="job-dni"
                 type="text"
                 placeholder={t('dniPlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
@@ -207,10 +209,11 @@ export function EmploymentClient() {
 
             {/* Input: Teléfono */}
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-telefono" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('phoneLabel')}
               </label>
               <input 
+                id="job-telefono"
                 type="tel"
                 placeholder={t('phonePlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
@@ -222,10 +225,11 @@ export function EmploymentClient() {
 
             {/* Input: Localidad/Provincia */}
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-localidad" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('locationLabel')}
               </label>
               <input 
+                id="job-localidad"
                 type="text"
                 placeholder={t('locationPlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
@@ -240,10 +244,11 @@ export function EmploymentClient() {
           <div className="flex flex-col gap-10">
             {/* Input: Email */}
             <div className="flex flex-col gap-2">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-email" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('emailLabel')}
               </label>
               <input 
+                id="job-email"
                 type="email"
                 placeholder={t('emailPlaceholder')}
                 className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body"
@@ -255,10 +260,11 @@ export function EmploymentClient() {
 
             {/* Select: Área de aplicación */}
             <div className="flex flex-col gap-2 relative">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-area" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('areaLabel')}
               </label>
               <select 
+                id="job-area"
                 className={`w-full bg-transparent border-b-2 border-[#111111] focus:outline-none focus:border-[var(--color-naranja)] transition-colors pb-2 text-lg font-body appearance-none cursor-pointer ${formData.area ? 'text-[#111111]' : 'text-[#6E6558]'}`}
                 required
                 value={formData.area}
@@ -281,14 +287,14 @@ export function EmploymentClient() {
 
             {/* Subida de CV con Drag & Drop */}
             <div className="flex flex-col gap-2 flex-grow">
-              <label className="font-black text-xl md:text-2xl text-[#111111] font-body">
+              <label htmlFor="job-cv" className="font-black text-xl md:text-2xl text-[#111111] font-body">
                 {t('cvLabel')}
               </label>
               <label 
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                className={`flex-grow w-full rounded-[1rem] flex items-center justify-center cursor-pointer min-h-[120px] transition-all hover:shadow-md hover:-translate-y-0.5 border-2 ${
+                className={`flex-grow w-full rounded-[1rem] flex items-center justify-center cursor-pointer min-h-[120px] transition-all hover:shadow-md hover:-translate-y-0.5 border-2 relative has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--color-naranja)] ${
                   isDragging 
                     ? 'bg-[#d45d0f]/10 border-dashed border-[var(--color-naranja)] scale-[1.02]' 
                     : 'bg-[#FCFBF9] border-solid border-transparent'
@@ -307,9 +313,11 @@ export function EmploymentClient() {
                     </span>
                   )}
                 </span>
-                <input 
-                  type="file" 
-                  className="hidden" 
+                {/* sr-only y no hidden: con display:none el campo no se podía alcanzar con el teclado */}
+                <input
+                  id="job-cv"
+                  type="file"
+                  className="sr-only"
                   accept=".pdf,.doc,.docx" 
                   onChange={handleFileChange}
                 />

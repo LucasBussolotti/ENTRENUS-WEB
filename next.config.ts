@@ -21,7 +21,7 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://images.unsplash.com https://flagcdn.com",
+  "img-src 'self' data: blob: https://images.unsplash.com",
   "media-src 'self'",
   "font-src 'self' data:",
   "connect-src 'self'",
@@ -47,7 +47,6 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'flagcdn.com' },
     ],
     formats: ['image/avif', 'image/webp'],
   },

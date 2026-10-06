@@ -239,6 +239,9 @@ export function ProductDetail({ products, color, currentSlug, siblings, initialI
               {name}
             </span>
 
+            {/* El segundo span es block: sin este espacio el texto del H1 queda
+                "Pasta de maníNatural" para buscadores y lectores de pantalla. */}
+            {variant && ' '}
             {variant && (
               <span
                 className="block mt-2 transition-colors duration-300"

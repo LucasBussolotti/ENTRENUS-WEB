@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { NutiBot } from '@/components/NutiBot';
+import { SmoothScroll } from '@/components/SmoothScroll';
 import '@/app/globals.css';
 import localFont from 'next/font/local';
 import { LOCALES, SITE_NAME, SITE_URL } from '@/lib/seo/site';
@@ -95,6 +96,7 @@ export default async function LocaleLayout({
         style={{ fontFamily: 'var(--font-body)' }}
         suppressHydrationWarning={true}
       >
+        <SmoothScroll />
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           <main>{children}</main>

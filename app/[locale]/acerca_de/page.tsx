@@ -4,8 +4,10 @@ import { useTranslations } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ImageWithFallback } from '@/components/figma/ImageWithFallback'; 
 import { FaqSection } from '@/components/FaqSection';
+import { Breadcrumbs } from '@/components/catalog/Breadcrumbs';
 import { getPublishedFaqs } from '@/lib/data/faqs';
 import { pageMetadata, toLocale } from '@/lib/seo/metadata';
+import { localizedPath } from '@/lib/seo/site';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const locale = toLocale((await params).locale);
@@ -18,6 +20,7 @@ export default function AboutPage({ params }: { params: Promise<{ locale: string
   setRequestLocale(locale);
   const t = useTranslations('about');
   const tProducts = useTranslations('productsPage');
+  const tNav = useTranslations('nav');
 
   // Arreglo con tus 4 pilares traducidos
   const pillars = [
@@ -55,7 +58,15 @@ export default function AboutPage({ params }: { params: Promise<{ locale: string
 
       {/* ── 2. SECCIÓN DE TEXTO (Historia) ── */}
       <section className="max-w-4xl mx-auto px-5 sm:px-6 md:px-12 pt-12 md:pt-20 pb-12">
-        <h1 
+        <Breadcrumbs
+          label={tProducts('breadcrumbLabel')}
+          className="mb-6"
+          items={[
+            { name: tNav('inicio'), path: localizedPath(locale, '/') },
+            { name: tNav('quienesSomos'), path: localizedPath(locale, '/acerca_de') },
+          ]}
+        />
+        <h1
           className="text-[clamp(2.5rem,11vw,5.5rem)] md:text-7xl font-black mb-6 md:mb-8 leading-[0.9]"
           style={{ color: 'var(--color-naranja)', fontFamily: 'var(--font-display)', textTransform: 'uppercase' }}
         >
@@ -138,8 +149,10 @@ export default function AboutPage({ params }: { params: Promise<{ locale: string
             style={{ animation: 'scroll-ticker 30s linear infinite' }}
           >
             {/* Multiplicamos el array por 4 para asegurar que cubra monitores ultrawide sin romperse */}
+            {/* Las copias 2–4 son sólo para el loop visual: se ocultan para que
+                el lector de pantalla lea los pilares una sola vez. */}
             {[...Array(4)].map((_, groupIndex) => (
-              <div key={groupIndex} className="flex items-center">
+              <div key={groupIndex} className="flex items-center" aria-hidden={groupIndex > 0 || undefined}>
                 {pillars.map((pillar, index) => (
                   <div key={index} className="flex items-center">
                     <p 

@@ -5,31 +5,12 @@ import { productName, productVariant } from '@/lib/data/catalog'
 import { products } from '@/lib/data/products'
 import { reviews, type MarketplaceReview } from '@/lib/data/reviews'
 
-const instagramReels: Reel[] = [
-  {
-    titleKey: 'reel1Title',
-    slug: 'REEL1',
-    views: '12.4k',
-    link: 'https://www.instagram.com/p/DWjgotjgFdr/',
-  },
-  {
-    titleKey: 'reel2Title',
-    slug: 'REEL3',
-    views: '8.2k',
-    link: 'https://www.instagram.com/entrenuts/',
-  },
-  {
-    titleKey: 'reel3Title',
-    slug: 'REEL5',
-    views: '15.1k',
-    link: 'https://www.instagram.com/entrenuts/',
-  },
-  {
-    titleKey: 'reel4Title',
-    slug: 'REEL7',
-    views: '9.8k',
-    link: 'https://www.instagram.com/entrenuts/',
-  },
+// Videos propios en public/images/REELS: se reproducen dentro de la tarjeta.
+const reels: Reel[] = [
+  { titleKey: 'reel1Title', slug: 'REEL1' },
+  { titleKey: 'reel2Title', slug: 'REEL3' },
+  { titleKey: 'reel3Title', slug: 'REEL5' },
+  { titleKey: 'reel4Title', slug: 'REEL7' },
 ]
 
 function ReviewCard({ review }: { review: MarketplaceReview }) {
@@ -109,8 +90,13 @@ export function ReviewsSection() {
         {/* En móvil los reels van en grilla de 2: en fila apilada cada uno medía
             ~555px de alto y los cuatro sumaban más de 2000px de scroll. */}
         <div className="grid grid-cols-2 gap-3 md:flex md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-4">
-          {instagramReels.map((reel) => (
-            <ReelCard key={reel.titleKey} reel={reel} title={t(reel.titleKey)} />
+          {reels.map((reel) => (
+            <ReelCard
+              key={reel.titleKey}
+              reel={reel}
+              title={t(reel.titleKey)}
+              playLabel={t('playReel', { title: t(reel.titleKey) })}
+            />
           ))}
         </div>
       </div>

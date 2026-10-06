@@ -24,8 +24,8 @@ export const CATALOG_TABS: CatalogTab[] = [
   { id: 'miel', labelKey: 'honey', color: '#f3bb29', slug: 'miel' },
   { id: 'ghee', labelKey: 'ghee', color: '#1a3445', slug: 'ghee' },
   { id: 'barritas', labelKey: 'proteinBars', color: '#325276', slug: 'barritas-proteicas' },
-  { id: 'puffs', labelKey: 'proteinPuffs', color: '#008191', slug: 'puffs-proteicos' },
-  { id: 'pancakes', labelKey: 'proteinPancakes', color: '#492b0a', slug: 'pancakes-proteicos' },
+  { id: 'puffs', labelKey: 'proteinPuffs', color: '#008191', slug: 'puffs-proteicos-sabores' },
+  { id: 'pancakes', labelKey: 'proteinPancakes', color: '#492b0a', slug: 'pancakes-proteicos-sabores' },
 ]
 
 export interface CategoryPage {
@@ -35,6 +35,8 @@ export interface CategoryPage {
   tab?: CatalogTabId
   color: string
   productSlugs: string[]
+  /** Sólo navegación: noindex,follow y fuera del sitemap */
+  noindex?: boolean
 }
 
 export interface ProductPage {
@@ -105,6 +107,25 @@ export const CATEGORY_PAGES: CategoryPage[] = [
     tab: 'miel',
     color: '#f3bb29',
     productSlugs: ['miel-untable', 'miel-liquida'],
+  },
+  // Puffs y Pancakes tienen una sola ficha para todos los sabores; estas grillas
+  // sólo sirven para elegir el sabor desde la pestaña, como en las demás
+  // categorías. Son noindex para no competir con la ficha por la misma búsqueda.
+  {
+    kind: 'category',
+    slug: 'puffs-proteicos-sabores',
+    tab: 'puffs',
+    color: '#008191',
+    productSlugs: ['puffs-proteicos'],
+    noindex: true,
+  },
+  {
+    kind: 'category',
+    slug: 'pancakes-proteicos-sabores',
+    tab: 'pancakes',
+    color: '#492b0a',
+    productSlugs: ['pancakes-proteicos'],
+    noindex: true,
   },
 ]
 
@@ -184,6 +205,11 @@ export function getPageCover(page: ProductPage): string {
 
 export function getAllCatalogSlugs(): string[] {
   return [...CATEGORY_PAGES.map((c) => c.slug), ...PRODUCT_PAGES.map((p) => p.slug)]
+}
+
+/** Slugs que van al sitemap: todos menos las páginas sólo de navegación. */
+export function getIndexableCatalogSlugs(): string[] {
+  return [...CATEGORY_PAGES.filter((c) => !c.noindex).map((c) => c.slug), ...PRODUCT_PAGES.map((p) => p.slug)]
 }
 
 // Pisan el color del producto en el nombre de la variante (así se ven hoy las pastas).

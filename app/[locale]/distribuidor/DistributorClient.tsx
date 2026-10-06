@@ -84,8 +84,9 @@ export function DistributorClient() {
                 { label: t('formEmail'), key: 'email', type: 'email', placeholder: t('emailPlaceholder') },
               ] as { label: string; key: keyof typeof leadForm; type: string; placeholder: string }[]).map((field) => (
                 <div key={field.key} className="flex flex-col gap-1">
-                  <label className="font-black text-xl">{field.label}</label>
-                  <input 
+                  <label htmlFor={`lead-${field.key}`} className="font-black text-xl">{field.label}</label>
+                  <input
+                    id={`lead-${field.key}`}
                     type={field.type}
                     placeholder={field.placeholder}
                     className="w-full bg-transparent border-b-2 border-[#111111] text-[#111111] placeholder-[#6E6558] focus:outline-none pb-2 text-lg transition-colors focus:border-[var(--color-naranja)]"

@@ -22,13 +22,15 @@ function subscribeToScroll(onStoreChange: () => void) {
 function LanguageFlag({ lang }: { lang: string }) {
   return (
     <>
-      {/* flagcdn es un CDN externo sin loader configurado en next.config */}
+      {/* PNG de ~200 bytes servidos desde el sitio (antes venían de flagcdn.com y se
+          precargaban desde otro dominio). next/image no aporta nada a este tamaño. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={lang === 'es' ? 'https://flagcdn.com/w40/ar.png' : 'https://flagcdn.com/w40/us.png'}
+        src={lang === 'es' ? '/images/flags/ar.png' : '/images/flags/us.png'}
         alt=""
         width={20}
         height={14}
+        fetchPriority="low"
         className="block h-auto w-5 rounded-[2px]"
       />
       <span className="pt-0.5 text-[0.85rem] leading-none font-semibold tracking-[0.04em] text-[#222222]">

@@ -35,13 +35,16 @@ export function Footer() {
           180px para que a 320px la columna no fuerce ancho extra. */}
       <div className="mx-auto grid max-w-[1200px] grid-cols-[repeat(auto-fit,minmax(min(100%,180px),1fr))] gap-8 md:gap-12">
         <div>
+          {/* LOGO.webp trae márgenes transparentes que corrían el logo respecto del
+              lema; esta versión está recortada al contorno, así que alto y márgenes
+              reproducen el tamaño y la posición vertical que tenía. */}
           <Image
-            src="/images/LOGO.webp"
+            src="/images/LOGO-recortado.webp"
             alt={t('logoAlt')}
-            width={1446}
-            height={542}
-            sizes="192px"
-            className="mb-4 block h-12 w-auto sm:h-14 md:h-[4.5rem]"
+            width={1099}
+            height={190}
+            sizes="150px"
+            className="mt-3.5 mb-8 block h-[1.05rem] w-auto sm:mt-4 sm:mb-9 sm:h-[1.225rem] md:mt-5 md:mb-10 md:h-[1.575rem]"
           />
           <p className="text-lg leading-relaxed font-semibold text-balance sm:text-xl">
             {t('tagline')}

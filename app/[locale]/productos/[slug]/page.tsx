@@ -45,6 +45,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     title: t('title'),
     description: t('description'),
     image: `/${getPageCover(coverPage)}`,
+    noindex: page.kind === 'category' && page.noindex,
   })
 }
 
@@ -84,6 +85,9 @@ async function CategoryView({ page, locale }: { page: CategoryPage; locale: Loca
         <h1 className="font-display text-4xl leading-none font-black uppercase md:text-6xl" style={{ color: page.color }}>
           {title}
         </h1>
+        {/* La descripción aprobada en el plan SEO (seo.catalog) también se muestra:
+            sin ella la categoría era sólo una grilla, sin texto para buscadores. */}
+        <p className="mt-4 text-base font-medium text-gray-600 md:text-lg">{tCategory('description')}</p>
       </header>
 
       <section aria-label={t('productsIn', { category: title })}>

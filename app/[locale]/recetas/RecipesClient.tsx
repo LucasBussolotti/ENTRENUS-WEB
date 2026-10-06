@@ -38,7 +38,7 @@ function getInstagramEmbedUrl(url: string): string | null {
   return `https://www.instagram.com/${type}/${match[2]}/embed/`;
 }
 
-export function RecipesClient() {
+export function RecipesClient({ breadcrumbs }: { breadcrumbs: React.ReactNode }) {
   const t = useTranslations('recipes');
 
   const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
@@ -56,6 +56,8 @@ export function RecipesClient() {
     <main className="bg-footpage min-h-svh pb-16">
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+
+        {breadcrumbs}
 
         {/* ── TÍTULO GIGANTE ── */}
         <h1
